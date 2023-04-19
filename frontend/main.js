@@ -15,9 +15,27 @@ form.addEventListener('submit', (event) => {
     .post('/api/search', { postcode, houseNumber, houseLetter })
     .then((response) => {
       const data = response.data
-      // Display the retrieved data to the user
-      display.innerText = data
       console.log(data)
+
+      let area = null
+      let buildYear = null
+      let energyLabel = null
+      let energyLabelIssueDate = null
+
+      let bagApiMessage = ``
+      let elApiMessage = ``
+
+      if (data[0] === null) {
+        bagApiMessage = 'Bag api error'
+      } else {
+        area =
+          data[0]._embedded.adressen[0]._embedded.adresseerbaarObject
+            .verblijfsobject.verblijfsobject.oppervlakte
+
+        bagApiMessage = `House area: ${area} <br/> Build year: `
+      }
+
+      display.innerHTML = `${bagApiMessage} ${elApiMessage}`
     })
     .catch((error) => {
       console.error(error)

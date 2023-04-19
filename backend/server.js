@@ -10,21 +10,11 @@ app.get('/', (req, res) => {
   res.send('API is running')
 })
 
-///////////////////////
 app.use(express.json()) // parse JSON request bodies
 
+//route to request data about the building from multiple API's and send it to the frontend
 app.post('/api/search', (req, res) => {
   const { postcode, houseNumber, houseLetter } = req.body
-
-  const energyLabelUrl =
-    'https://public.ep-online.nl/api/v3/PandEnergieLabel/Adres?postcode=6222TD&huisnummer=2&huisletter=i'
-
-  const energyLabelConfig = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: process.env.ENERGY_LABEL_API_KEY,
-    },
-  }
 
   const bagUrl =
     'https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen/?expand=true&postcode=6222TD&huisnummer=2&inclusiefEindStatus=true'
@@ -36,43 +26,33 @@ app.post('/api/search', (req, res) => {
     },
   }
 
+  const energyLabelUrl =
+    'https://public.ep-online.nl/api/v3/PandEnergieLabel/Adres?postcode=6222TD&huisnummer=2&huisletter='
+
+  const energyLabelConfig = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: process.env.ENERGY_LABEL_API_KEY,
+    },
+  }
+
+  //returning an empty object in case of error to then check in order which request has failed and display according info
   const requests = [
-    axios.get(energyLabelUrl, energyLabelConfig).catch(() => ({})),
-    axios.get(bagUrl, bagConfig).catch(() => ({})),
+    axios.get(bagUrl, bagConfig).catch(() => {
+      return {}
+    }),
+    axios.get(energyLabelUrl, energyLabelConfig).catch(() => {
+      return {}
+    }),
   ]
 
   Promise.all(requests)
     .then((responses) => {
-      const errors = responses.filter(
-        (response) => !response.data || response.data.error
-      )
-      if (errors.length > 0) {
-        const errorMessages = errors.map((error) => {
-          if (error.message === 'el-error') {
-            return 'The first request failed'
-          } else if (error.message === 'bag-error') {
-            return 'The BAG request failed'
-          } else {
-            return 'Error. The address is incorrect or the house can not be found in the database.'
-          }
-        })
-        res.json({
-          errors: errorMessages,
-          data: responses
-            .filter((response) => response.data && !response.data.error)
-            .map((response) => response.data),
-        })
-      } else {
-        res.json({
-          data: responses.map((response) => response.data),
-        })
-      }
+      const data = responses.map((response) => response.data)
+      res.json(data)
     })
     .catch((error) => {
       console.log(error)
-      res.status(500).json({
-        errors: ['An internal server error occurred'],
-      })
     })
 })
 
