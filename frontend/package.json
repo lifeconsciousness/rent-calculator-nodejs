@@ -1,0 +1,18 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "proxy": "http://127.0.0.1:7000",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.2.0"
+  },
+  "dependencies": {
+    "sass": "^1.62.0"
+  }
+}

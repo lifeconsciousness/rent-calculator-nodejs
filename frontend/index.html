@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>House information lookup</h1>
+      <form id="address-form">
+        <div class="inputs">
+          <label for="postcode">Postcode:</label>
+          <input
+            type="text"
+            id="postcode"
+            name="postcode"
+            required
+            style="text-transform: uppercase"
+            maxlength="6"
+          />
+          <label for="house-number">House Number:</label>
+          <input type="text" id="house-number" name="house-number" required />
+          <label for="house-number">House letter (optional):</label>
+          <input type="text" id="house-letter" name="house-letter" />
+        </div>
+        <button class="submit-btn" type="submit">Search</button>
+      </form>
+      <h2 class="display"></h2>
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
