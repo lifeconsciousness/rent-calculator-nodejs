@@ -14,10 +14,12 @@ app.use(express.json()) // parse JSON request bodies
 
 //route to request data about the building from multiple API's and send it to the frontend
 app.post('/api/search', (req, res) => {
-  const { postcode, houseNumber, houseLetter } = req.body
+  const { postcode, houseNumber, houseLetter, houseAddition } = req.body
+
+  //test address: 6227SP 27 A02
 
   const bagUrl =
-    'https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen/?expand=true&postcode=6222TD&huisnummer=2&inclusiefEindStatus=true'
+    'https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen/?expand=true&postcode=6222TD&huisnummer=2'
 
   const bagConfig = {
     headers: {
@@ -27,7 +29,7 @@ app.post('/api/search', (req, res) => {
   }
 
   const energyLabelUrl =
-    'https://public.ep-online.nl/api/v3/PandEnergieLabel/Adres?postcode=6222TD&huisnummer=2&huisletter='
+    'https://public.ep-online.nl/api/v3/PandEnergieLabel/Adres?postcode=6227SP&huisnummer=27&huisletter=A&huisnummertoevoeging=02'
 
   const energyLabelConfig = {
     headers: {
@@ -37,6 +39,7 @@ app.post('/api/search', (req, res) => {
   }
 
   //returning an empty object in case of error to then check in order which request has failed and display according info
+  //DO NOT change order of requests because correct errors display depends on it
   const requests = [
     axios.get(bagUrl, bagConfig).catch(() => {
       return {}
