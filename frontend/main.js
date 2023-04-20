@@ -36,7 +36,7 @@ form.addEventListener('submit', (event) => {
         area = data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
         buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
 
-        bagApiMessage = `House area: ${area} <br/> Build year: ${buildYear} <br/>`
+        bagApiMessage = `House area: ${area} sq.m <br/> Build year: ${buildYear} <br/>`
       }
 
       //Energy label API
@@ -46,11 +46,10 @@ form.addEventListener('submit', (event) => {
         energyLabel = data[1][0].labelLetter
         energyLabelIssueDate = data[1][0].registratiedatum
 
-        console.log(energyLabel, energyLabelIssueDate)
-
         elApiMessage = `Energy label: ${energyLabel} <br/> Issue date (registratiedatum): ${energyLabelIssueDate}`
       }
 
+      //diplaying information on the website
       display.innerHTML = `${bagApiMessage} ${elApiMessage}`
 
       //build year, area, etc can be used here later for the calculations

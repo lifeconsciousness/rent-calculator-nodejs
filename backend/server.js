@@ -18,8 +18,18 @@ app.post('/api/search', (req, res) => {
 
   //test address: 6227SP 27 A02
 
-  const bagUrl =
-    'https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen/?expand=true&postcode=6222TD&huisnummer=2'
+  const bagUrl = new URL('https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen')
+  bagUrl.searchParams.set('expand', 'true')
+  bagUrl.searchParams.set('postcode', '6227SP')
+  bagUrl.searchParams.set('huisnummer', '27')
+  bagUrl.searchParams.set('huisletter', 'A')
+  bagUrl.searchParams.set('huisnummertoevoeging', '02')
+
+  //use this case to debug the error when the address wasn't found
+  // bagUrl.searchParams.set('postcode', '6222TD')
+  // bagUrl.searchParams.set('huisnummer', '2')
+  // bagUrl.searchParams.set('huisletter', 'A')
+  // bagUrl.searchParams.set('huisnummertoevoeging', '02')
 
   const bagConfig = {
     headers: {
@@ -28,8 +38,11 @@ app.post('/api/search', (req, res) => {
     },
   }
 
-  const energyLabelUrl =
-    'https://public.ep-online.nl/api/v3/PandEnergieLabel/Adres?postcode=6227SP&huisnummer=27&huisletter=A&huisnummertoevoeging=02'
+  const energyLabelUrl = new URL('https://public.ep-online.nl/api/v3/PandEnergieLabel/Adres')
+  energyLabelUrl.searchParams.set('postcode', '6227SP')
+  energyLabelUrl.searchParams.set('huisnummer', '27')
+  energyLabelUrl.searchParams.set('huisletter', 'A')
+  energyLabelUrl.searchParams.set('huisnummertoevoeging', '02')
 
   const energyLabelConfig = {
     headers: {
