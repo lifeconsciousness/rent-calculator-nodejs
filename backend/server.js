@@ -2,6 +2,7 @@ const express = require('express')
 const axios = require('axios')
 const dotenv = require('dotenv')
 const { chats } = require('./data/data')
+const puppeteer = require('puppeteer')
 
 const app = express()
 dotenv.config()
@@ -71,6 +72,44 @@ app.post('/api/search', (req, res) => {
       console.log(error)
     })
 })
+
+///////////////////////////////////////////
+//Scraping woz value
+
+async function scrapeWozValue(address) {
+  const browser = await puppeteer.launch({ headless: 'new' }) // or false if you want to see the browser
+  const page = await browser.newPage()
+
+  await page.goto('https://www.wozwaardeloket.nl/')
+
+  await page.waitForSelector('#kaart-bekijken-btn')
+  const myData = await page.$eval('#kaart-bekijken-btn', (el) => el.innerText)
+  console.log(myData)
+  await page.click('#kaart-bekijken-btn')
+
+  await page.type('#ggcSearchInput', address)
+  await page.waitForSelector('#ggcSuggestionList-0')
+  await page.click('#ggcSuggestionList-0')
+
+  await page.waitForSelector('.woz-table')
+  const wozValue = await page.$eval('.woz-table', (element) => element.innerText)
+  // console.log(wozValue)
+
+  // const html = await page.content()
+  // console.log(html)
+
+  await browser.close()
+  return wozValue
+}
+
+// Example usage
+scrapeWozValue('6222TD 2')
+  .then((wozValue) => {
+    console.log(`WOZ value: ${wozValue}`)
+  })
+  .catch((error) => {
+    console.error(error)
+  })
 
 const PORT = process.env.PORT || 7000
 
