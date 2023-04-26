@@ -3,12 +3,16 @@ import './style.scss'
 import axios from 'axios'
 
 const display = document.querySelector('.display')
+const loader = document.querySelector('.loader')
+const result = document.querySelector('.result')
 const form = document.querySelector('form')
 
 form.addEventListener('submit', (event) => {
   event.preventDefault()
 
-  display.innerHTML = 'loading'
+  loader.style.display = 'block'
+  loader.style.opacity = 1
+  result.innerHTML = ''
 
   //values from inputs
   const postcode = document.querySelector('#postcode').value
@@ -58,17 +62,17 @@ form.addEventListener('submit', (event) => {
       if (data[3] === null) {
         wozMessage = 'WOZ data retrieving error'
       } else {
-        wozValue = '4'
-        wozDate = '3'
+        let wozDate = data[3].split('\t')[0]
+        let wozValue = data[3].split('\t')[1].split('.')[0]
 
-        wozMessage = `WOZ value: ${wozValue} eur <br/>  WOZ date: ${wozDate}`
+        wozMessage = `WOZ most recent value: ${wozValue} eur <br/>  WOZ date: ${wozDate}`
       }
 
       //diplaying information on the website
-      display.innerHTML = `${bagApiMessage} ${elApiMessage} ${wozMessage}`
+      loader.style.display = 'none'
+      result.innerHTML += `${bagApiMessage} ${elApiMessage} ${wozMessage}`
 
       //build year, area, etc can be used here later for the calculations
-      console.log(energyLabel)
     })
     .catch((error) => {
       console.error(error)

@@ -72,7 +72,7 @@ app.post('/api/search', (req, res) => {
   //executing woz searching function and making all other requests then to be written into json file and displayed in frontend
   scrapeWozValue('6227SP 27 A 02')
     .then((wozValue) => {
-      console.log(`WOZ value: ${wozValue}`)
+      // console.log(`WOZ value: ${wozValue}`)
       woz = wozValue
       return Promise.all(requests)
     })
