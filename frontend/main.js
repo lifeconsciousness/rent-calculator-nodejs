@@ -8,6 +8,8 @@ const form = document.querySelector('form')
 form.addEventListener('submit', (event) => {
   event.preventDefault()
 
+  display.innerHTML = 'loading'
+
   //values from inputs
   const postcode = document.querySelector('#postcode').value
   const houseNumber = document.querySelector('#house-number').value
@@ -19,9 +21,12 @@ form.addEventListener('submit', (event) => {
   let buildYear = null
   let energyLabel = null
   let energyLabelIssueDate = null
+  let wozValue = null
+  let wozDate = null
 
   let bagApiMessage = ``
   let elApiMessage = ``
+  let wozMessage = ``
 
   axios
     .post('/api/search', { postcode, houseNumber, houseLetter, houseAddition })
@@ -46,13 +51,24 @@ form.addEventListener('submit', (event) => {
         energyLabel = data[1][0].labelLetter
         energyLabelIssueDate = data[1][0].registratiedatum
 
-        elApiMessage = `Energy label: ${energyLabel} <br/> Issue date (registratiedatum): ${energyLabelIssueDate}`
+        elApiMessage = `Energy label: ${energyLabel} <br/> En. label issue date (registratiedatum): ${energyLabelIssueDate} <br/>`
+      }
+
+      //WOZ data
+      if (data[3] === null) {
+        wozMessage = 'WOZ data retrieving error'
+      } else {
+        wozValue = '4'
+        wozDate = '3'
+
+        wozMessage = `WOZ value: ${wozValue} eur <br/>  WOZ date: ${wozDate}`
       }
 
       //diplaying information on the website
-      display.innerHTML = `${bagApiMessage} ${elApiMessage}`
+      display.innerHTML = `${bagApiMessage} ${elApiMessage} ${wozMessage}`
 
       //build year, area, etc can be used here later for the calculations
+      console.log(energyLabel)
     })
     .catch((error) => {
       console.error(error)

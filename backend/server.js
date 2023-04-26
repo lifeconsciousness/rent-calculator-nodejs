@@ -11,6 +11,9 @@ app.get('/', (req, res) => {
   res.send('API is running')
 })
 
+////////////////////////////////////////
+//getting info about the house
+
 app.use(express.json()) // parse JSON request bodies
 
 //route to request data about the building from multiple API's and send it to the frontend
@@ -61,15 +64,25 @@ app.post('/api/search', (req, res) => {
     axios.get(energyLabelUrl, energyLabelConfig).catch(() => {
       return {}
     }),
+    scrapeWozValue('6227SP 27 A 02'),
   ]
 
-  Promise.all(requests)
+  let woz = null
+
+  //executing woz searching function and making all other requests then to be written into json file and displayed in frontend
+  scrapeWozValue('6227SP 27 A 02')
+    .then((wozValue) => {
+      console.log(`WOZ value: ${wozValue}`)
+      woz = wozValue
+      return Promise.all(requests)
+    })
     .then((responses) => {
       const data = responses.map((response) => response.data)
+      data.push(woz)
       res.json(data)
     })
     .catch((error) => {
-      console.log(error)
+      console.error(error)
     })
 })
 
@@ -81,19 +94,27 @@ async function scrapeWozValue(address) {
   const page = await browser.newPage()
 
   await page.goto('https://www.wozwaardeloket.nl/')
+  //maybe unnecessary delay before doing some actions on website
+  await delay(Math.random() * 30 + 1)
 
+  //clicking the button 'ga verder'
   await page.waitForSelector('#kaart-bekijken-btn')
   const myData = await page.$eval('#kaart-bekijken-btn', (el) => el.innerText)
   console.log(myData)
   await page.click('#kaart-bekijken-btn')
 
+  await delay(Math.random() * 30 + 1)
+  //typing the address and choosing the first address suggestion
   await page.type('#ggcSearchInput', address)
   await page.waitForSelector('#ggcSuggestionList-0')
   await page.click('#ggcSuggestionList-0')
 
-  await page.waitForSelector('.woz-table')
-  const wozValue = await page.$eval('.woz-table', (element) => element.innerText)
-  // console.log(wozValue)
+  await delay(Math.random() * 30 + 1)
+  //extracting the WOZ data
+  await page.waitForSelector('.waarden-row')
+  const wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
+  // await page.waitForSelector('.woz-table')
+  // const wozValue = await page.$eval('.woz-table', (element) => element.innerText)
 
   // const html = await page.content()
   // console.log(html)
@@ -102,14 +123,13 @@ async function scrapeWozValue(address) {
   return wozValue
 }
 
-// Example usage
-scrapeWozValue('6222TD 2')
-  .then((wozValue) => {
-    console.log(`WOZ value: ${wozValue}`)
+function delay(time) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, time)
   })
-  .catch((error) => {
-    console.error(error)
-  })
+}
+
+////////////////////////////////////
 
 const PORT = process.env.PORT || 7000
 
