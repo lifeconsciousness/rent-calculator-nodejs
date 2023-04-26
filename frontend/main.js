@@ -27,7 +27,10 @@ form.addEventListener('submit', (event) => {
   let energyLabelIssueDate = null
   let wozValue = null
   let wozDate = null
+  const numberOfRooms = document.querySelector('#number-of-rooms').value
+  let energyIndex
 
+  //messages to display the info about a house
   let bagApiMessage = ``
   let elApiMessage = ``
   let wozMessage = ``
@@ -39,33 +42,39 @@ form.addEventListener('submit', (event) => {
       console.log(data)
 
       //BAG api
-      if (data[0] === null) {
-        bagApiMessage = 'Bag api error'
-      } else {
-        area = data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
-        buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
+      if (data[0]) {
+        if (data[0] === null) {
+          bagApiMessage = 'Bag api error'
+        } else {
+          area = data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
+          buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
 
-        bagApiMessage = `House area: ${area} sq.m <br/> Build year: ${buildYear} <br/>`
+          bagApiMessage = `House area: ${area} sq.m <br/> Build year: ${buildYear} <br/>`
+        }
       }
 
       //Energy label API
-      if (data[1] === null) {
-        bagApiMessage = 'Energy label api error'
-      } else {
-        energyLabel = data[1][0].labelLetter
-        energyLabelIssueDate = data[1][0].registratiedatum
+      if (data[1]) {
+        if (data[1] === null) {
+          bagApiMessage = 'Energy label api error'
+        } else {
+          energyLabel = data[1][0].labelLetter
+          energyLabelIssueDate = data[1][0].registratiedatum.split('T')[0]
 
-        elApiMessage = `Energy label: ${energyLabel} <br/> En. label issue date (registratiedatum): ${energyLabelIssueDate} <br/>`
+          elApiMessage = `Energy label: ${energyLabel} <br/> En. label issue date (registratiedatum): ${energyLabelIssueDate} <br/>`
+        }
       }
 
       //WOZ data
-      if (data[3] === null) {
-        wozMessage = 'WOZ data retrieving error'
-      } else {
-        let wozDate = data[3].split('\t')[0]
-        let wozValue = data[3].split('\t')[1].split('.')[0]
+      if (data[2]) {
+        if (data[2] === null) {
+          wozMessage = 'WOZ data retrieving error'
+        } else {
+          let wozDate = data[2].split('\t')[0]
+          let wozValue = data[2].split('\t')[1].split('.')[0]
 
-        wozMessage = `WOZ most recent value: ${wozValue} eur <br/>  WOZ date: ${wozDate}`
+          wozMessage = `WOZ most recent value: ${wozValue} eur <br/>  WOZ date: ${wozDate}`
+        }
       }
 
       //diplaying information on the website

@@ -39,7 +39,7 @@ h1 {
 }
 
 #app {
-  max-width: 1280px;
+  // max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -108,7 +108,7 @@ button:focus-visible {
 .inputs {
   display: flex;
   flex-direction: column;
-  max-width: 200px;
+  max-width: 400px;
 }
 
 .submit-btn {
@@ -119,6 +119,7 @@ button:focus-visible {
   // opacity: 0;
   display: flex;
   flex-direction: column;
+  margin-bottom: 100px;
 }
 
 .loader {

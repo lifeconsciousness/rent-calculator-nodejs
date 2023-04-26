@@ -22,6 +22,8 @@ app.post('/api/search', (req, res) => {
 
   //test address: 6227SP 27 A02
 
+  //address with Energy Index: 8021AP, 4
+
   const bagUrl = new URL('https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen')
   bagUrl.searchParams.set('expand', 'true')
   bagUrl.searchParams.set('postcode', '6227SP')
@@ -64,30 +66,38 @@ app.post('/api/search', (req, res) => {
     axios.get(energyLabelUrl, energyLabelConfig).catch(() => {
       return {}
     }),
-    scrapeWozValue('6227SP 27 A 02'),
   ]
 
   let woz = null
 
-  //executing woz searching function and making all other requests then to be written into json file and displayed in frontend
-  scrapeWozValue('6227SP 27 A 02')
-    .then((wozValue) => {
-      // console.log(`WOZ value: ${wozValue}`)
-      woz = wozValue
-      return Promise.all(requests)
-    })
+  //executing the woz searching function and writing all other requests into json file to be displayed in frontend
+  // scrapeWozValue('6227SP 27 A 02')
+  //   // scrapeWozValue('62A 21')
+  //   .then((wozValue) => {
+  //     woz = wozValue
+  //     return Promise.all(requests)
+  //   })
+  //   .then((responses) => {
+  //     const data = responses.map((response) => response.data)
+  //     data.push(woz)
+  //     res.json(data)
+  //   })
+  //   .catch((error) => {
+  //     console.error(error)
+  //   })
+
+  Promise.all(requests)
     .then((responses) => {
       const data = responses.map((response) => response.data)
-      data.push(woz)
       res.json(data)
     })
     .catch((error) => {
-      console.error(error)
+      console.log(error)
     })
 })
 
 ///////////////////////////////////////////
-//Scraping woz value
+//Scraping the woz value
 
 async function scrapeWozValue(address) {
   const browser = await puppeteer.launch({ headless: 'new' }) // or false if you want to see the browser
@@ -111,16 +121,20 @@ async function scrapeWozValue(address) {
 
   await delay(Math.random() * 30 + 1)
   //extracting the WOZ data
-  await page.waitForSelector('.waarden-row')
+  try {
+    await page.waitForSelector('.waarden-row')
+  } catch (error) {
+    console.log('Selector not found, skipping further:', error)
+    return
+  }
   const wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
-  // await page.waitForSelector('.woz-table')
-  // const wozValue = await page.$eval('.woz-table', (element) => element.innerText)
 
   // const html = await page.content()
   // console.log(html)
 
   await browser.close()
   return wozValue
+  // return '10'
 }
 
 function delay(time) {
