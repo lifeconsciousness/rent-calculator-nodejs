@@ -3,6 +3,7 @@ const axios = require('axios')
 const dotenv = require('dotenv')
 const { chats } = require('./data/data')
 const puppeteer = require('puppeteer')
+const { google } = require('googleapis')
 
 const app = express()
 dotenv.config()
@@ -22,7 +23,7 @@ app.post('/api/search', (req, res) => {
 
   //test address: 6227SP 27 A02
 
-  //address with Energy Index: 8021AP, 4
+  //address with Energy Index: 8021AP 4
 
   const bagUrl = new URL('https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen')
   bagUrl.searchParams.set('expand', 'true')
@@ -45,10 +46,15 @@ app.post('/api/search', (req, res) => {
   }
 
   const energyLabelUrl = new URL('https://public.ep-online.nl/api/v3/PandEnergieLabel/Adres')
-  energyLabelUrl.searchParams.set('postcode', '6227SP')
-  energyLabelUrl.searchParams.set('huisnummer', '27')
-  energyLabelUrl.searchParams.set('huisletter', 'A')
-  energyLabelUrl.searchParams.set('huisnummertoevoeging', '02')
+  energyLabelUrl.searchParams.set('postcode', '8021AP')
+  energyLabelUrl.searchParams.set('huisnummer', '4')
+  energyLabelUrl.searchParams.set('huisletter', '')
+  energyLabelUrl.searchParams.set('huisnummertoevoeging', '')
+  // const energyLabelUrl = new URL('https://public.ep-online.nl/api/v3/PandEnergieLabel/Adres')
+  // energyLabelUrl.searchParams.set('postcode', '6227SP')
+  // energyLabelUrl.searchParams.set('huisnummer', '27')
+  // energyLabelUrl.searchParams.set('huisletter', 'A')
+  // energyLabelUrl.searchParams.set('huisnummertoevoeging', '02')
 
   const energyLabelConfig = {
     headers: {
@@ -144,6 +150,46 @@ function delay(time) {
 }
 
 ////////////////////////////////////
+//sending and retrieving data from google sheets
+
+async function calculateRentPrice() {
+  console.log('calculate')
+  const spreadsheetId = process.env.SPREADSHEET_ID
+
+  // const googleCredentials = JSON.parse(process.env.GOOGLE_CREDENTIALS)
+  // const googleCredentials = process.env.GOOGLE_CREDENTIALS
+
+  const auth = new google.auth.GoogleAuth({
+    // keyFile: googleCredentials,
+    keyFile: 'google-credentials.json',
+    scopes: 'https://www.googleapis.com/auth/spreadsheets',
+  })
+
+  const client = await auth.getClient()
+  const googleSheets = google.sheets({ version: 'v4', auth: client })
+
+  //set value of cells
+
+  await googleSheets.spreadsheets.values.update({
+    auth,
+    spreadsheetId,
+    range: 'Аркуш1!A1:B1',
+    valueInputOption: 'USER_ENTERED',
+    resource: {
+      values: [['20', '4']],
+    },
+  })
+
+  //cell value request
+  const getResultingValue = await googleSheets.spreadsheets.values.get({
+    auth,
+    spreadsheetId,
+    range: 'Аркуш1!C1',
+  })
+  console.log(getResultingValue.data.values[0][0])
+}
+
+calculateRentPrice()
 
 const PORT = process.env.PORT || 7000
 
