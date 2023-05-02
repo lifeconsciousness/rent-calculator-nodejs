@@ -108,7 +108,7 @@ button:focus-visible {
 .inputs {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  // max-width: 400px;
 }
 
 .submit-btn {
@@ -122,11 +122,12 @@ button:focus-visible {
   margin-bottom: 100px;
 }
 
+/////////////////////////////////////
+//loader animation
+
 .loader {
   opacity: 0;
 }
-
-//loader animation
 
 .balls {
   display: flex;

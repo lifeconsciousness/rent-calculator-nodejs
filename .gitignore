@@ -1,4 +1,5 @@
 .env
 /node_modules
 node_modules/
-google-credentials.json
+backend/data/mock-data.js
+backend/data/mock-data.json

@@ -1,9 +1,10 @@
 const express = require('express')
 const axios = require('axios')
 const dotenv = require('dotenv')
-const { chats } = require('./data/data')
+// const { chats } = require('./data/mock-data.js')
 const puppeteer = require('puppeteer')
 const { google } = require('googleapis')
+const { Mutex } = require('async-mutex')
 
 const app = express()
 dotenv.config()
@@ -13,7 +14,7 @@ app.get('/', (req, res) => {
 })
 
 ////////////////////////////////////////
-//getting info about the house
+//getting info about the house and executing all calculating functions
 
 app.use(express.json()) // parse JSON request bodies
 
@@ -77,32 +78,32 @@ app.post('/api/search', (req, res) => {
   let woz = null
 
   //executing the woz searching function and writing all other requests into json file to be displayed in frontend
-  // scrapeWozValue('6227SP 27 A 02')
-  //   // scrapeWozValue('62A 21')
-  //   .then((wozValue) => {
-  //     woz = wozValue
-  //     return Promise.all(requests)
-  //   })
-  //   .then((responses) => {
-  //     const data = responses.map((response) => response.data)
-  //     data.push(woz)
-  //     res.json(data)
-  //   })
-  //   .catch((error) => {
-  //     console.error(error)
-  //   })
-
-  Promise.all(requests)
+  scrapeWozValue('6227SP 27 A 02')
+    // scrapeWozValue('62A 21')
+    .then((wozValue) => {
+      woz = wozValue
+      return Promise.all(requests)
+    })
     .then((responses) => {
       const data = responses.map((response) => response.data)
+      data.push(woz)
       res.json(data)
     })
     .catch((error) => {
-      console.log(error)
+      console.error(error)
     })
+
+  // Promise.all(requests)
+  //   .then((responses) => {
+  //     const data = responses.map((response) => response.data)
+  //     res.json(data)
+  //   })
+  //   .catch((error) => {
+  //     console.log(error)
+  //   })
 })
 
-///////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 //Scraping the woz value
 
 async function scrapeWozValue(address) {
@@ -135,12 +136,12 @@ async function scrapeWozValue(address) {
   }
   const wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
 
+  //search the needed information in html file
   // const html = await page.content()
   // console.log(html)
 
   await browser.close()
   return wozValue
-  // return '10'
 }
 
 function delay(time) {
@@ -148,48 +149,51 @@ function delay(time) {
     setTimeout(resolve, time)
   })
 }
-
-////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
 //sending and retrieving data from google sheets
 
 async function calculateRentPrice() {
-  console.log('calculate')
-  const spreadsheetId = process.env.SPREADSHEET_ID
-
-  // const googleCredentials = JSON.parse(process.env.GOOGLE_CREDENTIALS)
-  // const googleCredentials = process.env.GOOGLE_CREDENTIALS
-
   const auth = new google.auth.GoogleAuth({
-    // keyFile: googleCredentials,
-    keyFile: 'google-credentials.json',
+    keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
     scopes: 'https://www.googleapis.com/auth/spreadsheets',
   })
 
+  const spreadsheetId = process.env.SPREADSHEET_ID
   const client = await auth.getClient()
   const googleSheets = google.sheets({ version: 'v4', auth: client })
 
-  //set value of cells
+  // Acquire the lock
+  const sheetMutex = new Mutex()
+  const release = await sheetMutex.acquire()
 
-  await googleSheets.spreadsheets.values.update({
-    auth,
-    spreadsheetId,
-    range: 'Аркуш1!A1:B1',
-    valueInputOption: 'USER_ENTERED',
-    resource: {
-      values: [['20', '4']],
-    },
-  })
+  try {
+    //set the value of cells
+    // await googleSheets.spreadsheets.values.update({
+    //   auth,
+    //   spreadsheetId,
+    //   range: 'Independent calculator!A1:B1',
+    //   valueInputOption: 'USER_ENTERED',
+    //   resource: {
+    //     values: [['2', '4']],
+    //   },
+    // })
 
-  //cell value request
-  const getResultingValue = await googleSheets.spreadsheets.values.get({
-    auth,
-    spreadsheetId,
-    range: 'Аркуш1!C1',
-  })
-  console.log(getResultingValue.data.values[0][0])
+    //cell value request
+    const getResultingValue = await googleSheets.spreadsheets.values.get({
+      auth,
+      spreadsheetId,
+      range: 'Independent calculator!Q5:Q7',
+    })
+    console.log(getResultingValue.data.values[0][0])
+    return getResultingValue.data.values[0][0]
+  } finally {
+    release()
+  }
 }
 
 calculateRentPrice()
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const PORT = process.env.PORT || 7000
 

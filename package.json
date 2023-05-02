@@ -9,6 +9,7 @@
   "author": "Maksym Tovstolis",
   "license": "ISC",
   "dependencies": {
+    "async-mutex": "^0.4.0",
     "axios": "^1.3.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

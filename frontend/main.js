@@ -70,10 +70,10 @@ form.addEventListener('submit', (event) => {
         if (data[2] === null) {
           wozMessage = 'WOZ data retrieving error'
         } else {
-          let wozDate = data[2].split('\t')[0]
-          let wozValue = data[2].split('\t')[1].split('.')[0]
+          wozDate = data[2].split('\t')[0]
+          wozValue = data[2].split('\t')[1].replace('.', '')
 
-          wozMessage = `WOZ most recent value: ${wozValue} eur <br/>  WOZ date: ${wozDate}`
+          wozMessage = `WOZ most recent value: ${wozValue} <br/>  WOZ date: ${wozDate}`
         }
       }
 
