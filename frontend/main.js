@@ -36,7 +36,16 @@ form.addEventListener('submit', (event) => {
   let wozMessage = ``
 
   axios
-    .post('/api/search', { postcode, houseNumber, houseLetter, houseAddition })
+    .post('/api/search', {
+      postcode,
+      houseNumber,
+      houseLetter,
+      houseAddition,
+      numberOfRooms,
+      outdoorSpace,
+      kitchenDesc,
+      bathroomDecs,
+    })
     .then((response) => {
       const data = response.data
       console.log(data)

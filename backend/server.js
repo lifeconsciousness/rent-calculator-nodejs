@@ -20,7 +20,8 @@ app.use(express.json()) // parse JSON request bodies
 
 //route to request data about the building from multiple API's and send it to the frontend
 app.post('/api/search', (req, res) => {
-  const { postcode, houseNumber, houseLetter, houseAddition } = req.body
+  const { postcode, houseNumber, houseLetter, houseAddition, numberOfRooms, outdoorSpace, kitchenDesc, bathroomDecs } =
+    req.body
 
   //test address: 6227SP 27 A02
 
@@ -78,16 +79,41 @@ app.post('/api/search', (req, res) => {
   let woz = null
 
   //executing the woz searching function and writing all other requests into json file to be displayed in frontend
-  scrapeWozValue('6227SP 27 A 02')
-    // scrapeWozValue('62A 21')
+  scrapeWozValue('62200-98077SP 27 A 02')
     .then((wozValue) => {
       woz = wozValue
       return Promise.all(requests)
     })
     .then((responses) => {
-      const data = responses.map((response) => response.data)
+      data = responses.map((response) => response.data)
+
+      area = data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
+      buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
+      energyLabel = data[1][0].labelLetter
+      energyLabelIssueDate = data[1][0].registratiedatum.split('T')[0]
+      wozDate = woz.split('\t')[0]
+      ///////////////////I think woz date is not needed
+      wozValue = woz.split('\t')[1].replace('.', '').replace(' euro', '')
+      return calculateRentPrice(
+        area,
+        buildYear,
+        energyLabel,
+        energyLabelIssueDate,
+        wozValue,
+        numberOfRooms,
+        outdoorSpace,
+        kitchenDesc,
+        bathroomDecs
+      )
+    })
+    .then((rentPrice) => {
       data.push(woz)
+      data.push(rentPrice)
       res.json(data)
+
+      // result = []
+      // result.push(area, buildYear, energyLabel, energyLabelIssueDate, wozDate, wozValue, rentPrice)
+      // res.json(result)
     })
     .catch((error) => {
       console.error(error)
@@ -152,7 +178,7 @@ function delay(time) {
 /////////////////////////////////////////////////////////////////////////////////////////////
 //sending and retrieving data from google sheets
 
-async function calculateRentPrice() {
+async function calculateRentPrice(area, buildYear, energyLabel, energyLabelIssueDate, wozValue) {
   const auth = new google.auth.GoogleAuth({
     keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
     scopes: 'https://www.googleapis.com/auth/spreadsheets',
@@ -184,14 +210,14 @@ async function calculateRentPrice() {
       spreadsheetId,
       range: 'Independent calculator!Q5:Q7',
     })
-    console.log(getResultingValue.data.values[0][0])
+    // console.log(getResultingValue.data.values[0][0])
     return getResultingValue.data.values[0][0]
   } finally {
     release()
   }
 }
 
-calculateRentPrice()
+// calculateRentPrice().then((res) => console.log(res))
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
