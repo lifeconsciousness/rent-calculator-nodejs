@@ -21,16 +21,38 @@
         </div>
         <div class="inputs">
           <label for="number-of-rooms">Number of rooms in your house/apartment:</label>
-          <input type="text" id="number-of-rooms" name="number-of-rooms" />
-          <label for="number-of-rooms">Do you have outdoor space:</label>
-          <input type="text" id="number-of-rooms" name="number-of-rooms" />
-          <label for="number-of-rooms">Describe your kitchen:</label>
-          <input type="text" id="number-of-rooms" name="number-of-rooms" />
-          <label for="number-of-rooms">Describe your bathroom:</label>
-          <input type="text" id="number-of-rooms" name="number-of-rooms" />
+          <input type="number" id="number-of-rooms" name="number-of-rooms" min="1" />
+
+          <label for="outdoor">Do you have outdoor space?</label>
+          <select name="outdoor" id="outdoor">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+            <option value="Shared">Yes, shared</option>
+          </select>
+
+          <label for="people-sharing-with" id="sharing-label" class="sharing">With how much people you share it?</label>
+          <input type="number" name="people-sharing-with" id="sharing" min="0" class="sharing" required />
+
+          <label for="kitchen">How would you describe the kitchen:</label>
+          <select name="kitchen" id="kitchen">
+            <option value="Bare/small">Only tap and small kitchen counter</option>
+            <option value="Basic essential">Sink, ventilation hood, cooker and fridge</option>
+            <option value="Modern">Dishwasher, medium kitchen counter</option>
+            <option value="Large">Large family sized kitchen</option>
+            <option value="Jamie Olivers Kitchen">Jamie Olivers Kitchen’</option>
+          </select>
+
+          <label for="bathroom">And the bathroom:</label>
+          <select name="bathroom" id="bathroom">
+            <option value="Bare/small">Bare/small</option>
+            <option value="Modern">Modern</option>
+            <option value="Modern with Bath">Modern with Bath</option>
+            <option value="High end">High end</option>
+          </select>
         </div>
         <button class="submit-btn" type="submit">Search</button>
       </form>
+
       <h2 class="display">
         <div class="loader">
           <p class="loading-message">Fetching data can take up to several minutes. Please wait.</p>
@@ -44,6 +66,12 @@
         </div>
         <div class="result"></div>
       </h2>
+
+      <p>
+        If the result is much lower than what the landlord is <br />
+        asking then you might be getting overcharged. <br />
+        Contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>
+      </p>
     </div>
     <script type="module" src="/main.js"></script>
   </body>

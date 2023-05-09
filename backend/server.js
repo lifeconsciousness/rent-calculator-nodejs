@@ -1,7 +1,6 @@
 const express = require('express')
 const axios = require('axios')
 const dotenv = require('dotenv')
-// const { chats } = require('./data/mock-data.js')
 const puppeteer = require('puppeteer')
 const { google } = require('googleapis')
 const { Mutex } = require('async-mutex')
@@ -20,11 +19,10 @@ app.use(express.json()) // parse JSON request bodies
 
 //route to request data about the building from multiple API's and send it to the frontend
 app.post('/api/search', (req, res) => {
-  const { postcode, houseNumber, houseLetter, houseAddition, numberOfRooms, outdoorSpace, kitchenDesc, bathroomDecs } =
-    req.body
+  // const { postcode, houseNumber, houseLetter, houseAddition, numberOfRooms, outdoorSpace, kitchenDesc, bathroomDecs } =
+  const { postcode, houseNumber, houseLetter, houseAddition, numberOfRooms } = req.body
 
   //test address: 6227SP 27 A02
-
   //address with Energy Index: 8021AP 4
 
   const bagUrl = new URL('https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen')
@@ -79,45 +77,47 @@ app.post('/api/search', (req, res) => {
   let woz = null
 
   //executing the woz searching function and writing all other requests into json file to be displayed in frontend
-  scrapeWozValue('62200-98077SP 27 A 02')
-    .then((wozValue) => {
-      woz = wozValue
-      return Promise.all(requests)
-    })
-    .then((responses) => {
-      data = responses.map((response) => response.data)
+  // scrapeWozValue('62200-98077SP 27 A 02')
+  //   .then((wozValue) => {
+  //     woz = wozValue
+  //     return Promise.all(requests)
+  //   })
+  //   .then((responses) => {
+  //     data = responses.map((response) => response.data)
 
-      area = data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
-      buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
-      energyLabel = data[1][0].labelLetter
-      energyLabelIssueDate = data[1][0].registratiedatum.split('T')[0]
-      wozDate = woz.split('\t')[0]
-      ///////////////////I think woz date is not needed
-      wozValue = woz.split('\t')[1].replace('.', '').replace(' euro', '')
-      return calculateRentPrice(
-        area,
-        buildYear,
-        energyLabel,
-        energyLabelIssueDate,
-        wozValue,
-        numberOfRooms,
-        outdoorSpace,
-        kitchenDesc,
-        bathroomDecs
-      )
-    })
-    .then((rentPrice) => {
-      data.push(woz)
-      data.push(rentPrice)
-      res.json(data)
+  //     area = data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
+  //     buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
+  //     energyLabel = data[1][0].labelLetter
+  //     energyLabelIssueDate = data[1][0].registratiedatum.split('T')[0]
+  //     wozDate = woz.split('\t')[0]
+  //     ///////////////////I think woz date is not needed
+  //     wozValue = woz.split('\t')[1].replace('.', '').replace(' euro', '')
+  //     return calculateRentPrice(
+  //       area,
+  //       buildYear,
+  //       energyLabel,
+  //       energyLabelIssueDate,
+  //       wozValue,
+  //       numberOfRooms
+  //       // outdoorSpace,
+  //       // kitchenDesc,
+  //       // bathroomDecs
+  //     )
+  //   })
+  //   .then((rentPrice) => {
+  //     data.push(woz)
+  //     data.push(rentPrice)
+  //     res.json(data)
 
-      // result = []
-      // result.push(area, buildYear, energyLabel, energyLabelIssueDate, wozDate, wozValue, rentPrice)
-      // res.json(result)
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+  //     // result = []
+  //     // result.push(area, buildYear, energyLabel, energyLabelIssueDate, wozDate, wozValue, rentPrice)
+  //     // res.json(result)
+  //   })
+  //   .catch((error) => {
+  //     console.error(error)
+  //   })
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Promise.all(requests)
   //   .then((responses) => {
@@ -127,6 +127,14 @@ app.post('/api/search', (req, res) => {
   //   .catch((error) => {
   //     console.log(error)
   //   })
+  Promise.all(requests)
+    .then((responses) => {
+      const data = responses.map((response) => response.data)
+      res.json(data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 })
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -210,14 +218,14 @@ async function calculateRentPrice(area, buildYear, energyLabel, energyLabelIssue
       spreadsheetId,
       range: 'Independent calculator!Q5:Q7',
     })
-    // console.log(getResultingValue.data.values[0][0])
     return getResultingValue.data.values[0][0]
   } finally {
     release()
   }
 }
 
-// calculateRentPrice().then((res) => console.log(res))
+//area, buildYear, energyLabel, energyLabelIssueDate, wozValue
+// calculateRentPrice(30, 1995, 'D', 2019, 130000).then((res) => console.log(res))
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

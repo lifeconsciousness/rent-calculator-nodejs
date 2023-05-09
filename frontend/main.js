@@ -7,6 +7,24 @@ const loader = document.querySelector('.loader')
 const result = document.querySelector('.result')
 const form = document.querySelector('form')
 
+//displaying/hiding input field depending on the value of other
+const outdoorSpace = document.querySelector('#outdoor')
+const sharingLabel = document.querySelector('#sharing-label')
+const sharingInput = document.querySelector('#sharing')
+let isSharing = false
+outdoorSpace.addEventListener('change', (e) => {
+  if (outdoorSpace.value === 'Shared') {
+    sharingLabel.style.display = 'block'
+    sharingInput.style.display = 'block'
+    isSharing = true
+  } else {
+    sharingLabel.style.display = 'none'
+    sharingInput.style.display = 'none'
+    isSharing = false
+  }
+})
+
+//actions on submit
 form.addEventListener('submit', (event) => {
   event.preventDefault()
 
@@ -14,11 +32,20 @@ form.addEventListener('submit', (event) => {
   loader.style.opacity = 1
   result.innerHTML = ''
 
-  //values from inputs
+  //////////values from inputs
+
+  //address
   const postcode = document.querySelector('#postcode').value
   const houseNumber = document.querySelector('#house-number').value
   const houseLetter = document.querySelector('#house-letter').value
   const houseAddition = document.querySelector('#house-addition').value
+
+  //house parameters
+  const numberOfRooms = document.querySelector('#number-of-rooms').value
+  const outdoorSpaceValue = outdoorSpace.value
+  let sharedPeople = document.querySelector('#sharing').value
+  if (isSharing) {
+  }
 
   //data that is going to be retrieved from api's and used for rent price calculations
   let area = null
@@ -27,8 +54,7 @@ form.addEventListener('submit', (event) => {
   let energyLabelIssueDate = null
   let wozValue = null
   let wozDate = null
-  const numberOfRooms = document.querySelector('#number-of-rooms').value
-  let energyIndex
+  let energyIndex = null
 
   //messages to display the info about a house
   let bagApiMessage = ``
@@ -42,9 +68,9 @@ form.addEventListener('submit', (event) => {
       houseLetter,
       houseAddition,
       numberOfRooms,
-      outdoorSpace,
-      kitchenDesc,
-      bathroomDecs,
+      // outdoorSpace,
+      // kitchenDesc,
+      // bathroomDecs,
     })
     .then((response) => {
       const data = response.data
