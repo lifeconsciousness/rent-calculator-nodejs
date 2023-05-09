@@ -20,7 +20,18 @@ app.use(express.json()) // parse JSON request bodies
 //route to request data about the building from multiple API's and send it to the frontend
 app.post('/api/search', (req, res) => {
   // const { postcode, houseNumber, houseLetter, houseAddition, numberOfRooms, outdoorSpace, kitchenDesc, bathroomDecs } =
-  const { postcode, houseNumber, houseLetter, houseAddition, numberOfRooms } = req.body
+  // const { postcode, houseNumber, houseLetter, houseAddition, numberOfRooms } = req.body
+  const {
+    postcode,
+    houseNumber,
+    houseLetter,
+    houseAddition,
+    numberOfRooms,
+    outdoorSpaceValue,
+    sharedPeople,
+    kitchen,
+    bathroom,
+  } = req.body
 
   //test address: 6227SP 27 A02
   //address with Energy Index: 8021AP 4

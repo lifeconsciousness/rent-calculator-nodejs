@@ -46,6 +46,8 @@ form.addEventListener('submit', (event) => {
   let sharedPeople = document.querySelector('#sharing').value
   if (isSharing) {
   }
+  const kitchen = document.querySelector('#kitchen').value
+  const bathroom = document.querySelector('#bathroom').value
 
   //data that is going to be retrieved from api's and used for rent price calculations
   let area = null
@@ -61,17 +63,31 @@ form.addEventListener('submit', (event) => {
   let elApiMessage = ``
   let wozMessage = ``
 
+  const postParameters = isSharing
+    ? {
+        postcode,
+        houseNumber,
+        houseLetter,
+        houseAddition,
+        numberOfRooms,
+        outdoorSpaceValue,
+        sharedPeople,
+        kitchen,
+        bathroom,
+      }
+    : {
+        postcode,
+        houseNumber,
+        houseLetter,
+        houseAddition,
+        numberOfRooms,
+        outdoorSpaceValue,
+        kitchen,
+        bathroom,
+      }
+
   axios
-    .post('/api/search', {
-      postcode,
-      houseNumber,
-      houseLetter,
-      houseAddition,
-      numberOfRooms,
-      // outdoorSpace,
-      // kitchenDesc,
-      // bathroomDecs,
-    })
+    .post('/api/search', postParameters)
     .then((response) => {
       const data = response.data
       console.log(data)
