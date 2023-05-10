@@ -217,12 +217,33 @@ async function calculateRentPrice(
     // await googleSheets.spreadsheets.values.update({
     //   auth,
     //   spreadsheetId,
-    //   range: 'Independent calculator!A1:B1',
+    //   range: 'Independent calculator!K8',
     //   valueInputOption: 'USER_ENTERED',
     //   resource: {
-    //     values: [['2', '4']],
+    //     values: [[numberOfRooms]],
     //   },
     // })
+    await googleSheets.spreadsheets.values.batchUpdate({
+      auth,
+      spreadsheetId,
+      resource: {
+        data: [
+          {
+            range: 'Independent calculator!K8',
+            values: [[numberOfRooms]],
+          },
+          {
+            range: 'Independent calculator!K10',
+            values: [[area]],
+          },
+          {
+            range: 'Independent calculator!K12',
+            values: [[outdoorSpaceValue]],
+          },
+        ],
+        valueInputOption: 'USER_ENTERED',
+      },
+    })
 
     //cell value request
     const getResultingValue = await googleSheets.spreadsheets.values.get({
