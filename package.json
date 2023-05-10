@@ -1,7 +1,7 @@
 {
   "name": "rentbuster",
   "version": "1.0.0",
-  "description": "Rent calculator app that works in the Netherlands. It takes an address and multiple house parameters as input and retrieves information about the property from publicly available databases. The app then sends this data to a Google Spreadsheet where the final value is calculated and returned.",
+  "description": "Rent calculator app that takes address and multiple house parameters as input and retrieves information about the property from publicly available databases. The app then sends this data to a Google Spreadsheet where the final value is calculated and returned.",
   "main": "server.js",
   "scripts": {
     "start": "nodemon backend/server.js"

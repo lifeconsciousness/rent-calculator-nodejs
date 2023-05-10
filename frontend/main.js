@@ -63,6 +63,18 @@ form.addEventListener('submit', (event) => {
   let elApiMessage = ``
   let wozMessage = ``
 
+  // const postParameters = {
+  //   postcode,
+  //   houseNumber,
+  //   houseLetter,
+  //   houseAddition,
+  //   numberOfRooms,
+  //   outdoorSpaceValue,
+  //   sharedPeople,
+  //   kitchen,
+  //   bathroom,
+  // }
+
   const postParameters = isSharing
     ? {
         postcode,
