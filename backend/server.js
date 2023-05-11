@@ -42,16 +42,9 @@ app.post('/api/search', (req, res) => {
   bagUrl.searchParams.set('huisnummertoevoeging', 'O')
   // bagUrl.searchParams.set('huisletter', 'O')
 
-  // 1017 EL 538 O
   // bagUrl.searchParams.set('expand', 'true')
   // bagUrl.searchParams.set('postcode', '6227SP')
   // bagUrl.searchParams.set('huisnummer', '27')
-  // bagUrl.searchParams.set('huisletter', 'A')
-  // bagUrl.searchParams.set('huisnummertoevoeging', '02')
-
-  //use this case to debug the error when the address wasn't found
-  // bagUrl.searchParams.set('postcode', '6222TD')
-  // bagUrl.searchParams.set('huisnummer', '2')
   // bagUrl.searchParams.set('huisletter', 'A')
   // bagUrl.searchParams.set('huisnummertoevoeging', '02')
 
@@ -96,13 +89,13 @@ app.post('/api/search', (req, res) => {
   //executing the woz searching function and writing all other requests into json file to be displayed in frontend
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // scrapeWozValue('6227 SP 27 A02')
-  //   // scrapeWozValue('1017 EL 538 O')
-  //   .then((result) => {
-  //     woz = result
-  //     return Promise.all(requests)
-  //   })
-  Promise.all(requests)
+  scrapeWozValue('6227 SP 27 A02')
+    // scrapeWozValue('1017 EL 538 O')
+    .then((result) => {
+      woz = result
+      return Promise.all(requests)
+    })
+    // Promise.all(requests)
     .then((responses) => {
       const data = responses.map((response) => response.data)
       res.json(data)
@@ -111,15 +104,14 @@ app.post('/api/search', (req, res) => {
         data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
       const buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
       const energyLabel = data[1][0].labelLetter
-      // const wozValue = woz.split('\t')[1].replace(/\./g, '').replace(' euro', '')
-      // console.log(wozValue)
+      const wozValue = woz.split('\t')[1].replace(/\./g, '').replace(' euro', '')
       const city = data[0]._embedded.adressen[0].woonplaatsNaam
 
       return calculateRentPrice(
         area,
         buildYear,
         energyLabel,
-        // wozValue,
+        wozValue,
         numberOfRooms,
         outdoorSpaceValue,
         sharedPeople,
@@ -134,10 +126,6 @@ app.post('/api/search', (req, res) => {
     .catch((error) => {
       console.log(error)
     })
-
-  // setTimeout(() => {
-  //   res.status(500).send('Request timed out')
-  // }, 1000)
 
   // Promise.all(requests)
   //   .then((responses) => {

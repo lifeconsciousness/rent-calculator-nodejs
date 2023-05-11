@@ -150,5 +150,7 @@ form.addEventListener('submit', (event) => {
     })
     .catch((error) => {
       console.error(error)
+      loader.style.display = 'none'
+      result.innerHTML = 'Error. Check if your address is correct.'
     })
 })
