@@ -37,10 +37,17 @@ app.post('/api/search', (req, res) => {
 
   const bagUrl = new URL('https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen')
   bagUrl.searchParams.set('expand', 'true')
-  bagUrl.searchParams.set('postcode', '6227SP')
-  bagUrl.searchParams.set('huisnummer', '27')
-  bagUrl.searchParams.set('huisletter', 'A')
-  bagUrl.searchParams.set('huisnummertoevoeging', '02')
+  bagUrl.searchParams.set('postcode', '1017EL')
+  bagUrl.searchParams.set('huisnummer', '538')
+  bagUrl.searchParams.set('huisnummertoevoeging', 'O')
+  // bagUrl.searchParams.set('huisletter', 'O')
+
+  // 1017 EL 538 O
+  // bagUrl.searchParams.set('expand', 'true')
+  // bagUrl.searchParams.set('postcode', '6227SP')
+  // bagUrl.searchParams.set('huisnummer', '27')
+  // bagUrl.searchParams.set('huisletter', 'A')
+  // bagUrl.searchParams.set('huisnummertoevoeging', '02')
 
   //use this case to debug the error when the address wasn't found
   // bagUrl.searchParams.set('postcode', '6222TD')
@@ -89,12 +96,13 @@ app.post('/api/search', (req, res) => {
   //executing the woz searching function and writing all other requests into json file to be displayed in frontend
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  scrapeWozValue('6227 SP 27 A02')
-    .then((result) => {
-      woz = result
-      return Promise.all(requests)
-    })
-    // Promise.all(requests)
+  // scrapeWozValue('6227 SP 27 A02')
+  //   // scrapeWozValue('1017 EL 538 O')
+  //   .then((result) => {
+  //     woz = result
+  //     return Promise.all(requests)
+  //   })
+  Promise.all(requests)
     .then((responses) => {
       const data = responses.map((response) => response.data)
       res.json(data)
@@ -103,18 +111,21 @@ app.post('/api/search', (req, res) => {
         data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
       const buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
       const energyLabel = data[1][0].labelLetter
-      const wozValue = woz.split('\t')[1].replace('.', '').replace(' euro', '')
+      // const wozValue = woz.split('\t')[1].replace(/\./g, '').replace(' euro', '')
+      // console.log(wozValue)
+      const city = data[0]._embedded.adressen[0].woonplaatsNaam
 
       return calculateRentPrice(
         area,
         buildYear,
         energyLabel,
-        wozValue,
+        // wozValue,
         numberOfRooms,
         outdoorSpaceValue,
         sharedPeople,
         kitchen,
-        bathroom
+        bathroom,
+        city
       )
     })
     .then((result) => {
@@ -123,6 +134,10 @@ app.post('/api/search', (req, res) => {
     .catch((error) => {
       console.log(error)
     })
+
+  // setTimeout(() => {
+  //   res.status(500).send('Request timed out')
+  // }, 1000)
 
   // Promise.all(requests)
   //   .then((responses) => {
@@ -154,6 +169,8 @@ async function scrapeWozValue(address) {
   await delay(Math.random() * 30 + 1)
   //typing the address and choosing the first address suggestion
   await page.type('#ggcSearchInput', address)
+
+  /////////////////////////////////when it doesn't appear after 30 seconds make the function return undefined
   await page.waitForSelector('#ggcSuggestionList-0')
   await page.click('#ggcSuggestionList-0')
 
@@ -195,9 +212,21 @@ async function calculateRentPrice(
   outdoorSpaceValue,
   sharedPeople,
   kitchen,
-  bathroom
+  bathroom,
+  city
 ) {
-  console.log(area, buildYear, energyLabel, wozValue, numberOfRooms, outdoorSpaceValue, sharedPeople, kitchen, bathroom)
+  console.log(
+    area,
+    buildYear,
+    energyLabel,
+    wozValue,
+    numberOfRooms,
+    outdoorSpaceValue,
+    sharedPeople,
+    kitchen,
+    bathroom,
+    city
+  )
 
   const auth = new google.auth.GoogleAuth({
     keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
@@ -213,16 +242,25 @@ async function calculateRentPrice(
   const release = await sheetMutex.acquire()
 
   try {
+    let amountPeopleShared
+    let sharedArea
+
+    if (sharedPeople === undefined) {
+      amountPeopleShared = ''
+      sharedArea = ''
+    } else {
+      amountPeopleShared = sharedPeople
+      sharedArea = area / amountPeopleShared
+    }
+
+    let isAmsOrUtr
+    if (city === 'Amsterdam' || city === 'Utrecht') {
+      isAmsOrUtr = 'Yes'
+    } else {
+      isAmsOrUtr = 'No'
+    }
+
     //set the value of cells
-    // await googleSheets.spreadsheets.values.update({
-    //   auth,
-    //   spreadsheetId,
-    //   range: 'Independent calculator!K8',
-    //   valueInputOption: 'USER_ENTERED',
-    //   resource: {
-    //     values: [[numberOfRooms]],
-    //   },
-    // })
     await googleSheets.spreadsheets.values.batchUpdate({
       auth,
       spreadsheetId,
@@ -239,6 +277,34 @@ async function calculateRentPrice(
           {
             range: 'Independent calculator!K12',
             values: [[outdoorSpaceValue]],
+          },
+          {
+            range: 'Independent calculator!Q12',
+            values: [[amountPeopleShared]],
+          },
+          {
+            range: 'Independent calculator!L12',
+            values: [[sharedArea]],
+          },
+          {
+            range: 'Independent calculator!K14',
+            values: [[kitchen]],
+          },
+          {
+            range: 'Independent calculator!K18',
+            values: [[bathroom]],
+          },
+          {
+            range: 'Independent calculator!K21',
+            values: [[wozValue]],
+          },
+          {
+            range: 'Independent calculator!K23',
+            values: [[buildYear]],
+          },
+          {
+            range: 'Independent calculator!K25',
+            values: [[isAmsOrUtr]],
           },
         ],
         valueInputOption: 'USER_ENTERED',

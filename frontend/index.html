@@ -8,12 +8,16 @@
   <body>
     <div id="app">
       <h1>House information lookup</h1>
+      <h3>
+        Sometimes letter in address can be the addition (e.g. in '1017EL 538H' - 538 is house number and H is addition,
+        not letter)
+      </h3>
       <form id="address-form">
         <div class="inputs">
           <label for="postcode">Postcode:</label>
-          <input type="text" id="postcode" name="postcode" required style="text-transform: uppercase" maxlength="6" />
+          <input type="text" id="postcode" name="postcode" style="text-transform: uppercase" maxlength="6" />
           <label for="house-number">House Number:</label>
-          <input type="text" id="house-number" name="house-number" required />
+          <input type="text" id="house-number" name="house-number" />
           <label for="house-number">House letter (optional):</label>
           <input type="text" id="house-letter" name="house-letter" />
           <label for="house-number">Addition (optional):</label>
@@ -39,7 +43,7 @@
             <option value="Basic essential">Sink, ventilation hood, cooker and fridge</option>
             <option value="Modern">Dishwasher, medium kitchen counter</option>
             <option value="Large">Large family sized kitchen</option>
-            <option value="Jamie Olivers Kitchen">Jamie Olivers Kitchen’</option>
+            <option value="Jamie Olivers Kitchen’">Jamie Olivers Kitchen’</option>
           </select>
 
           <label for="bathroom">And the bathroom:</label>
@@ -55,7 +59,10 @@
 
       <h2 class="display">
         <div class="loader">
-          <p class="loading-message">Fetching data can take up to several minutes. Please wait.</p>
+          <p class="loading-message">
+            Fetching data can take up to a minute. Please wait. <br />
+            If it takes too long, reload the page and try again
+          </p>
           <div class="balls">
             <div class="ball"></div>
             <div class="ball"></div>

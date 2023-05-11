@@ -30,12 +30,14 @@ body {
   min-width: 320px;
   min-height: 100vh;
 
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 #app {

@@ -23,6 +23,7 @@ outdoorSpace.addEventListener('change', (e) => {
     isSharing = false
   }
 })
+let isSuccess
 
 //actions on submit
 form.addEventListener('submit', (event) => {
@@ -142,6 +143,7 @@ form.addEventListener('submit', (event) => {
 
       //diplaying information on the website
       loader.style.display = 'none'
+      // document.querySelector('#address-form').display = 'none'
       result.innerHTML += `${bagApiMessage} ${elApiMessage} ${wozMessage}`
 
       //build year, area, etc can be used here later for the calculations
