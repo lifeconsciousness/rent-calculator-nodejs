@@ -60,11 +60,6 @@ app.post('/api/search', (req, res) => {
   energyLabelUrl.searchParams.set('huisnummer', '4')
   energyLabelUrl.searchParams.set('huisletter', '')
   energyLabelUrl.searchParams.set('huisnummertoevoeging', '')
-  // const energyLabelUrl = new URL('https://public.ep-online.nl/api/v3/PandEnergieLabel/Adres')
-  // energyLabelUrl.searchParams.set('postcode', '6227SP')
-  // energyLabelUrl.searchParams.set('huisnummer', '27')
-  // energyLabelUrl.searchParams.set('huisletter', 'A')
-  // energyLabelUrl.searchParams.set('huisnummertoevoeging', '02')
 
   const energyLabelConfig = {
     headers: {
@@ -89,10 +84,11 @@ app.post('/api/search', (req, res) => {
   //executing the woz searching function and writing all other requests into json file to be displayed in frontend
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  scrapeWozValue('6227 SP 27 A02')
-    // scrapeWozValue('1017 EL 538 O')
+  // scrapeWozValue('6227 SP 27 A02')
+  scrapeWozValue('1017 EL 538 O')
     .then((result) => {
-      woz = result
+      woz = result[0]
+      monument = result[1] === '' ? 'No' : 'Yes'
       return Promise.all(requests)
     })
     // Promise.all(requests)
@@ -106,6 +102,7 @@ app.post('/api/search', (req, res) => {
       const energyLabel = data[1][0].labelLetter
       const wozValue = woz.split('\t')[1].replace(/\./g, '').replace(' euro', '')
       const city = data[0]._embedded.adressen[0].woonplaatsNaam
+      const isMonument = monument
 
       return calculateRentPrice(
         area,
@@ -117,7 +114,8 @@ app.post('/api/search', (req, res) => {
         sharedPeople,
         kitchen,
         bathroom,
-        city
+        city,
+        isMonument
       )
     })
     .then((result) => {
@@ -138,7 +136,7 @@ app.post('/api/search', (req, res) => {
 })
 
 /////////////////////////////////////////////////////////////////////////////////////
-//Scraping the woz value
+//Scraping the woz value function
 
 async function scrapeWozValue(address) {
   const browser = await puppeteer.launch({ headless: 'new' }) // or false if you want to see the browser
@@ -158,7 +156,6 @@ async function scrapeWozValue(address) {
   //typing the address and choosing the first address suggestion
   await page.type('#ggcSearchInput', address)
 
-  /////////////////////////////////when it doesn't appear after 30 seconds make the function return undefined
   await page.waitForSelector('#ggcSuggestionList-0')
   await page.click('#ggcSuggestionList-0')
 
@@ -176,8 +173,26 @@ async function scrapeWozValue(address) {
   // const html = await page.content()
   // console.log(html)
 
+  ////////////////////////////////////////////////////////////////////////////scraping rijksmonument value
+  //1017 EL 538 O
+  const monumentPage = await browser.newPage()
+
+  await monumentPage.goto('https://monumentenregister.cultureelerfgoed.nl')
+  await delay(Math.random() * 30 + 1)
+
+  await monumentPage.waitForSelector('#edit-tekst--2')
+  await monumentPage.type('#edit-tekst--2', address)
+  await delay(Math.random() * 30 + 1)
+
+  await monumentPage.waitForSelector('#edit-submit-register-of-monuments--2')
+  await monumentPage.click('#edit-submit-register-of-monuments--2')
+  await delay(Math.random() * 30 + 1)
+
+  await monumentPage.waitForSelector('#content')
+  const content = await monumentPage.$eval('#content', (el) => el.innerText)
+
   await browser.close()
-  return wozValue
+  return [wozValue, content]
 }
 
 function delay(time) {
@@ -186,7 +201,7 @@ function delay(time) {
   })
 }
 
-// scrapeWozValue('6227 SP 27 A02').then((res) => console.log(res))
+// scrapeWozValue('1017 EL 538 O').then((res) => console.log(res))
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 //sending and retrieving data from google sheets
@@ -201,7 +216,8 @@ async function calculateRentPrice(
   sharedPeople,
   kitchen,
   bathroom,
-  city
+  city,
+  isMonument
 ) {
   console.log(
     area,
@@ -213,7 +229,8 @@ async function calculateRentPrice(
     sharedPeople,
     kitchen,
     bathroom,
-    city
+    city,
+    isMonument
   )
 
   const auth = new google.auth.GoogleAuth({
@@ -293,6 +310,10 @@ async function calculateRentPrice(
           {
             range: 'Independent calculator!K25',
             values: [[isAmsOrUtr]],
+          },
+          {
+            range: 'Independent calculator!L6',
+            values: [[isMonument]],
           },
         ],
         valueInputOption: 'USER_ENTERED',
