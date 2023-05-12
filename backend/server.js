@@ -12,9 +12,6 @@ app.get('/', (req, res) => {
   res.send('API is running')
 })
 
-////////////////////////////////////////
-//getting info about the house and executing all calculating functions
-
 app.use(express.json()) // parse JSON request bodies
 
 //route to request data about the building from multiple API's and send it to the frontend
@@ -33,7 +30,7 @@ app.post('/api/search', (req, res) => {
 
   //test address: 6227SP 27 A02
   //address with Energy Index: 8021AP 4
-  // scrapeWozValue('62200-98077SP 27 A 02')  use this address to test WOZ error
+  // scrapeWozAndMonument('62200-98077SP 27 A 02')  use this address to test WOZ error
 
   const bagUrl = new URL('https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen')
   bagUrl.searchParams.set('expand', 'true')
@@ -84,8 +81,8 @@ app.post('/api/search', (req, res) => {
   //executing the woz searching function and writing all other requests into json file to be displayed in frontend
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // scrapeWozValue('6227 SP 27 A02')
-  scrapeWozValue('1017 EL 538 O')
+  // scrapeWozAndMonument('6227 SP 27 A02')
+  scrapeWozAndMonument('1017 EL 538 O')
     .then((result) => {
       woz = result[0]
       monument = result[1] === '' ? 'No' : 'Yes'
@@ -136,9 +133,9 @@ app.post('/api/search', (req, res) => {
 })
 
 /////////////////////////////////////////////////////////////////////////////////////
-//Scraping the woz value function
+//Scraping the woz value and whether the building is a monument
 
-async function scrapeWozValue(address) {
+async function scrapeWozAndMonument(address) {
   const browser = await puppeteer.launch({ headless: 'new' }) // or false if you want to see the browser
   const page = await browser.newPage()
 
@@ -195,13 +192,45 @@ async function scrapeWozValue(address) {
   return [wozValue, content]
 }
 
+async function scrapeEnergyIndex(adresseerbaarId) {
+  const browser = await puppeteer.launch({ headless: 'new' })
+  const page = await browser.newPage()
+
+  await page.goto('https://www.ep-online.nl/Energylabel/Search')
+  await delay(Math.random() * 30 + 1)
+
+  await page.waitForSelector('#SearchValue')
+  await delay(Math.random() * 30 + 1)
+  await page.type('#SearchValue', adresseerbaarId)
+
+  await page.waitForSelector('#searchButton')
+  await page.click('#searchButton')
+
+  await delay(Math.random() * 30 + 1)
+  await page.waitForSelector('.se-result-item-nta')
+
+  const containerExists = await page.$('.se-result-item-nta')
+
+  if (containerExists) {
+    const container = await page.$eval('.se-result-item-nta', (element) => element.innerText)
+    const energyIndex = container.split('EI')[1].split('EI')[0].replace(/\s+/g, '')
+
+    await browser.close()
+    return energyIndex
+  } else {
+    await browser.close()
+    return ''
+  }
+}
+
 function delay(time) {
   return new Promise(function (resolve) {
     setTimeout(resolve, time)
   })
 }
 
-// scrapeWozValue('1017 EL 538 O').then((res) => console.log(res))
+// scrapeWozAndMonument('1017 EL 538 O').then((res) => console.log(res))
+scrapeEnergyIndex('0935010000046006').then((res) => console.log(res))
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 //sending and retrieving data from google sheets
@@ -247,6 +276,7 @@ async function calculateRentPrice(
   const release = await sheetMutex.acquire()
 
   try {
+    //determine the parameter for the according cells
     let amountPeopleShared
     let sharedArea
 
