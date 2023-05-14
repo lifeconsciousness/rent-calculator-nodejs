@@ -92,8 +92,8 @@ app.post('/api/search', (req, res) => {
     })
     // Promise.all(requests)
     .then((responses) => {
-      const data = responses.map((response) => response.data)
-      res.json(data)
+      data = responses.map((response) => response.data)
+      // res.json(data)
 
       area = data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
       buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
@@ -124,53 +124,11 @@ app.post('/api/search', (req, res) => {
     })
     .then((result) => {
       console.log(result)
+      res.json({ area, buildYear, energyLabel, result })
     })
     .catch((error) => {
       console.log(error)
     })
-
-  //working request
-  // // scrapeWozAndMonument('6227 SP 27 A02')
-  // scrapeWozAndMonument('1017 EL 538 O')
-  //   .then((result) => {
-  //     woz = result[0]
-  //     monument = result[1] === '' ? 'No' : 'Yes'
-  //     return Promise.all(requests)
-  //   })
-  //   // Promise.all(requests)
-  //   .then((responses) => {
-  //     const data = responses.map((response) => response.data)
-  //     res.json(data)
-
-  //     const area =
-  //       data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
-  //     const buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
-  //     const energyLabel = data[1][0].labelLetter
-  //     const wozValue = woz.split('\t')[1].replace(/\./g, '').replace(' euro', '')
-  //     const city = data[0]._embedded.adressen[0].woonplaatsNaam
-  //     const isMonument = monument
-  //     const addressId = data[0]._embedded.adressen[0].adresseerbaarObjectIdentificatie
-
-  //     return calculateRentPrice(
-  //       area,
-  //       buildYear,
-  //       energyLabel,
-  //       wozValue,
-  //       numberOfRooms,
-  //       outdoorSpaceValue,
-  //       sharedPeople,
-  //       kitchen,
-  //       bathroom,
-  //       city,
-  //       isMonument
-  //     )
-  //   })
-  //   .then((result) => {
-  //     console.log(result)
-  //   })
-  //   .catch((error) => {
-  //     console.log(error)
-  //   })
 })
 
 /////////////////////////////////////////////////////////////////////////////////////
