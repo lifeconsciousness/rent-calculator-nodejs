@@ -22,7 +22,7 @@ async function scrapeEnergyIndex(adresseerbaarId) {
   try {
     const element = await Promise.race([
       page.waitForSelector('.se-result-item-nta'),
-      new Promise((resolve) => setTimeout(() => resolve(null), 5500)),
+      new Promise((resolve) => setTimeout(() => resolve(null), 4000)),
     ])
 
     if (element) {

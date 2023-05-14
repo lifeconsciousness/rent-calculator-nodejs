@@ -24,7 +24,7 @@ async function scrapeWozAndMonument(address) {
   try {
     const listExists = await Promise.race([
       page.waitForSelector('#ggcSuggestionList-0'),
-      new Promise((resolve) => setTimeout(() => resolve(null), 6000)),
+      new Promise((resolve) => setTimeout(() => resolve(null), 4000)),
     ])
 
     if (listExists) {

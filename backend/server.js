@@ -28,19 +28,43 @@ app.post('/api/search', async (req, res) => {
     bathroom,
   } = req.body
 
+  const postcodeValue = postcode.toUpperCase()
+
+  let addressString
+  if (houseLetter !== '' && houseAddition !== '') {
+    addressString = `${postcode} ${houseNumber} ${houseLetter} ${houseAddition}`
+  }
+  if (houseLetter === '' && houseAddition !== '') {
+    addressString = `${postcode} ${houseNumber} ${houseAddition}`
+  }
+  if (houseAddition === '' && houseLetter !== '') {
+    addressString = `${postcode} ${houseNumber} ${houseLetter}`
+  }
+  if (houseAddition === '' && houseLetter === '') {
+    addressString = `${postcode} ${houseNumber}`
+  }
+  console.log(addressString)
+
   // test address: 6227SP 27 A02
   // address with Energy Index: 8021AP 4
 
   //setting the parameters of request url
+
   const bagUrl = new URL('https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen')
   bagUrl.searchParams.set('expand', 'true')
+
+  bagUrl.searchParams.set('postcode', postcode)
+  bagUrl.searchParams.set('huisnummer', houseNumber)
+  if (houseLetter !== '') {
+    bagUrl.searchParams.set('huisletter', houseLetter)
+  }
+  if (houseAddition !== '') {
+    bagUrl.searchParams.set('huisnummertoevoeging', houseAddition)
+  }
+
   // bagUrl.searchParams.set('postcode', '1017EL')
   // bagUrl.searchParams.set('huisnummer', '538')
   // bagUrl.searchParams.set('huisnummertoevoeging', 'O')
-
-  bagUrl.searchParams.set('postcode', '8021AP')
-  bagUrl.searchParams.set('huisnummer', '4')
-  bagUrl.searchParams.set('huisletter', 'C')
 
   // bagUrl.searchParams.set('postcode', '6227SP')
   // bagUrl.searchParams.set('huisnummer', '27')
@@ -55,10 +79,19 @@ app.post('/api/search', async (req, res) => {
   }
 
   const energyLabelUrl = new URL('https://public.ep-online.nl/api/v3/PandEnergieLabel/Adres')
-  energyLabelUrl.searchParams.set('postcode', '8021AP')
-  energyLabelUrl.searchParams.set('huisnummer', '4')
-  energyLabelUrl.searchParams.set('huisletter', '')
-  energyLabelUrl.searchParams.set('huisnummertoevoeging', '')
+  energyLabelUrl.searchParams.set('postcode', postcode)
+  energyLabelUrl.searchParams.set('huisnummer', houseNumber)
+  if (houseLetter !== '') {
+    energyLabelUrl.searchParams.set('huisletter', houseLetter)
+  }
+  if (houseAddition !== '') {
+    energyLabelUrl.searchParams.set('huisnummertoevoeging', houseAddition)
+  }
+
+  // energyLabelUrl.searchParams.set('postcode', '8021AP')
+  // energyLabelUrl.searchParams.set('huisnummer', '4')
+  // energyLabelUrl.searchParams.set('huisletter', '')
+  // energyLabelUrl.searchParams.set('huisnummertoevoeging', '')
 
   const energyLabelConfig = {
     headers: {
@@ -81,7 +114,8 @@ app.post('/api/search', async (req, res) => {
   //executing the woz searching function and writing all other requests into json file to be displayed in frontend
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  scrapeWozAndMonument('6227 SP 27 A02')
+  scrapeWozAndMonument(addressString)
+    // scrapeWozAndMonument('6227 SP 27 A02')
     // scrapeWozAndMonument('1017 EL 538 O')
     .then((result) => {
       woz = result[0]
@@ -91,11 +125,11 @@ app.post('/api/search', async (req, res) => {
     .then((responses) => {
       data = responses.map((response) => response.data)
 
-      area = data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
-      buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
-      energyLabel = data[1][0].labelLetter
+      area = data[0]?._embedded?.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
+      buildYear = data[0]?._embedded?.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
+      energyLabel = data[1][0]?.labelLetter
       wozValue = woz.split('\t')[1].replace(/\./g, '').replace(' euro', '')
-      city = data[0]._embedded.adressen[0].woonplaatsNaam
+      city = data[0]?._embedded?.adressen[0].woonplaatsNaam
       isMonument = monument
 
       addressId = data[0]._embedded.adressen[0].adresseerbaarObjectIdentificatie
@@ -124,6 +158,7 @@ app.post('/api/search', async (req, res) => {
     })
     .catch((error) => {
       console.log(error)
+      return Promise.reject(error)
     })
 })
 
