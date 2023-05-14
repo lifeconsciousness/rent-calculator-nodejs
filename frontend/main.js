@@ -105,41 +105,42 @@ form.addEventListener('submit', (event) => {
       const data = response.data
       console.log(data)
 
+      ///////////////////////////////deprecated code
       //BAG api
-      if (data[0]) {
-        if (data[0] === null) {
-          bagApiMessage = 'Bag api error'
-        } else {
-          area = data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
-          buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
+      // if (data[0]) {
+      //   if (data[0] === null) {
+      //     bagApiMessage = 'Bag api error'
+      //   } else {
+      //     area = data[0]._embedded.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
+      //     buildYear = data[0]._embedded.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
 
-          bagApiMessage = `House area: ${area} sq.m <br/> Build year: ${buildYear} <br/>`
-        }
-      }
+      //     bagApiMessage = `House area: ${area} sq.m <br/> Build year: ${buildYear} <br/>`
+      //   }
+      // }
 
-      //Energy label API
-      if (data[1]) {
-        if (data[1] === null) {
-          bagApiMessage = 'Energy label api error'
-        } else {
-          energyLabel = data[1][0].labelLetter
-          energyLabelIssueDate = data[1][0].registratiedatum.split('T')[0]
+      // //Energy label API
+      // if (data[1]) {
+      //   if (data[1] === null) {
+      //     bagApiMessage = 'Energy label api error'
+      //   } else {
+      //     energyLabel = data[1][0].labelLetter
+      //     energyLabelIssueDate = data[1][0].registratiedatum.split('T')[0]
 
-          elApiMessage = `Energy label: ${energyLabel} <br/> En. label issue date (registratiedatum): ${energyLabelIssueDate} <br/>`
-        }
-      }
+      //     elApiMessage = `Energy label: ${energyLabel} <br/> En. label issue date (registratiedatum): ${energyLabelIssueDate} <br/>`
+      //   }
+      // }
 
-      //WOZ data
-      if (data[2]) {
-        if (data[2] === null) {
-          wozMessage = 'WOZ data retrieving error'
-        } else {
-          wozDate = data[2].split('\t')[0]
-          wozValue = data[2].split('\t')[1].replace('.', '')
+      // //WOZ data
+      // if (data[2]) {
+      //   if (data[2] === null) {
+      //     wozMessage = 'WOZ data retrieving error'
+      //   } else {
+      //     wozDate = data[2].split('\t')[0]
+      //     wozValue = data[2].split('\t')[1].replace('.', '')
 
-          wozMessage = `WOZ most recent value: ${wozValue} <br/>  WOZ date: ${wozDate}`
-        }
-      }
+      //     wozMessage = `WOZ most recent value: ${wozValue} <br/>  WOZ date: ${wozDate}`
+      //   }
+      // }
 
       //diplaying information on the website
       loader.style.display = 'none'
@@ -152,5 +153,6 @@ form.addEventListener('submit', (event) => {
       console.error(error)
       loader.style.display = 'none'
       result.innerHTML = 'Error. Check if your address is correct.'
+      result.innerHTML += `${bagApiMessage} ${elApiMessage} ${wozMessage}`
     })
 })
