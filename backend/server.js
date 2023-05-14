@@ -34,12 +34,14 @@ app.post('/api/search', (req, res) => {
 
   const bagUrl = new URL('https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen')
   bagUrl.searchParams.set('expand', 'true')
-  bagUrl.searchParams.set('postcode', '1017EL')
-  bagUrl.searchParams.set('huisnummer', '538')
-  bagUrl.searchParams.set('huisnummertoevoeging', 'O')
-  // bagUrl.searchParams.set('huisletter', 'O')
+  // bagUrl.searchParams.set('postcode', '1017EL')
+  // bagUrl.searchParams.set('huisnummer', '538')
+  // bagUrl.searchParams.set('huisnummertoevoeging', 'O')
 
-  // bagUrl.searchParams.set('expand', 'true')
+  bagUrl.searchParams.set('postcode', '8021AP')
+  bagUrl.searchParams.set('huisnummer', '4')
+  bagUrl.searchParams.set('huisletter', 'C')
+
   // bagUrl.searchParams.set('postcode', '6227SP')
   // bagUrl.searchParams.set('huisnummer', '27')
   // bagUrl.searchParams.set('huisletter', 'A')
@@ -81,8 +83,8 @@ app.post('/api/search', (req, res) => {
   //executing the woz searching function and writing all other requests into json file to be displayed in frontend
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // scrapeWozAndMonument('6227 SP 27 A02')
-  scrapeWozAndMonument('1017 EL 538 O')
+  scrapeWozAndMonument('6227 SP 27 A02')
+    // scrapeWozAndMonument('1017 EL 538 O')
     .then((result) => {
       woz = result[0]
       monument = result[1] === '' ? 'No' : 'Yes'
@@ -104,7 +106,7 @@ app.post('/api/search', (req, res) => {
 
       return scrapeEnergyIndex(addressId)
     })
-    .then((addressId) => {
+    .then((energyIndex) => {
       return calculateRentPrice(
         area,
         buildYear,
@@ -117,7 +119,7 @@ app.post('/api/search', (req, res) => {
         bathroom,
         city,
         isMonument,
-        addressId
+        energyIndex
       )
     })
     .then((result) => {
@@ -192,24 +194,24 @@ async function scrapeWozAndMonument(address) {
   //typing the address and choosing the first address suggestion
   await page.type('#ggcSearchInput', address)
 
-  const listExists = page.$('#ggcSuggestionList-0')
+  //if there's no ggcsuggestion list woz value is empty
   let wozValue
 
-  if (listExists) {
-    await page.waitForSelector('#ggcSuggestionList-0')
-    await page.click('#ggcSuggestionList-0')
+  try {
+    const listExists = await Promise.race([
+      page.waitForSelector('#ggcSuggestionList-0'),
+      new Promise((resolve) => setTimeout(() => resolve(null), 9000)),
+    ])
 
-    await delay(Math.random() * 30 + 1)
-    //extracting the WOZ data
-    try {
+    if (listExists) {
+      await page.click('#ggcSuggestionList-0')
       await page.waitForSelector('.waarden-row')
-    } catch (error) {
-      console.log('Selector not found, skipping further:', error)
-      return
+      wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
+    } else {
+      wozValue = ''
     }
-    wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
-  } else {
-    wozValue = ''
+  } catch (error) {
+    console.log(error)
   }
 
   /////////////////////////////////////////////////////////////////////////////////scraping rijksmonument value
@@ -257,12 +259,16 @@ async function scrapeEnergyIndex(adresseerbaarId) {
   try {
     const element = await Promise.race([
       page.waitForSelector('.se-result-item-nta'),
-      new Promise((resolve) => setTimeout(() => resolve(null), 9000)),
+      new Promise((resolve) => setTimeout(() => resolve(null), 5500)),
     ])
 
     if (element) {
       const container = await page.$eval('.se-result-item-nta', (element) => element.innerText)
-      energyIndex = container.split('EI')[1].split('EI')[0].replace(/\s+/g, '')
+      if (/\bEI\b/.test(container)) {
+        energyIndex = container.split('EI')[1].split('EI')[0].replace(/\s+/g, '')
+      } else {
+        energyIndex = ''
+      }
     } else {
       energyIndex = ''
     }
@@ -283,6 +289,7 @@ function delay(time) {
 // scrapeWozAndMonument('1017 EL 538 O').then((res) => console.log(res))
 // scrapeEnergyIndex('093501000004606').then((res) => console.log(res))
 // scrapeEnergyIndex('0363010000701271').then((res) => console.log(res))
+// scrapeEnergyIndex('0193010000101063').then((res) => console.log(res))
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 //sending and retrieving data from google sheets
@@ -299,7 +306,7 @@ async function calculateRentPrice(
   bathroom,
   city,
   isMonument,
-  addressId
+  energyIndex
 ) {
   console.log(
     area,
@@ -313,7 +320,7 @@ async function calculateRentPrice(
     bathroom,
     city,
     isMonument,
-    addressId
+    energyIndex
   )
 
   const auth = new google.auth.GoogleAuth({
@@ -348,6 +355,16 @@ async function calculateRentPrice(
     } else {
       isAmsOrUtr = 'No'
     }
+
+    let energyLabelTemp
+    if (energyLabel === 'A++') {
+      energyLabelTemp = "'++"
+    }
+    if (energyLabel === 'A+') {
+      energyLabelTemp = "'+"
+    }
+
+    const energyLabelValue = energyIndex === '' ? energyLabelTemp : 'None'
 
     //set the value of cells
     await googleSheets.spreadsheets.values.batchUpdate({
@@ -398,6 +415,14 @@ async function calculateRentPrice(
           {
             range: 'Independent calculator!L6',
             values: [[isMonument]],
+          },
+          {
+            range: 'Independent calculator!R22',
+            values: [[energyLabelValue]],
+          },
+          {
+            range: 'Independent calculator!R24',
+            values: [[energyIndex]],
           },
         ],
         valueInputOption: 'USER_ENTERED',
