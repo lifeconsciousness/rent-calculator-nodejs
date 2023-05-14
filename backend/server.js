@@ -43,10 +43,7 @@ app.post('/api/search', async (req, res) => {
   if (houseAddition === '' && houseLetter === '') {
     addressString = `${postcode} ${houseNumber}`
   }
-  console.log(addressString)
-
-  // test address: 6227SP 27 A02
-  // address with Energy Index: 8021AP 4
+  // console.log(addressString)
 
   //setting the parameters of request url
 
@@ -162,7 +159,7 @@ app.post('/api/search', async (req, res) => {
     })
 })
 
-// scrapeWozAndMonument('62200-98077SP 27 A 02') // use this address to test WOZ error
+// scrapeWozAndMonument('6220SP 27 A 02') // use this address to test WOZ error
 // scrapeWozAndMonument('1017 EL 538 O').then((res) => console.log(res))
 
 // scrapeEnergyIndex('0363010000701271').then((res) => console.log(res)) //not working, returns empty string
