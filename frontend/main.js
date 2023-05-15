@@ -37,31 +37,17 @@ form.addEventListener('submit', (event) => {
   //////////values from inputs
 
   //address
-  const postcode = document.querySelector('#postcode').value
-  const houseNumber = document.querySelector('#house-number').value
-  const houseLetter = document.querySelector('#house-letter').value
-  const houseAddition = document.querySelector('#house-addition').value
+  let postcode = document.querySelector('#postcode').value
+  let houseNumber = document.querySelector('#house-number').value
+  let houseLetter = document.querySelector('#house-letter').value
+  let houseAddition = document.querySelector('#house-addition').value
 
   //house parameters
-  const numberOfRooms = document.querySelector('#number-of-rooms').value
-  const outdoorSpaceValue = outdoorSpace.value
+  let numberOfRooms = document.querySelector('#number-of-rooms').value
+  let outdoorSpaceValue = outdoorSpace.value
   let sharedPeople = document.querySelector('#sharing').value
-  // if (isSharing) {
-  // }
-  const kitchen = document.querySelector('#kitchen').value
-  const bathroom = document.querySelector('#bathroom').value
-
-  // const postParameters = {
-  //   postcode,
-  //   houseNumber,
-  //   houseLetter,
-  //   houseAddition,
-  //   numberOfRooms,
-  //   outdoorSpaceValue,
-  //   sharedPeople,
-  //   kitchen,
-  //   bathroom,
-  // }
+  let kitchen = document.querySelector('#kitchen').value
+  let bathroom = document.querySelector('#bathroom').value
 
   const postParameters = isSharing
     ? {
@@ -92,14 +78,26 @@ form.addEventListener('submit', (event) => {
       const data = response.data
       console.log(data)
 
-      if ((data.length = 1)) {
-        result.innerHTML += data[0]
-      }
-
       loader.style.display = 'none'
+
+      if (data.errMessage) {
+        result.innerHTML += data.errMessage
+      } else {
+        // const area = `Area: ${data}`
+        result.innerHTML += data.area
+      }
       // document.querySelector('#address-form').display = 'none'
 
-      result.innerHTML += ``
+      ////////////not sure that this works
+      // postcode = ''
+      // houseNumber = ''
+      // houseLetter = ''
+      // houseAddition = ''
+      // numberOfRooms = ''
+      // outdoorSpaceValue = ''
+      // sharedPeople = ''
+      // kitchen = ''
+      // bathroom = ''
     })
     .catch((error) => {
       console.error(error)

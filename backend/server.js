@@ -142,7 +142,9 @@ app.post('/api/search', async (req, res) => {
 
       return scrapeEnergyIndex(addressId)
     })
-    .then((energyIndex) => {
+    .then((energyIndexValue) => {
+      energyIndex = energyIndexValue
+
       return calculateRentPrice(
         area,
         buildYear,
@@ -160,14 +162,15 @@ app.post('/api/search', async (req, res) => {
     })
     .then((result) => {
       console.log(result)
-      res.json({ area, buildYear, energyLabel, result })
+      res.json({ area, buildYear, energyLabel, energyIndex, city, isMonument, result })
     })
     .catch((error) => {
       console.log(error)
       return Promise.reject(error)
     })
     .catch((error) => {
-      res.json('Error. Please check your address')
+      const errMessage = 'Error. Check your address'
+      res.json({ errMessage })
     })
 })
 
