@@ -5,16 +5,15 @@ async function scrapeEnergyIndex(adresseerbaarId) {
   const page = await browser.newPage()
 
   await page.goto('https://www.ep-online.nl/Energylabel/Search')
-  await delay(Math.random() * 30 + 1)
+  await delay(Math.random() * 18 + 1)
 
   await page.waitForSelector('#SearchValue')
-  await delay(Math.random() * 30 + 1)
+  await delay(Math.random() * 18 + 1)
   await page.type('#SearchValue', adresseerbaarId)
 
   await page.waitForSelector('#searchButton')
+  await delay(Math.random() * 18 + 1)
   await page.click('#searchButton')
-
-  await delay(Math.random() * 30 + 1)
 
   let energyIndex
 
@@ -36,7 +35,7 @@ async function scrapeEnergyIndex(adresseerbaarId) {
       return result
     }
 
-    const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 10000)
+    const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 12000)
 
     // const element = await Promise.race([
     //   page.waitForSelector('.se-result-item-nta'),

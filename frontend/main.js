@@ -35,12 +35,16 @@ form.addEventListener('submit', (event) => {
   result.innerHTML = ''
 
   //////////values from inputs
-
+  //6227 SP 27 A02
   //address
-  let postcode = document.querySelector('#postcode').value
-  let houseNumber = document.querySelector('#house-number').value
-  let houseLetter = document.querySelector('#house-letter').value
-  let houseAddition = document.querySelector('#house-addition').value
+  let postcode = document.querySelector('#postcode').value.replace(/\s+/g, '')
+  let houseNumber = document.querySelector('#house-number').value.replace(/\s+/g, '')
+  let houseLetter = document.querySelector('#house-letter').value.replace(/\s+/g, '')
+  let houseAddition = document.querySelector('#house-addition').value.replace(/\s+/g, '')
+  // let postcode = document.querySelector('#postcode').value
+  // let houseNumber = document.querySelector('#house-number').value
+  // let houseLetter = document.querySelector('#house-letter').value
+  // let houseAddition = document.querySelector('#house-addition').value
 
   //house parameters
   let numberOfRooms = document.querySelector('#number-of-rooms').value

@@ -33,13 +33,13 @@ async function scrapeWozAndMonument(address) {
 
       const selectorPromise = page.waitForSelector(selector)
 
-      const result = await Promise.race([selectorPromise, timeoutPromise])
+      const result = await Promise.race([selectorPromise, timeoutPromise]) //wait for either selector or timeout to resolve
       clearTimeout(timeout)
       resolveFunc(null) // Resolving the timeout promise to prevent unhandled promise rejection
       return result
     }
 
-    const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 10000)
+    const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 12000)
 
     // const listExists = await Promise.race([
     //   page.waitForSelector('#ggcSuggestionList-0'),

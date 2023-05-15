@@ -9,10 +9,11 @@
     <div id="app">
       <h1>House information lookup</h1>
       <h3>Sometimes letter in address can be the addition (e.g. in '1017EL 538H' - H is addition, not letter)</h3>
+      <h3>This app works only in Chromium browsers</h3>
       <form id="address-form">
         <div class="inputs">
           <label for="postcode">Postcode:</label>
-          <input type="text" id="postcode" name="postcode" style="text-transform: uppercase" maxlength="6" />
+          <input type="text" id="postcode" name="postcode" style="text-transform: uppercase" maxlength="8" />
           <label for="house-number">House Number:</label>
           <input type="text" id="house-number" name="house-number" />
           <label for="house-number">House letter (optional):</label>
@@ -56,7 +57,7 @@
 
       <h2 class="display">
         <div class="loader">
-          <p class="loading-message">Please wait. Fetching data takes up to 30 seconds</p>
+          <p class="loading-message">Please wait. Fetching data can take up to 30 seconds. <br /></p>
           <div class="balls">
             <div class="ball"></div>
             <div class="ball"></div>

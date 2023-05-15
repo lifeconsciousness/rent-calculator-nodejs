@@ -169,7 +169,8 @@ app.post('/api/search', async (req, res) => {
       return Promise.reject(error)
     })
     .catch((error) => {
-      const errMessage = 'Error. Check your address'
+      const errMessage =
+        'Error. Check if your address is correct <br/> If you still get the same error, try reloading the page/closing and opening your browser.'
       res.json({ errMessage })
     })
 })
