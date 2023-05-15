@@ -16,16 +16,34 @@ async function scrapeEnergyIndex(adresseerbaarId) {
 
   await delay(Math.random() * 30 + 1)
 
-  // const containerExists = await page?.$('.se-result-item-nta')
   let energyIndex
 
   try {
-    const element = await Promise.race([
-      page.waitForSelector('.se-result-item-nta'),
-      new Promise((resolve) => setTimeout(() => resolve(null), 4000)),
-    ])
+    let timeout
 
-    if (element) {
+    const waitForSelectorWithTimeout = async (selector, timeoutMs) => {
+      let resolveFunc
+      const timeoutPromise = new Promise((resolve) => {
+        resolveFunc = resolve
+        timeout = setTimeout(() => resolve(null), timeoutMs)
+      })
+
+      const selectorPromise = page.waitForSelector(selector)
+
+      const result = await Promise.race([selectorPromise, timeoutPromise])
+      clearTimeout(timeout)
+      resolveFunc(null) // Resolving the timeout promise to prevent unhandled promise rejection
+      return result
+    }
+
+    const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 10000)
+
+    // const element = await Promise.race([
+    //   page.waitForSelector('.se-result-item-nta'),
+    //   new Promise((resolve) => setTimeout(() => resolve(null), 4000)),
+    // ])
+
+    if (elementExists) {
       const container = await page.$eval('.se-result-item-nta', (element) => element.innerText)
       if (/\bEI\b/.test(container)) {
         energyIndex = container.split('EI')[1].split('EI')[0].replace(/\s+/g, '')

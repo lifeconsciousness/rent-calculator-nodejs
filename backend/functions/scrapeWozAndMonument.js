@@ -22,10 +22,31 @@ async function scrapeWozAndMonument(address) {
   let wozValue
 
   try {
-    const listExists = await Promise.race([
-      page.waitForSelector('#ggcSuggestionList-0'),
-      new Promise((resolve) => setTimeout(() => resolve(null), 4000)),
-    ])
+    let timeout
+
+    const waitForSelectorWithTimeout = async (selector, timeoutMs) => {
+      let resolveFunc
+      const timeoutPromise = new Promise((resolve) => {
+        resolveFunc = resolve
+        timeout = setTimeout(() => resolve(null), timeoutMs)
+      })
+
+      const selectorPromise = page.waitForSelector(selector)
+
+      const result = await Promise.race([selectorPromise, timeoutPromise])
+      clearTimeout(timeout)
+      resolveFunc(null) // Resolving the timeout promise to prevent unhandled promise rejection
+      return result
+    }
+
+    const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 10000)
+
+    // const listExists = await Promise.race([
+    //   page.waitForSelector('#ggcSuggestionList-0'),
+    //   new Promise((resolve) => {
+    //     setTimeout(() => resolve(null), 1000)
+    //   }),
+    // ])
 
     if (listExists) {
       await page.click('#ggcSuggestionList-0')
