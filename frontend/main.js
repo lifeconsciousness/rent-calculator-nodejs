@@ -84,24 +84,18 @@ form.addEventListener('submit', (event) => {
 
       loader.style.display = 'none'
 
+      //after getting the data hide form, other text, and show list with data about the house (calculations were based on this data:) and result
+      //also display back button
+
       if (data.errMessage) {
         result.innerHTML += data.errMessage
       } else {
-        // const area = `Area: ${data}`
-        result.innerHTML += data.area
-      }
-      // document.querySelector('#address-form').display = 'none'
+        const area = `Area: ${data.area}`
+        const buildYear = `Area: ${data.buildYear} <br/>`
 
-      ////////////not sure that this works
-      // postcode = ''
-      // houseNumber = ''
-      // houseLetter = ''
-      // houseAddition = ''
-      // numberOfRooms = ''
-      // outdoorSpaceValue = ''
-      // sharedPeople = ''
-      // kitchen = ''
-      // bathroom = ''
+        // result.innerHTML += area
+        // result.innerHTML += buildYear
+      }
     })
     .catch((error) => {
       console.error(error)

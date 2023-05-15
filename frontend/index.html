@@ -7,55 +7,66 @@
   </head>
   <body>
     <div id="app">
-      <h1>House information lookup</h1>
-      <h3>Sometimes letter in address can be the addition (e.g. in '1017EL 538H' - H is addition, not letter)</h3>
-      <h3>This app works only in Chromium browsers</h3>
+      <div>
+        <h1>House information lookup</h1>
+        <h3>
+          Sometimes letter in address can be the addition (e.g. in '1017EL 538H' - H is addition, not letter). <br />
+          Also be aware that calculator may not work in non-Chromium browsers
+        </h3>
+      </div>
       <form id="address-form">
-        <div class="inputs">
-          <label for="postcode">Postcode:</label>
-          <input type="text" id="postcode" name="postcode" style="text-transform: uppercase" maxlength="8" />
-          <label for="house-number">House Number:</label>
-          <input type="text" id="house-number" name="house-number" />
-          <label for="house-number">House letter (optional):</label>
-          <input type="text" id="house-letter" name="house-letter" />
-          <label for="house-number">Addition (optional):</label>
-          <input type="text" id="house-addition" name="house-addition" />
+        <div class="inputs-container">
+          <div class="inputs">
+            <h4 class="inputs-title">Your address</h4>
+            <label for="postcode">Postcode:</label>
+            <input type="text" id="postcode" name="postcode" style="text-transform: uppercase" maxlength="8" />
+            <label for="house-number">House Number:</label>
+            <input type="text" id="house-number" name="house-number" />
+            <label for="house-number">House letter (optional):</label>
+            <input type="text" id="house-letter" name="house-letter" />
+            <label for="house-number">Addition (optional):</label>
+            <input type="text" id="house-addition" name="house-addition" />
+          </div>
+          <div class="inputs">
+            <h4 class="inputs-title">Your house</h4>
+            <label for="number-of-rooms">Number of rooms in your house/apartment:</label>
+            <input type="number" id="number-of-rooms" name="number-of-rooms" min="1" />
+
+            <label for="outdoor">Do you have outdoor space?</label>
+            <select name="outdoor" id="outdoor">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="Shared">Yes, shared</option>
+            </select>
+
+            <label for="people-sharing-with" id="sharing-label" class="sharing"
+              >With how many people you share it?</label
+            >
+            <input type="number" name="people-sharing-with" id="sharing" min="0" class="sharing" />
+
+            <label for="kitchen">How would you describe the kitchen:</label>
+            <select name="kitchen" id="kitchen">
+              <option value="Bare/small">Only tap and small kitchen counter</option>
+              <option value="Basic essential">Sink, ventilation hood, cooker and fridge</option>
+              <option value="Modern">Dishwasher, medium kitchen counter</option>
+              <option value="Large">Large family sized kitchen</option>
+              <option value="Jamie Olivers Kitchen’">Jamie Olivers Kitchen’</option>
+            </select>
+
+            <label for="bathroom">And the bathroom:</label>
+            <select name="bathroom" id="bathroom">
+              <option value="Bare/small">Only toilet, shower, washbasin</option>
+              <option value="Modern">Towel heater, wall-mounted toilet</option>
+              <option value="Modern with Bath">With bath</option>
+              <option value="High end">High end</option>
+            </select>
+          </div>
         </div>
-        <div class="inputs">
-          <label for="number-of-rooms">Number of rooms in your house/apartment:</label>
-          <input type="number" id="number-of-rooms" name="number-of-rooms" min="1" />
 
-          <label for="outdoor">Do you have outdoor space?</label>
-          <select name="outdoor" id="outdoor">
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-            <option value="Shared">Yes, shared</option>
-          </select>
-
-          <label for="people-sharing-with" id="sharing-label" class="sharing">With how much people you share it?</label>
-          <input type="number" name="people-sharing-with" id="sharing" min="0" class="sharing" />
-
-          <label for="kitchen">How would you describe the kitchen:</label>
-          <select name="kitchen" id="kitchen">
-            <option value="Bare/small">Only tap and small kitchen counter</option>
-            <option value="Basic essential">Sink, ventilation hood, cooker and fridge</option>
-            <option value="Modern">Dishwasher, medium kitchen counter</option>
-            <option value="Large">Large family sized kitchen</option>
-            <option value="Jamie Olivers Kitchen’">Jamie Olivers Kitchen’</option>
-          </select>
-
-          <label for="bathroom">And the bathroom:</label>
-          <select name="bathroom" id="bathroom">
-            <option value="Bare/small">Only toilet, shower, washbasin</option>
-            <option value="Modern">Towel heater, wall-mounted toilet</option>
-            <option value="Modern with Bath">With bath</option>
-            <option value="High end">High end</option>
-          </select>
-        </div>
         <button class="submit-btn" type="submit">Search</button>
       </form>
 
-      <h2 class="display">
+      <!-- <h2 class="display">
         <div class="loader">
           <p class="loading-message">Please wait. Fetching data can take up to 30 seconds. <br /></p>
           <div class="balls">
@@ -67,13 +78,13 @@
           </div>
         </div>
         <div class="result"></div>
-      </h2>
+      </h2> -->
 
-      <p>
+      <!-- <p class="contact-info">
         If the result is much lower than what the landlord is <br />
         asking then you might be getting overcharged. <br />
         Contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>
-      </p>
+      </p> -->
     </div>
     <script type="module" src="/main.js"></script>
   </body>
