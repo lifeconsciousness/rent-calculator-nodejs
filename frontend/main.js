@@ -12,6 +12,7 @@ const outdoorSpace = document.querySelector('#outdoor')
 const sharingLabel = document.querySelector('#sharing-label')
 const sharingInput = document.querySelector('#sharing')
 let isSharing = false
+
 outdoorSpace.addEventListener('change', (e) => {
   if (outdoorSpace.value === 'Shared') {
     sharingLabel.style.display = 'block'
@@ -45,24 +46,10 @@ form.addEventListener('submit', (event) => {
   const numberOfRooms = document.querySelector('#number-of-rooms').value
   const outdoorSpaceValue = outdoorSpace.value
   let sharedPeople = document.querySelector('#sharing').value
-  if (isSharing) {
-  }
+  // if (isSharing) {
+  // }
   const kitchen = document.querySelector('#kitchen').value
   const bathroom = document.querySelector('#bathroom').value
-
-  //data that is going to be retrieved from api's and used for rent price calculations
-  let area = null
-  let buildYear = null
-  let energyLabel = null
-  let energyLabelIssueDate = null
-  let wozValue = null
-  let wozDate = null
-  let energyIndex = null
-
-  //messages to display the info about a house
-  let bagApiMessage = ``
-  let elApiMessage = ``
-  let wozMessage = ``
 
   // const postParameters = {
   //   postcode,
@@ -105,17 +92,19 @@ form.addEventListener('submit', (event) => {
       const data = response.data
       console.log(data)
 
-      //diplaying information on the website
+      if ((data.length = 1)) {
+        result.innerHTML += data[0]
+      }
+
       loader.style.display = 'none'
       // document.querySelector('#address-form').display = 'none'
-      result.innerHTML += `${bagApiMessage} ${elApiMessage} ${wozMessage}`
 
-      //build year, area, etc can be used here later for the calculations
+      result.innerHTML += ``
     })
     .catch((error) => {
       console.error(error)
       loader.style.display = 'none'
       result.innerHTML = 'Error. Check if your address is correct.'
-      result.innerHTML += `${bagApiMessage} ${elApiMessage} ${wozMessage}`
+      result.innerHTML += ``
     })
 })

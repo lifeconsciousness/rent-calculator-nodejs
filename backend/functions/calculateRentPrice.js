@@ -71,6 +71,8 @@ async function calculateRentPrice(
     }
     if (energyLabel === 'A+') {
       energyLabelTemp = "'+"
+    } else {
+      energyLabelTemp = energyLabel
     }
 
     const energyLabelValue = energyIndex === '' ? energyLabelTemp : 'None'

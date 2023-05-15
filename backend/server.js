@@ -122,14 +122,23 @@ app.post('/api/search', async (req, res) => {
     .then((responses) => {
       data = responses.map((response) => response.data)
 
+      if (!data[0]?._embedded?.adressen?.[0]) {
+        return Promise.reject('Address not found')
+          .then((resolved) => '')
+          .catch((err) => console.log(err))
+      }
+
       area = data[0]?._embedded?.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
       buildYear = data[0]?._embedded?.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
-      energyLabel = data[1][0]?.labelLetter
-      wozValue = woz.split('\t')[1].replace(/\./g, '').replace(' euro', '')
+
+      energyLabelTemp = data[1]
+      energyLabelTemp !== undefined ? (energyLabel = energyLabelTemp[0]?.labelLetter) : ''
+
+      wozValue = woz ? woz.split('\t')[1].replace(/\./g, '').replace(' euro', '') : undefined
+
       city = data[0]?._embedded?.adressen[0].woonplaatsNaam
       isMonument = monument
-
-      addressId = data[0]._embedded.adressen[0].adresseerbaarObjectIdentificatie
+      addressId = data[0]?._embedded?.adressen[0].adresseerbaarObjectIdentificatie
 
       return scrapeEnergyIndex(addressId)
     })
@@ -156,6 +165,9 @@ app.post('/api/search', async (req, res) => {
     .catch((error) => {
       console.log(error)
       return Promise.reject(error)
+    })
+    .catch((error) => {
+      res.json('Error. Please check your address')
     })
 })
 
