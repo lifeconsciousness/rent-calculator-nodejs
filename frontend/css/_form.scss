@@ -16,6 +16,7 @@
 
   @media (max-width: 789px) {
     transform: translateY(0);
+    margin-bottom: 10px;
   }
 }
 .inputs-container:hover {
@@ -35,17 +36,26 @@
   .inputs-title {
     border-bottom: #f5f5f8 1px solid;
     margin-bottom: 18px;
+    margin-top: 1em;
+  }
+
+  input {
+    padding-left: 4px;
   }
 
   input,
   select {
     font-size: 110%;
+    font-family: inherit;
   }
   select {
-    height: 26px;
-    padding: 2px;
+    height: 30px;
     width: 100%;
     font-size: 1rem;
+  }
+
+  #number-of-rooms {
+    font-size: 100%;
   }
 
   @media (max-width: 789px) {

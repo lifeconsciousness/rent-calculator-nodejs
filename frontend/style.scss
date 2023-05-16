@@ -1,20 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Castoro+Titling&display=swap');
+
+@import './css/form';
+@import './css/form-loader';
+@import './css/submit-btn';
+@import './css/navbar';
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  // font-family: Inter, sans-serif;
+
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  // background-color: #242424;
-  // background: linear-gradient(50deg, white, black 80%, white 50%);
-  // background: rgb(137, 143, 140);
-  // background: linear-gradient(132deg, rgb(197, 199, 198) -200%, rgba(21, 5, 7, 1) 57%, rgba(137, 143, 140, 1) 300%);
-  // background: linear-gradient(138deg, rgb(185, 187, 186) -160%, rgb(14, 12, 12) 57%, rgb(136, 138, 137) 300%);
-  // background: linear-gradient(138deg, rgb(185, 187, 186) -160%, #242424 57%, rgb(136, 138, 137) 300%);
-  // background: linear-gradient(90deg, #c7c5f4, #776bcc);
-  // background: linear-gradient(130deg, #1c1b22, #5959d1 200%);
-  // background: linear-gradient(130deg, #1c1b22, rgba(0, 47, 255, 0.418) 200%);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -26,49 +27,14 @@
   --main-blue-transparent: rgba(0, 47, 255, 0.247);
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   overflow-x: hidden;
 }
 
-// body::before,
-// body::after {
-//   position: absolute;
-//   left: 0;
-//   top: 0;
-//   content: '';
-//   width: 100%;
-//   height: 100%;
-//   // min-height: 180vh;
-
-//   z-index: -1;
-
-//   opacity: 17%;
-//   opacity: 24%;
-// }
-
-// body::before {
-//   background: #0a0a0a;
-//   background: linear-gradient(to right, #171618, #3b79ff);
-//   background: linear-gradient(150deg, #3b79ff, #171618, #3b79ff);
-//   background: linear-gradient(120deg, #3b79ff, #171618, #3b79ff);
-
-//   filter: url(#noiseFilter);
-// }
-
-@import './css/form';
-@import './css/form-loader';
-@import './css/submit-btn';
-@import './css/navbar';
+::-webkit-scrollbar-thumb {
+  background: #c52626;
+}
 
 #app {
   margin: 0 auto;
@@ -76,6 +42,7 @@ body {
   min-height: 100svh;
   gap: 1em;
   padding: 2em;
+  padding-top: 1.5em;
 
   display: flex;
   flex-direction: column;
@@ -100,11 +67,12 @@ body {
   #app {
     display: block;
     min-height: 110svh;
+    padding: 1.3em;
   }
 }
 @media (max-width: 383px) {
   #app {
-    padding: 2em 1em;
+    // padding: 1em;
     min-height: 120svh;
   }
   #app::before,
@@ -133,12 +101,19 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-// button:hover {
-//   border-color: #646cff;
-// }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
 }
 
 // @media (prefers-color-scheme: light) {
