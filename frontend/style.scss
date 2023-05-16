@@ -5,7 +5,12 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  // background-color: #242424;
+  // background: linear-gradient(50deg, white, black 80%, white 50%);
+  // background: rgb(137, 143, 140);
+  // background: linear-gradient(132deg, rgb(197, 199, 198) -200%, rgba(21, 5, 7, 1) 57%, rgba(137, 143, 140, 1) 300%);
+  // background: linear-gradient(138deg, rgb(185, 187, 186) -160%, rgb(14, 12, 12) 57%, rgb(136, 138, 137) 300%);
+  // background: linear-gradient(138deg, rgb(185, 187, 186) -160%, #242424 57%, rgb(136, 138, 137) 300%);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -31,7 +36,7 @@ body {
 h1 {
   font-size: 3em;
   line-height: 1.1;
-  margin-top: 0.4em;
+  margin-top: 0.7em;
   margin-bottom: 0;
 }
 
@@ -111,6 +116,12 @@ button:focus-visible {
   flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.171);
+  box-shadow: 0 0 20px rgba(59, 59, 63, 0.295);
+
+  padding: 1.5em;
+  border-radius: 30px;
+  transition: 0.6s all;
 }
 
 .inputs {
@@ -120,19 +131,13 @@ button:focus-visible {
   padding: 1.3em;
   padding-top: 0;
   border: 1px solid rgba(255, 255, 255, 0);
+
   transition: 0.4s all;
 
   input,
   select {
     font-size: 110%;
   }
-
-  // input:focus,
-  // select:focus {
-  //   box-shadow: 0 0 80px rgba(0, 47, 255, 0.247);
-  //   border: 1px solid rgba(255, 255, 255, 0.479);
-  //   transition: 1s all;
-  // }
 }
 
 .inputs:hover {
@@ -148,7 +153,7 @@ button:focus-visible {
 
 .submit-btn {
   margin-top: 35px;
-  padding: 0.8em 4em;
+  padding: 0.8em 7em;
 }
 
 .display {
