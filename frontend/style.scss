@@ -1,5 +1,6 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  // font-family: Inter, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -39,15 +40,41 @@ body {
   overflow-x: hidden;
 }
 
+// body::before,
+// body::after {
+//   position: absolute;
+//   left: 0;
+//   top: 0;
+//   content: '';
+//   width: 100%;
+//   height: 100%;
+//   // min-height: 180vh;
+
+//   z-index: -1;
+
+//   opacity: 17%;
+//   opacity: 24%;
+// }
+
+// body::before {
+//   background: #0a0a0a;
+//   background: linear-gradient(to right, #171618, #3b79ff);
+//   background: linear-gradient(150deg, #3b79ff, #171618, #3b79ff);
+//   background: linear-gradient(120deg, #3b79ff, #171618, #3b79ff);
+
+//   filter: url(#noiseFilter);
+// }
+
 @import './css/form';
 @import './css/form-loader';
 @import './css/submit-btn';
+@import './css/navbar';
 
 #app {
   margin: 0 auto;
   text-align: center;
   min-height: 100svh;
-  gap: 3em;
+  gap: 1em;
   padding: 2em;
 
   display: flex;
@@ -55,17 +82,44 @@ body {
   align-items: center;
 }
 
+#app::before,
+#app::after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: '';
+  width: 100%;
+  min-height: 150svh;
+
+  z-index: -1;
+
+  opacity: 17%;
+  opacity: 24%;
+}
 @media (max-width: 789px) {
   #app {
     display: block;
-    min-height: 123svh;
+    min-height: 110svh;
   }
 }
 @media (max-width: 383px) {
   #app {
     padding: 2em 1em;
-    min-height: 140svh;
+    min-height: 120svh;
   }
+  #app::before,
+  #app::after {
+    min-height: 170svh;
+  }
+}
+
+#app::before {
+  background: #0a0a0a;
+  background: linear-gradient(to right, #171618, #3b79ff);
+  background: linear-gradient(150deg, #3b79ff, #171618, #3b79ff);
+  background: linear-gradient(120deg, #3b79ff, #171618, #3b79ff);
+
+  filter: url(#noiseFilter);
 }
 
 button {

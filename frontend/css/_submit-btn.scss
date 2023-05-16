@@ -9,7 +9,7 @@
 
   overflow: hidden;
 
-  margin-top: 35px;
+  margin-top: 20px;
   padding: 0.8em 7em;
   border: 1px solid rgba(255, 255, 255, 0.14);
   transition: 0.6s all;
@@ -20,13 +20,15 @@
   }
 }
 
+$line-color: #3b79ff9c;
+$line-color: #8aacf771;
+
 .submit-btn:hover {
   scale: 1.08;
   border: 1px solid rgba(255, 255, 255, 0);
-  box-shadow: 0 0 50px rgba(220, 220, 224, 0.295);
-  box-shadow: 0 0 200px #3b79ffdc;
-  //   background-color: rgba(255, 255, 255, 0.801);
-  //   color: black;
+  // box-shadow: 0 0 50px rgba(220, 220, 224, 0.295);
+  // box-shadow: 0 0 200px #3b79ffdc;
+  box-shadow: 0 0 200px rgba(0, 47, 255, 0.473);
   transition: 0.6s all;
 }
 .submit-btn:hover span {
@@ -39,8 +41,8 @@
   top: 0;
   right: 0;
   width: 100%;
-  height: 1px;
-  background: linear-gradient(to right, #171618, #3b79ff);
+  height: 2px;
+  background: linear-gradient(to right, #171618, $line-color);
   animation: animate1 1.3s ease-in-out infinite;
 }
 
@@ -59,7 +61,7 @@
   right: 0;
   height: 100%;
   width: 1px;
-  background: linear-gradient(to bottom, #171618, #2a45e2);
+  background: linear-gradient(to bottom, #171618, $line-color);
   animation: animate2 1.3s linear infinite;
   animation-delay: 1s;
 }
@@ -78,7 +80,7 @@
   right: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(to left, #171618, #3b4fff);
+  background: linear-gradient(to left, #171618, $line-color);
   animation: animate3 1.3s ease-in-out infinite;
 }
 
@@ -97,7 +99,7 @@
   left: 0;
   height: 100%;
   width: 1px;
-  background: linear-gradient(to top, #171618, #3b3eff);
+  background: linear-gradient(to top, #171618, $line-color);
   animation: animate4 1.3s linear infinite;
   animation-delay: 1s;
 }
