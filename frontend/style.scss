@@ -11,6 +11,9 @@
   // background: linear-gradient(132deg, rgb(197, 199, 198) -200%, rgba(21, 5, 7, 1) 57%, rgba(137, 143, 140, 1) 300%);
   // background: linear-gradient(138deg, rgb(185, 187, 186) -160%, rgb(14, 12, 12) 57%, rgb(136, 138, 137) 300%);
   // background: linear-gradient(138deg, rgb(185, 187, 186) -160%, #242424 57%, rgb(136, 138, 137) 300%);
+  // background: linear-gradient(90deg, #c7c5f4, #776bcc);
+  // background: linear-gradient(130deg, #1c1b22, #5959d1 200%);
+  // background: linear-gradient(130deg, #1c1b22, rgba(0, 47, 255, 0.418) 200%);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -33,48 +36,33 @@ body {
   overflow-x: hidden;
 }
 
-h1 {
-  font-size: 3em;
-  line-height: 1.1;
-  margin-top: 0.7em;
-  margin-bottom: 0;
-}
+@import './css/form';
+@import './css/form-loader';
 
 #app {
   margin: 0 auto;
   text-align: center;
-  min-height: 100vh;
+  min-height: 100svh;
+  gap: 3em;
+  padding: 2em;
 
   display: flex;
-  // justify-content: space-evenly;
   flex-direction: column;
   align-items: center;
-  gap: 3em;
-
-  // display: grid;
-  // grid-template-rows: 0.2fr 2fr 1fr;
-  // align-items: center;
+  // justify-content: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+@media (max-width: 789px) {
+  #app {
+    display: block;
+    min-height: 123svh;
+  }
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #f7df1eaa);
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+@media (max-width: 383px) {
+  #app {
+    padding: 2em 1em;
+    min-height: 140svh;
+  }
 }
 
 button {
@@ -96,140 +84,15 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
-.inputs-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.171);
-  box-shadow: 0 0 20px rgba(59, 59, 63, 0.295);
-
-  padding: 1.5em;
-  border-radius: 30px;
-  transition: 0.6s all;
-}
-
-.inputs {
-  display: flex;
-  flex-direction: column;
-  border-radius: 10%;
-  padding: 1.3em;
-  padding-top: 0;
-  border: 1px solid rgba(255, 255, 255, 0);
-
-  transition: 0.4s all;
-
-  input,
-  select {
-    font-size: 110%;
-  }
-}
-
-.inputs:hover {
-  box-shadow: 0 0 80px rgba(0, 47, 255, 0.247);
-  border: 1px solid rgba(255, 255, 255, 0.479);
-  transition: 1s all;
-}
-.inputs:focus-within {
-  box-shadow: 0 0 80px rgba(0, 47, 255, 0.247);
-  border: 1px solid rgba(255, 255, 255, 0.479);
-  transition: 1s all;
-}
-
-.submit-btn {
-  margin-top: 35px;
-  padding: 0.8em 7em;
-}
-
-.display {
-  // opacity: 0;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 100px;
-}
-
-.contact-info {
-  position: relative;
-  bottom: 0;
-}
-
-.inputs-title {
-  border-bottom: #f5f5f8 1px solid;
-  margin-bottom: 18px;
-}
-
-/////////////////////////////////////
-//loader animation
-
-.loader {
-  opacity: 0;
-}
-
-.balls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.ball {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin: 0 6px;
-  margin-top: 2em;
-  background-color: #f5f5f8;
-  animation: wave 1s ease-in-out infinite;
-}
-
-@keyframes wave {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-14px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-.ball:nth-child(2) {
-  animation-delay: -0.2s;
-}
-
-.ball:nth-child(3) {
-  animation-delay: -0.4s;
-}
-
-.ball:nth-child(4) {
-  animation-delay: -0.6s;
-}
-
-.ball:nth-child(5) {
-  animation-delay: -0.8s;
-}
-
-//inputs
-
-.sharing {
-  display: none;
-}
-
-.question-mark {
-  cursor: help;
-}
+// @media (prefers-color-scheme: light) {
+//   :root {
+//     color: #213547;
+//     background-color: #ffffff;
+//   }
+//   a:hover {
+//     color: #747bff;
+//   }
+//   button {
+//     background-color: #f9f9f9;
+//   }
+// }
