@@ -2,11 +2,12 @@
   --text: #e8e9f0;
   --line: #bbc1e1;
   --line-active: #7e86f7f5;
-  --line-active: #5c64d3f5;
+  --line-active: #222fe7f5;
 }
 
 .rent-price {
   font-size: 24px;
+  font-weight: 700;
   margin: 0;
   color: var(--text);
   span {
@@ -16,6 +17,7 @@
     color: inherit;
     margin: 0 5px;
     transition: margin 0.25s;
+
     svg {
       width: 76px;
       height: 40px;
@@ -32,9 +34,11 @@
       stroke-width: 2px;
       stroke-dasharray: var(--offset, 69px) 278px;
       stroke-dashoffset: 361px;
-      transition: stroke 0.25s ease var(--stroke-delay, 0s), stroke-dasharray 0.35s;
+      transition: stroke 0.25s ease var(--stroke-delay, 0s), stroke-dasharray 0.5s;
     }
-    &:hover {
+  }
+  @keyframes hover-delay {
+    to {
       --stroke: var(--line-active);
       --stroke-delay: 0.2s;
       --offset: 200px;
@@ -98,4 +102,22 @@ html {
   position: absolute;
   z-index: -3;
   backdrop-filter: blur(1vmax);
+  left: 0;
+}
+
+//typing animation
+
+.typing {
+  width: 28ch;
+  animation: typing 1.7s steps(22);
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid;
+  overflow-wrap: break-word;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
 }

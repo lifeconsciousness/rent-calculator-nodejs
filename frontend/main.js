@@ -2,6 +2,8 @@
 import './style.scss'
 import axios from 'axios'
 
+/*
+
 const display = document.querySelector('.display')
 const loader = document.querySelector('.loader')
 const result = document.querySelector('.result')
@@ -109,4 +111,21 @@ form.addEventListener('submit', (event) => {
         result.innerHTML += ``
       })
   }
+})
+
+*/
+
+//setting the overflow to visible when animation ends
+
+const typingElement = document.querySelector('.typing')
+const price = document.querySelector('.price')
+
+// Get the amount of charaters
+const textWidth = typingElement.innerText.length
+console.log(textWidth)
+
+typingElement.addEventListener('animationend', () => {
+  typingElement.style.overflow = 'visible'
+  typingElement.style.border = 'none'
+  price.style.animation = 'hover-delay .6s forwards'
 })

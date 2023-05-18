@@ -11,148 +11,151 @@
   </head>
   <body>
     <div id="app">
-      <header>
-        <img src="./img/RentBuster logo without background.png" class="rentbuster-logo" alt="rentbuster logo" />
-        <h1>Rent price calculator</h1>
-        <a href="mailto:info@rentbuster.nl" class="contact-navbar">Contact</a>
-      </header>
+      <main>
+        <header>
+          <img src="./img/RentBuster logo without background.png" class="rentbuster-logo" alt="rentbuster logo" />
+          <h1>Rent price calculator</h1>
+          <a href="mailto:info@rentbuster.nl" class="contact-navbar">Contact</a>
+        </header>
 
-      <!-- 
-      <div>
-        <h2 class="title-small">Rent price calculator</h2>
-        <h3>
-          Important! Sometimes letter in address can be the addition (e.g. in '1017EL 538H' - H is addition). Also be
-          aware that calculator may not work in non-Chromium browsers.
-        </h3>
-      </div>
-      <form id="address-form">
-        <div class="inputs-container">
-          <div class="inputs">
-            <h4 class="inputs-title">Your address</h4>
-            <label for="postcode">Postcode:</label>
-            <input type="text" id="postcode" name="postcode" style="text-transform: uppercase" maxlength="8" />
-            <label for="house-number">House Number:</label>
-            <input type="text" id="house-number" name="house-number" />
-            <label for="house-number">House letter (optional):</label>
-            <input type="text" id="house-letter" name="house-letter" />
-            <label for="house-number">Addition (optional):</label>
-            <input type="text" id="house-addition" name="house-addition" />
-          </div>
-          <div class="inputs">
-            <h4 class="inputs-title">Your house</h4>
-            <label for="number-of-rooms">Number of rooms in your house/apartment:</label>
-            <input type="number" id="number-of-rooms" name="number-of-rooms" min="1" />
-
-            <label for="outdoor">Do you have outdoor space?</label>
-            <select name="outdoor" id="outdoor">
-              <option value="No">No</option>
-              <option value="Yes">Yes</option>
-              <option value="Shared">Yes, shared</option>
-            </select>
-
-            <label for="people-sharing-with" id="sharing-label" class="sharing"
-              >With how many people you share it?</label
-            >
-            <input type="number" name="people-sharing-with" id="sharing" min="0" class="sharing" />
-
-            <label for="kitchen">How would you describe the kitchen:</label>
-            <select name="kitchen" id="kitchen">
-              <option value="Bare/small">Only tap and small kitchen counter</option>
-              <option value="Basic essential">Sink, ventilation hood, cooker and fridge</option>
-              <option value="Modern">Dishwasher, medium kitchen counter</option>
-              <option value="Large">Large family sized kitchen</option>
-              <option value="Jamie Olivers Kitchen’">Jamie Olivers Kitchen’</option>
-            </select>
-
-            <label for="bathroom">And the bathroom:</label>
-            <select name="bathroom" id="bathroom">
-              <option value="Bare/small">Only toilet, shower, washbasin</option>
-              <option value="Modern">Towel heater, wall-mounted toilet</option>
-              <option value="Modern with Bath">With bath</option>
-              <option value="High end">High end</option>
-            </select>
-          </div>
+        <!-- 
+        <div>
+          <h2 class="title-small">Rent price calculator</h2>
+          <h3>
+            Important! Sometimes letter in address can be the addition (e.g. in '1017EL 538H' - H is addition). Also be
+            aware that calculator may not work in non-Chromium browsers.
+          </h3>
         </div>
-
-        <div class="button-container">
-          <button class="submit-btn" type="submit">
-            <span> </span>
-            <span> </span>
-            <span> </span>
-            <span> </span>
-            Search
-          </button>
-        </div>
-      </form> -->
-
-      <!-- <div class="loader">
-        <p class="loading-message">Please wait. Fetching data can take up to 30 seconds. <br /></p>
-        <div class="balls">
-          <div class="ball"></div>
-          <div class="ball"></div>
-          <div class="ball"></div>
-          <div class="ball"></div>
-          <div class="ball"></div>
-        </div>
-      </div> -->
-
-      <div id="blur"></div>
-
-      <div class="display-container">
-        <div class="house-info">
-          <h2 class="house-info-title">Information on which calculations are based:</h2>
-          <ul>
-            <li>9oooooooooooo</li>
-            <li>Info</li>
-            <li>Info</li>
-            <li>Info</li>
-            <li>Info</li>
-            <li>Info</li>
-            <li>Info</li>
-            <li>Info</li>
-            <li>Info</li>
-          </ul>
-        </div>
-
-        <div class="result">
-          <div class="result-text">
-            <div class="blob-container">
-              <div class="blob"></div>
+        <form id="address-form">
+          <div class="inputs-container">
+            <div class="inputs">
+              <h4 class="inputs-title">Your address</h4>
+              <label for="postcode">Postcode:</label>
+              <input type="text" id="postcode" name="postcode" style="text-transform: uppercase" maxlength="8" />
+              <label for="house-number">House Number:</label>
+              <input type="text" id="house-number" name="house-number" />
+              <label for="house-number">House letter (optional):</label>
+              <input type="text" id="house-letter" name="house-letter" />
+              <label for="house-number">Addition (optional):</label>
+              <input type="text" id="house-addition" name="house-addition" />
             </div>
-            <p class="rent-price">
-              Approximate rent price:
-              <span>
-                1300 eur
-                <svg viewBox="0 0 70 36">
-                  <path
-                    d="M6.9739 30.8153H63.0244C65.5269 30.8152 75.5358 -3.68471 35.4998 2.81531C-16.1598 11.2025 0.894099 33.9766 26.9922 34.3153C104.062 35.3153 54.5169 -6.68469 23.489 9.31527"
-                  />
-                </svg>
-              </span>
-            </p>
+            <div class="inputs">
+              <h4 class="inputs-title">Your house</h4>
+              <label for="number-of-rooms">Number of rooms in your house/apartment:</label>
+              <input type="number" id="number-of-rooms" name="number-of-rooms" min="1" />
+  
+              <label for="outdoor">Do you have outdoor space?</label>
+              <select name="outdoor" id="outdoor">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="Shared">Yes, shared</option>
+              </select>
+  
+              <label for="people-sharing-with" id="sharing-label" class="sharing"
+                >With how many people you share it?</label
+              >
+              <input type="number" name="people-sharing-with" id="sharing" min="0" class="sharing" />
+  
+              <label for="kitchen">How would you describe the kitchen:</label>
+              <select name="kitchen" id="kitchen">
+                <option value="Bare/small">Only tap and small kitchen counter</option>
+                <option value="Basic essential">Sink, ventilation hood, cooker and fridge</option>
+                <option value="Modern">Dishwasher, medium kitchen counter</option>
+                <option value="Large">Large family sized kitchen</option>
+                <option value="Jamie Olivers Kitchen’">Jamie Olivers Kitchen’</option>
+              </select>
+  
+              <label for="bathroom">And the bathroom:</label>
+              <select name="bathroom" id="bathroom">
+                <option value="Bare/small">Only toilet, shower, washbasin</option>
+                <option value="Modern">Towel heater, wall-mounted toilet</option>
+                <option value="Modern with Bath">With bath</option>
+                <option value="High end">High end</option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="button-container">
+            <button class="submit-btn" type="submit">
+              <span> </span>
+              <span> </span>
+              <span> </span>
+              <span> </span>
+              Search
+            </button>
+          </div>
+        </form> -->
+
+        <!-- <div class="loader">
+          <p class="loading-message">Please wait. Fetching data can take up to 30 seconds. <br /></p>
+          <div class="balls">
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+          </div>
+        </div> -->
+
+        <div id="blur"></div>
+
+        <div class="display-container">
+          <div class="house-info container">
+            <h2 class="house-info-title">Information on which calculations are based:</h2>
+            <ul>
+              <li>9oooooooooooo</li>
+              <li>Info</li>
+              <li>Info</li>
+              <li>Info</li>
+              <li>Info</li>
+              <li>Info</li>
+              <li>Info</li>
+              <li>Info</li>
+              <li>Info</li>
+            </ul>
           </div>
 
-          <p class="contact-info">
-            If the result is much lower than what the landlord is asking then you might be getting overcharged. Contact
-            <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>
-          </p>
-          <!-- <p class="contact-info">
-            If the result is much lower than what the landlord is <br />
-            asking then you might be getting overcharged. <br />
-            Contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>
-          </p> -->
-        </div>
-      </div>
-    </div>
+          <div class="result container">
+            <div class="result-text">
+              <div class="blob-container">
+                <div class="blob"></div>
+              </div>
+              <p class="rent-price typing">
+                Approximate rent price:
+                <span class="price">
+                  1300 eur
+                  <svg viewBox="0 0 70 36">
+                    <path
+                      d="M6.9739 30.8153H63.0244C65.5269 30.8152 75.5358 -3.68471 35.4998 2.81531C-16.1598 11.2025 0.894099 33.9766 26.9922 34.3153C104.062 35.3153 54.5169 -6.68469 23.489 9.31527"
+                    />
+                  </svg>
+                </span>
+              </p>
+            </div>
 
-    <svg>
-      <filter id="noiseFilter">
-        <feTurbulence type="fractalNoise" baseFrequency="0.75" stitchTiles="stitch" />
-        <feColorMatrix in="colorNoise" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" />
-        <feComposite operator="in" in2="SourceGraphic" result="monoNoise" />
-        <feBlend in="SourceGraphic" in2="monoNoise" mode="screen" />
-      </filter>
-    </svg>
+            <p class="contact-info">
+              If the result is much lower than what the landlord is asking then you might be getting overcharged.
+              Contact
+              <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>
+            </p>
+            <!-- <p class="contact-info">
+              If the result is much lower than what the landlord is <br />
+              asking then you might be getting overcharged. <br />
+              Contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>
+            </p> -->
+          </div>
+        </div>
+      </main>
+
+      <svg>
+        <filter id="noiseFilter">
+          <feTurbulence type="fractalNoise" baseFrequency="0.75" stitchTiles="stitch" />
+          <feColorMatrix in="colorNoise" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" />
+          <feComposite operator="in" in2="SourceGraphic" result="monoNoise" />
+          <feBlend in="SourceGraphic" in2="monoNoise" mode="screen" />
+        </filter>
+      </svg>
+    </div>
 
     <script type="module" src="/main.js"></script>
   </body>

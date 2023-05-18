@@ -9,6 +9,8 @@
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  // font-family: monospace;
+  // font-size: 120%;
 
   line-height: 1.5;
   font-weight: 400;
@@ -35,7 +37,7 @@ body {
   background: #c52626;
 }
 
-#app {
+main {
   margin: 0 auto;
   text-align: center;
   min-height: 100svh;
@@ -49,8 +51,8 @@ body {
   align-items: center;
 }
 
-#app::before,
-#app::after {
+main::before,
+main::after {
   position: absolute;
   left: 0;
   top: 0;
@@ -66,23 +68,23 @@ body {
 }
 
 @media (max-width: 789px) {
-  #app {
+  main {
     display: block;
     min-height: 110svh;
     padding: 1.3em;
   }
 }
 @media (max-width: 383px) {
-  #app {
+  main {
     min-height: 120svh;
   }
-  #app::before,
-  #app::after {
+  main::before,
+  main::after {
     min-height: 170svh;
   }
 }
 
-#app::before {
+main::before {
   background: #0a0a0a;
   background: linear-gradient(to right, #171618, #3b79ff);
   background: linear-gradient(150deg, #3b79ff, #171618, #3b79ff);
