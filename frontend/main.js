@@ -24,83 +24,89 @@ outdoorSpace.addEventListener('change', (e) => {
     isSharing = false
   }
 })
-let isSuccess
+let isRequesting = false
 
 //actions on submit
 form.addEventListener('submit', (event) => {
   event.preventDefault()
 
-  loader.style.display = 'block'
-  loader.style.opacity = 1
-  result.innerHTML = ''
+  if (isRequesting) {
+    return
+  } else {
+    isRequesting = true
+    loader.style.display = 'block'
+    loader.style.opacity = 1
+    result.innerHTML = ''
 
-  //////////values from inputs
-  //6227 SP 27 A02
-  //address
-  let postcode = document.querySelector('#postcode').value.replace(/\s+/g, '')
-  let houseNumber = document.querySelector('#house-number').value.replace(/\s+/g, '')
-  let houseLetter = document.querySelector('#house-letter').value.replace(/\s+/g, '')
-  let houseAddition = document.querySelector('#house-addition').value.replace(/\s+/g, '')
-  // let postcode = document.querySelector('#postcode').value
-  // let houseNumber = document.querySelector('#house-number').value
-  // let houseLetter = document.querySelector('#house-letter').value
-  // let houseAddition = document.querySelector('#house-addition').value
+    //////////values from inputs
+    //6227 SP 27 A02
+    //address
+    let postcode = document.querySelector('#postcode').value.replace(/\s+/g, '')
+    let houseNumber = document.querySelector('#house-number').value.replace(/\s+/g, '')
+    let houseLetter = document.querySelector('#house-letter').value.replace(/\s+/g, '')
+    let houseAddition = document.querySelector('#house-addition').value.replace(/\s+/g, '')
+    // let postcode = document.querySelector('#postcode').value
+    // let houseNumber = document.querySelector('#house-number').value
+    // let houseLetter = document.querySelector('#house-letter').value
+    // let houseAddition = document.querySelector('#house-addition').value
 
-  //house parameters
-  let numberOfRooms = document.querySelector('#number-of-rooms').value
-  let outdoorSpaceValue = outdoorSpace.value
-  let sharedPeople = document.querySelector('#sharing').value
-  let kitchen = document.querySelector('#kitchen').value
-  let bathroom = document.querySelector('#bathroom').value
+    //house parameters
+    let numberOfRooms = document.querySelector('#number-of-rooms').value
+    let outdoorSpaceValue = outdoorSpace.value
+    let sharedPeople = document.querySelector('#sharing').value
+    let kitchen = document.querySelector('#kitchen').value
+    let bathroom = document.querySelector('#bathroom').value
 
-  const postParameters = isSharing
-    ? {
-        postcode,
-        houseNumber,
-        houseLetter,
-        houseAddition,
-        numberOfRooms,
-        outdoorSpaceValue,
-        sharedPeople,
-        kitchen,
-        bathroom,
-      }
-    : {
-        postcode,
-        houseNumber,
-        houseLetter,
-        houseAddition,
-        numberOfRooms,
-        outdoorSpaceValue,
-        kitchen,
-        bathroom,
-      }
+    const postParameters = isSharing
+      ? {
+          postcode,
+          houseNumber,
+          houseLetter,
+          houseAddition,
+          numberOfRooms,
+          outdoorSpaceValue,
+          sharedPeople,
+          kitchen,
+          bathroom,
+        }
+      : {
+          postcode,
+          houseNumber,
+          houseLetter,
+          houseAddition,
+          numberOfRooms,
+          outdoorSpaceValue,
+          kitchen,
+          bathroom,
+        }
 
-  axios
-    .post('/api/search', postParameters)
-    .then((response) => {
-      const data = response.data
-      console.log(data)
+    axios
+      .post('/api/search', postParameters)
+      .then((response) => {
+        const data = response.data
+        console.log(data)
 
-      loader.style.display = 'none'
+        loader.style.display = 'none'
+        isRequesting = false
 
-      //after getting the data hide form, other text, and show list with data about the house (calculations were based on this data:) and result
-      //also display back button
+        //after getting the data hide form, other text, and show list with data about the house (calculations were based on this data:) and result
+        //also display back button
 
-      if (data.errMessage) {
-        result.innerHTML += data.errMessage
-      } else {
-        const area = `Area: ${data.area}`
-        const buildYear = `Area: ${data.buildYear} <br/>`
+        if (data.errMessage) {
+          result.innerHTML += data.errMessage
+        } else {
+          const area = `Area: ${data.area}`
+          const buildYear = `Area: ${data.buildYear} <br/>`
 
-        // result.innerHTML += area
-        // result.innerHTML += buildYear
-      }
-    })
-    .catch((error) => {
-      console.error(error)
-      loader.style.display = 'none'
-      result.innerHTML = 'Error. Check if your address is correct.'
-      result.innerHTML += ``
-    })
+          // result.innerHTML += area
+          // result.innerHTML += buildYear
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+        loader.style.display = 'none'
+        result.innerHTML = 'Error. Check if your address is correct.'
+        result.innerHTML += ``
+      })
+  }
 })

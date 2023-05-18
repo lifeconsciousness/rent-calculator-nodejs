@@ -11,12 +11,13 @@
   </head>
   <body>
     <div id="app">
-      <nav>
+      <header>
         <img src="./img/RentBuster logo without background.png" class="rentbuster-logo" alt="rentbuster logo" />
         <h1>Rent price calculator</h1>
         <a href="mailto:info@rentbuster.nl" class="contact-navbar">Contact</a>
-      </nav>
-      
+      </header>
+
+      <!-- 
       <div>
         <h2 class="title-small">Rent price calculator</h2>
         <h3>
@@ -82,28 +83,67 @@
             Search
           </button>
         </div>
-      </form>
+      </form> -->
 
-      <!-- <h2 class="display">
-        <div class="loader">
-          <p class="loading-message">Please wait. Fetching data can take up to 30 seconds. <br /></p>
-          <div class="balls">
-            <div class="ball"></div>
-            <div class="ball"></div>
-            <div class="ball"></div>
-            <div class="ball"></div>
-            <div class="ball"></div>
-          </div>
+      <!-- <div class="loader">
+        <p class="loading-message">Please wait. Fetching data can take up to 30 seconds. <br /></p>
+        <div class="balls">
+          <div class="ball"></div>
+          <div class="ball"></div>
+          <div class="ball"></div>
+          <div class="ball"></div>
+          <div class="ball"></div>
         </div>
-        <div class="result"></div>
-      </h2>
+      </div> -->
 
-      <p class="contact-info">
-        If the result is much lower than what the landlord is <br />
-        asking then you might be getting overcharged. <br />
-        Contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>
-      </p>
-    </div> -->
+      <div id="blur"></div>
+
+      <div class="display-container">
+        <div class="house-info">
+          <h2 class="house-info-title">Information on which calculations are based:</h2>
+          <ul>
+            <li>9oooooooooooo</li>
+            <li>Info</li>
+            <li>Info</li>
+            <li>Info</li>
+            <li>Info</li>
+            <li>Info</li>
+            <li>Info</li>
+            <li>Info</li>
+            <li>Info</li>
+          </ul>
+        </div>
+
+        <div class="result">
+          <div class="result-text">
+            <div class="blob-container">
+              <div class="blob"></div>
+            </div>
+            <p class="rent-price">
+              Approximate rent price:
+              <span>
+                1300 eur
+                <svg viewBox="0 0 70 36">
+                  <path
+                    d="M6.9739 30.8153H63.0244C65.5269 30.8152 75.5358 -3.68471 35.4998 2.81531C-16.1598 11.2025 0.894099 33.9766 26.9922 34.3153C104.062 35.3153 54.5169 -6.68469 23.489 9.31527"
+                  />
+                </svg>
+              </span>
+            </p>
+          </div>
+
+          <p class="contact-info">
+            If the result is much lower than what the landlord is asking then you might be getting overcharged. Contact
+            <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>
+          </p>
+          <!-- <p class="contact-info">
+            If the result is much lower than what the landlord is <br />
+            asking then you might be getting overcharged. <br />
+            Contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>
+          </p> -->
+        </div>
+      </div>
+    </div>
 
     <svg>
       <filter id="noiseFilter">

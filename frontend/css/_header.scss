@@ -1,9 +1,9 @@
 .rentbuster-logo {
-  width: 180px;
+  width: 155px;
   margin: 0;
 }
 
-nav {
+header {
   width: 100%;
   //   border: 1px rgba(255, 255, 255, 0.178) solid;
   display: flex;
@@ -11,8 +11,10 @@ nav {
   justify-content: space-between;
   margin-bottom: 1.2em;
   //   padding: 0 0.5em;
-  //   padding-bottom: 0.7em;
-  //   border-bottom: 2px solid rgba(255, 255, 255, 0.233);
+  padding-bottom: 0.4em;
+  padding-bottom: 0.7em;
+  padding-bottom: 1.1em;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.171);
 }
 
 h1 {
@@ -23,12 +25,10 @@ h1 {
   margin-bottom: 0;
   flex-basis: 100%;
   margin-top: 6px;
-  font-family: 'Castoro Titling', cursive;
   font-family: 'Prompt', sans-serif;
-  //   font-family: 'Bree Serif', serif;
-  //   font-family: 'Secular One', sans-serif;
 
-  transform: translateX(-43px);
+  transform: translateX(-38px);
+  // transform: translateX(-20px);
 
   width: 100%;
 }
@@ -36,12 +36,25 @@ h1 {
 .title-small {
   display: none;
   font-size: clamp(1.3rem, 0.8rem + 1.4vw, 2.4rem);
+  font-family: 'Prompt', sans-serif;
+}
+
+h3 {
+  margin-bottom: 0;
+  margin-top: 0.5em;
+  font-size: clamp(0.9rem, 0.4rem + 1.2vw, 1.1rem);
+  max-width: 50rem;
+  font-weight: 500;
+}
+
+.contact-navbar {
+  font-size: clamp(1.1rem, 0.6rem + 0.8vw, 2.4rem);
 }
 
 @media (max-width: 910px) {
-  h1 {
-    transform: translateX(-40px);
-  }
+  //   h1 {
+  //     // transform: translateX(-40px);
+  //   }
   .rentbuster-logo {
     width: 140px;
   }
@@ -53,7 +66,7 @@ h1 {
   .title-small {
     display: block;
   }
-  nav {
+  header {
     margin-bottom: 1.5em;
   }
 }
@@ -61,15 +74,4 @@ h1 {
   .rentbuster-logo {
     width: 120px;
   }
-}
-
-h3 {
-  margin-bottom: 0;
-  font-size: clamp(0.9rem, 0.4rem + 1.2vw, 1.1rem);
-  max-width: 50rem;
-  font-weight: 500;
-}
-
-.contact-navbar {
-  font-size: clamp(1.1rem, 0.6rem + 0.8vw, 2.4rem);
 }

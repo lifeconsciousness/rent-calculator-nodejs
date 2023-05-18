@@ -1,12 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Castoro+Titling&display=swap');
 
 @import './css/form';
 @import './css/form-loader';
 @import './css/submit-btn';
-@import './css/navbar';
+@import './css/header';
+@import './css/display';
+@import './css/rentResult';
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -43,6 +42,7 @@ body {
   gap: 1em;
   padding: 2em;
   padding-top: 1.5em;
+  // padding-top: 1em;
 
   display: flex;
   flex-direction: column;
@@ -56,13 +56,15 @@ body {
   top: 0;
   content: '';
   width: 100%;
-  min-height: 150svh;
+  min-height: 140svh;
 
   z-index: -1;
 
   opacity: 17%;
   opacity: 24%;
+  // backdrop-filter: blur(1vmax);
 }
+
 @media (max-width: 789px) {
   #app {
     display: block;
@@ -72,7 +74,6 @@ body {
 }
 @media (max-width: 383px) {
   #app {
-    // padding: 1em;
     min-height: 120svh;
   }
   #app::before,
@@ -102,10 +103,10 @@ button {
   transition: border-color 0.25s;
 }
 
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+// button:focus,
+// button:focus-visible {
+//   outline: 4px auto -webkit-focus-ring-color;
+// }
 
 a {
   font-weight: 500;

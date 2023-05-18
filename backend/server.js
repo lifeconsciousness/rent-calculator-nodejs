@@ -140,6 +140,11 @@ app.post('/api/search', async (req, res) => {
       isMonument = monument
       addressId = data[0]?._embedded?.adressen[0].adresseerbaarObjectIdentificatie
 
+      streetNameFromApi = data[0]?._embedded?.adressen[0]?.openbareRuimteNaam
+      houseNumberFromApi = data[0]?._embedded?.adressen[0]?.huisnummer
+      houseLetterFromApi = data[0]?._embedded?.adressen[0]?.huisletter
+      houseAdditionFromApi = data[0]?._embedded?.adressen[0]?.huisnummertoevoeging
+
       return scrapeEnergyIndex(addressId)
     })
     .then((energyIndexValue) => {
@@ -162,7 +167,19 @@ app.post('/api/search', async (req, res) => {
     })
     .then((result) => {
       console.log(result)
-      res.json({ area, buildYear, energyLabel, energyIndex, city, isMonument, result })
+      res.json({
+        area,
+        buildYear,
+        energyLabel,
+        energyIndex,
+        city,
+        isMonument,
+        result,
+        streetNameFromApi,
+        houseNumberFromApi,
+        houseLetterFromApi,
+        houseAdditionFromApi,
+      })
     })
     .catch((error) => {
       console.log(error)
