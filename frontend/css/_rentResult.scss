@@ -1,14 +1,15 @@
 :root {
-  --text: #e8e9f0;
   --line: #bbc1e1;
+  --line: #bbc1e100;
   --line-active: #7e86f7f5;
   --line-active: #222fe7f5;
+  --line-hover: #e9ce58fa;
 }
 
 .rent-price {
   font-size: 24px;
   font-size: clamp(1.5rem, 0.7153rem + 1vw, 1.7rem);
-  // word-wrap: break-word;
+
   @media (max-width: 415px) {
     display: flex;
     flex-direction: column;
@@ -40,8 +41,19 @@
       stroke-linecap: round;
       stroke-width: 2px;
       stroke-dasharray: var(--offset, 69px) 278px;
+      stroke-dasharray: var(--offset, 0px) 278px;
       stroke-dashoffset: 361px;
       transition: stroke 0.25s ease var(--stroke-delay, 0s), stroke-dasharray 0.75s;
+
+      @media (min-width: 1285px) {
+        scale: 1.1;
+        left: 55%;
+      }
+    }
+    &:hover {
+      --stroke: var(--line-hover) !important;
+      --stroke-delay: 0.2s;
+      --offset: 69px !important;
     }
   }
   @keyframes hover-delay {
@@ -131,6 +143,17 @@ html {
   overflow: hidden;
   border-right: 2px solid;
   overflow-wrap: break-word;
+}
+
+.typing-price {
+  width: 7ch;
+  animation: typing 0.65s steps(8);
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid;
+  overflow-wrap: break-word;
+
+  opacity: 1 !important;
 }
 
 @keyframes typing {
