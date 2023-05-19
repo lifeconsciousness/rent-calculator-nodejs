@@ -7,6 +7,13 @@
 
 .rent-price {
   font-size: 24px;
+  font-size: clamp(1.5rem, 0.7153rem + 1vw, 1.7rem);
+  // word-wrap: break-word;
+  @media (max-width: 415px) {
+    display: flex;
+    flex-direction: column;
+  }
+
   font-weight: 700;
   margin: 0;
   color: var(--text);
@@ -34,7 +41,7 @@
       stroke-width: 2px;
       stroke-dasharray: var(--offset, 69px) 278px;
       stroke-dashoffset: 361px;
-      transition: stroke 0.25s ease var(--stroke-delay, 0s), stroke-dasharray 0.5s;
+      transition: stroke 0.25s ease var(--stroke-delay, 0s), stroke-dasharray 0.75s;
     }
   }
   @keyframes hover-delay {
@@ -82,6 +89,11 @@ html {
 
   background-size: 200%;
   animation: gradient 10s ease infinite;
+
+  @media (max-width: 415px) {
+    height: 5em;
+    opacity: 0.4;
+  }
 }
 
 @keyframes gradient {
@@ -102,19 +114,23 @@ html {
   position: absolute;
   z-index: -3;
   backdrop-filter: blur(1vmax);
+  backdrop-filter: blur(15px);
   left: 0;
+  top: 0;
+
+  @media (max-width: 415px) {
+    backdrop-filter: blur(20px);
+  }
 }
 
 //typing animation
 
 .typing {
-  // width: 28ch;
   animation: typing 1.7s steps(22);
   white-space: nowrap;
   overflow: hidden;
   border-right: 2px solid;
   overflow-wrap: break-word;
-  // scale: 0.8;
 }
 
 @keyframes typing {

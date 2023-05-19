@@ -57,7 +57,7 @@
   justify-content: center;
   flex-direction: column;
   border-right: 2px solid rgba(255, 255, 255, 0.171);
-  padding-bottom: 5em;
+  padding-bottom: 2em;
   margin-top: 5em; //changed
   box-shadow: 0 0 20px rgba(48, 48, 51, 0.295);
 
@@ -82,13 +82,19 @@
 .house-info-title {
   margin: 0;
   max-width: 300px;
+
+  @media (max-width: 360px) {
+    font-size: 120%;
+    padding: 0 1em;
+  }
 }
 
 .contact-info {
   max-width: 500px;
+  margin: 0 auto;
   margin-top: 2em;
 
   @media (max-width: 300px) {
-    padding: 0 2em;
+    font-size: 90%;
   }
 }

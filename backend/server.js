@@ -172,6 +172,7 @@ app.post('/api/search', async (req, res) => {
         buildYear,
         energyLabel,
         energyIndex,
+        wozValue,
         city,
         isMonument,
         result,

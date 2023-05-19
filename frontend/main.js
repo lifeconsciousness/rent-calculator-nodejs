@@ -115,6 +115,8 @@ form.addEventListener('submit', (event) => {
 
 */
 
+//manipulating the result string
+
 //setting the overflow to visible when animation ends
 
 const typingElement = document.querySelector('.typing')
@@ -123,10 +125,10 @@ const price = document.querySelector('.price')
 // Get the amount of charaters
 const textWidth = typingElement.innerText.length - 4
 typingElement.style.width = `${textWidth}ch`
-// console.log(textWidth)
 
 typingElement.addEventListener('animationend', () => {
   typingElement.style.overflow = 'visible'
   typingElement.style.border = 'none'
-  price.style.animation = 'hover-delay .6s forwards'
+
+  price.style.animation = 'hover-delay .8s forwards'
 })
