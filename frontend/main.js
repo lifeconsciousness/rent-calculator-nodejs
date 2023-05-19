@@ -121,8 +121,9 @@ const typingElement = document.querySelector('.typing')
 const price = document.querySelector('.price')
 
 // Get the amount of charaters
-const textWidth = typingElement.innerText.length
-console.log(textWidth)
+const textWidth = typingElement.innerText.length - 4
+typingElement.style.width = `${textWidth}ch`
+// console.log(textWidth)
 
 typingElement.addEventListener('animationend', () => {
   typingElement.style.overflow = 'visible'

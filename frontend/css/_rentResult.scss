@@ -98,7 +98,7 @@ html {
 
 #blur {
   height: 100vh;
-  width: 100vw;
+  width: 200vw;
   position: absolute;
   z-index: -3;
   backdrop-filter: blur(1vmax);
@@ -108,12 +108,13 @@ html {
 //typing animation
 
 .typing {
-  width: 28ch;
+  // width: 28ch;
   animation: typing 1.7s steps(22);
   white-space: nowrap;
   overflow: hidden;
   border-right: 2px solid;
   overflow-wrap: break-word;
+  // scale: 0.8;
 }
 
 @keyframes typing {
