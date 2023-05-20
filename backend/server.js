@@ -144,6 +144,7 @@ app.post('/api/search', async (req, res) => {
       houseNumberFromApi = data[0]?._embedded?.adressen[0]?.huisnummer
       houseLetterFromApi = data[0]?._embedded?.adressen[0]?.huisletter
       houseAdditionFromApi = data[0]?._embedded?.adressen[0]?.huisnummertoevoeging
+      postcodeFromApi = data[0]?._embedded?.adressen[0]?.postcode
 
       return scrapeEnergyIndex(addressId)
     })
@@ -180,6 +181,7 @@ app.post('/api/search', async (req, res) => {
         houseNumberFromApi,
         houseLetterFromApi,
         houseAdditionFromApi,
+        postcodeFromApi,
       })
     })
     .catch((error) => {

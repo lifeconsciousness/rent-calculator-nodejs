@@ -109,21 +109,20 @@
         <!-- ------------ -->
 
         <div id="blur"></div>
+        <!-- <button class="back-button"><span class="arrow">←</span></button> -->
 
         <div class="display-container">
           <div class="house-info container">
             <!-- <h2 class="house-info-title">Information on which calculations are based:</h2> -->
             <h2 class="house-info-title">Calculations were based on this information:</h2>
             <ul>
-              <li></li>
-              <li>Info</li>
-              <li>Info</li>
-              <li>Info</li>
-              <li>Info</li>
-              <li>Info</li>
-              <li>Info</li>
-              <li>Info</li>
-              <li>Info</li>
+              <li id="address"></li>
+              <li id="area"></li>
+              <li id="buildYear"></li>
+              <li id="woz"></li>
+              <li id="energyLabel"></li>
+              <li id="energyIndex"></li>
+              <li id="monument"></li>
             </ul>
           </div>
 
@@ -135,7 +134,8 @@
               <p class="rent-price">
                 <span class="max-legal-price"> Max legal rent price: </span>
                 <span class="price">
-                  1300 eur
+                  <span id="result">130 eur</span>
+                  <!-- result price here -->
                   <svg viewBox="0 0 70 36">
                     <path
                       d="M6.9739 30.8153H63.0244C65.5269 30.8152 75.5358 -3.68471 35.4998 2.81531C-16.1598 11.2025 0.894099 33.9766 26.9922 34.3153C104.062 35.3153 54.5169 -6.68469 23.489 9.31527"
