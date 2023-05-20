@@ -4,7 +4,12 @@
   min-height: 65vh;
   place-items: center;
 
-  // gap: 10vmin; //changed
+  position: relative;
+  visibility: hidden;
+
+  #blur {
+    visibility: hidden;
+  }
 
   @media (max-width: 890px) {
     // margin-top: 2.3em;

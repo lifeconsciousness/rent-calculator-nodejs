@@ -1,9 +1,13 @@
 :root {
   --line: #bbc1e1;
   --line: #bbc1e100;
-  --line-active: #7e86f7f5;
-  --line-active: #222fe7f5;
-  --line-hover: #e9ce58fa;
+  --line-active: #6069ebf5;
+  --line-active: #535bf2;
+  --line-active: #3f4ae2f5;
+  // --line-active: #3741cf;
+  // --line-active: #222fe7f5;
+
+  --line-hover: #f1cf35fa;
 }
 
 .rent-price {
@@ -40,7 +44,7 @@
       stroke: var(--stroke, var(--line));
       stroke-linecap: round;
       stroke-width: 2px;
-      stroke-dasharray: var(--offset, 69px) 278px;
+      // stroke-dasharray: var(--offset, 69px) 278px;
       stroke-dasharray: var(--offset, 0px) 278px;
       stroke-dashoffset: 361px;
       transition: stroke 0.25s ease var(--stroke-delay, 0s), stroke-dasharray 0.75s;
@@ -68,6 +72,7 @@
 html {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 * {
@@ -122,7 +127,8 @@ html {
 
 #blur {
   height: 100vh;
-  width: 200vw;
+  width: 100vw;
+  width: 100%;
   position: absolute;
   z-index: -3;
   backdrop-filter: blur(1vmax);

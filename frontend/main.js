@@ -1,13 +1,20 @@
 // import { build } from 'vite'
 import './style.scss'
 import axios from 'axios'
+import { startResultAnimation } from './js/resultAnimation.js'
 
-/*
+////////////////////getting data from backend and displaying it
+
+// startResultAnimation()
 
 const display = document.querySelector('.display')
 const loader = document.querySelector('.loader')
 const result = document.querySelector('.result')
 const form = document.querySelector('form')
+const displayContainer = document.querySelector('.display-container')
+const blur = document.querySelector('#blur')
+const addressForm = document.querySelector('#address-form')
+const textInfo = document.querySelector('.text-info')
 
 //displaying/hiding input field depending on the value of other
 const outdoorSpace = document.querySelector('#outdoor')
@@ -15,20 +22,29 @@ const sharingLabel = document.querySelector('#sharing-label')
 const sharingInput = document.querySelector('#sharing')
 let isSharing = false
 
-outdoorSpace.addEventListener('change', (e) => {
-  if (outdoorSpace.value === 'Shared') {
-    sharingLabel.style.display = 'block'
-    sharingInput.style.display = 'block'
-    isSharing = true
-  } else {
-    sharingLabel.style.display = 'none'
-    sharingInput.style.display = 'none'
-    isSharing = false
-  }
-})
+if (outdoorSpace) {
+  outdoorSpace.addEventListener('change', (e) => {
+    if (outdoorSpace.value === 'Shared') {
+      sharingLabel.style.display = 'block'
+      sharingInput.style.display = 'block'
+      isSharing = true
+    } else {
+      sharingLabel.style.display = 'none'
+      sharingInput.style.display = 'none'
+      isSharing = false
+    }
+  })
+}
+
+// startResultAnimation()
+
+//actions on form submit
 let isRequesting = false
 
-//actions on submit
+////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////
+
 form.addEventListener('submit', (event) => {
   event.preventDefault()
 
@@ -37,20 +53,15 @@ form.addEventListener('submit', (event) => {
   } else {
     isRequesting = true
     loader.style.display = 'block'
-    loader.style.opacity = 1
-    result.innerHTML = ''
+    textInfo.style.display = 'none'
+    addressForm.style.display = 'none'
 
     //////////values from inputs
-    //6227 SP 27 A02
     //address
     let postcode = document.querySelector('#postcode').value.replace(/\s+/g, '')
     let houseNumber = document.querySelector('#house-number').value.replace(/\s+/g, '')
     let houseLetter = document.querySelector('#house-letter').value.replace(/\s+/g, '')
     let houseAddition = document.querySelector('#house-addition').value.replace(/\s+/g, '')
-    // let postcode = document.querySelector('#postcode').value
-    // let houseNumber = document.querySelector('#house-number').value
-    // let houseLetter = document.querySelector('#house-letter').value
-    // let houseAddition = document.querySelector('#house-addition').value
 
     //house parameters
     let numberOfRooms = document.querySelector('#number-of-rooms').value
@@ -95,13 +106,19 @@ form.addEventListener('submit', (event) => {
         //also display back button
 
         if (data.errMessage) {
-          result.innerHTML += data.errMessage
+          console.log(data.errMessage)
         } else {
+          displayContainer.style.position = 'relative'
+          blur.style.visibility = 'visible'
+          displayContainer.style.visibility = 'visible'
+          startResultAnimation()
+
+          // startResultAnimation()
+
+          //add function from the other file to start the animation
+
           const area = `Area: ${data.area}`
           const buildYear = `Area: ${data.buildYear} <br/>`
-
-          // result.innerHTML += area
-          // result.innerHTML += buildYear
         }
       })
       .catch((error) => {
@@ -112,99 +129,3 @@ form.addEventListener('submit', (event) => {
       })
   }
 })
-
-*/
-
-//manipulating the result string
-
-//setting the overflow to visible when animation ends
-
-const rentPrice = document.querySelector('.rent-price')
-const maxLegalPrice = document.querySelector('.max-legal-price')
-const price = document.querySelector('.price')
-
-let isSmallScreen = screen.width <= 415 ? true : false
-
-// Get the amount of charaters
-let textWidth
-if (!isSmallScreen) {
-  rentPrice.classList.add('typing')
-  maxLegalPrice.classList.remove('typing')
-  maxLegalPrice.classList.remove('typing-price')
-
-  textWidth = rentPrice.innerText.length - 4
-
-  rentPrice.style.width = `${textWidth}ch`
-  // price.style.opacity = '1 !important'
-
-  //old eventlistener
-  rentPrice.addEventListener('animationend', () => {
-    rentPrice.style.overflow = 'visible'
-    rentPrice.style.border = 'none'
-    price.style.animation = 'hover-delay .8s forwards'
-  })
-} else {
-  rentPrice.classList.remove('typing')
-  maxLegalPrice.classList.add('typing')
-  // price.classList.add('typing-price')
-  price.style.marginLeft = '200px'
-  price.style.margin = '0 auto'
-  price.style.opacity = '0'
-
-  textWidth = maxLegalPrice.innerText.length - 4
-
-  maxLegalPrice.style.width = `${textWidth}ch`
-
-  maxLegalPrice.addEventListener('animationend', () => {
-    if (!isSmallScreen) {
-      maxLegalPrice.style.overflow = 'visible'
-      maxLegalPrice.style.border = 'none'
-      price.style.animation = 'hover-delay .8s forwards'
-    } else {
-      maxLegalPrice.style.border = 'none'
-      writePrice()
-    }
-  })
-
-  function writePrice() {
-    price.classList.add('typing-price')
-
-    price.addEventListener('animationend', () => {
-      price.style.overflow = 'visible'
-      price.style.border = 'none'
-
-      price.style.animation = 'hover-delay .8s forwards'
-    })
-  }
-}
-
-// if (screen.width < 415) {
-//   isSmallScreen = true
-//
-// } else {
-//   isSmallScreen = false
-//
-// }
-// console.log(isSmallScreen)
-
-// maxLegalPrice.addEventListener('animationend', () => {
-//   if (!isSmallScreen) {
-//     maxLegalPrice.style.overflow = 'visible'
-//     maxLegalPrice.style.border = 'none'
-//     price.style.animation = 'hover-delay .8s forwards'
-//   } else {
-//     maxLegalPrice.style.border = 'none'
-//     writePrice()
-//   }
-// })
-
-// function writePrice() {
-//   price.classList.add('typing-price')
-
-//   price.addEventListener('animationend', () => {
-//     price.style.overflow = 'visible'
-//     price.style.border = 'none'
-
-//     price.style.animation = 'hover-delay .8s forwards'
-//   })
-// }

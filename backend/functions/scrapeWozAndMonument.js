@@ -39,7 +39,7 @@ async function scrapeWozAndMonument(address) {
       return result
     }
 
-    const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 12000)
+    const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 20000)
 
     // const listExists = await Promise.race([
     //   page.waitForSelector('#ggcSuggestionList-0'),

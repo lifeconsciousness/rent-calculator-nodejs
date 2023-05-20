@@ -31,6 +31,7 @@
 body {
   margin: 0;
   overflow-x: hidden;
+  // width: 100%;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -45,6 +46,7 @@ main {
   padding: 2em;
   padding-top: 1.5em;
   // padding-top: 1em;
+  overflow-y: hidden;
 
   display: flex;
   flex-direction: column;
@@ -95,7 +97,7 @@ main::before {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  // border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
@@ -131,3 +133,41 @@ a:hover {
 //     background-color: #f9f9f9;
 //   }
 // }
+
+.appear {
+  animation: appearingAnim 1s forwards;
+}
+
+@keyframes appearingAnim {
+  0% {
+    // display: block;
+    opacity: 0;
+  }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    // display: block;
+    position: absolute;
+    opacity: 1;
+  }
+}
+
+.disappear {
+  animation: disappearingAnim 1s forwards;
+}
+
+@keyframes disappearingAnim {
+  0% {
+    opacity: 1;
+    // display: block;
+  }
+  99% {
+    // display: none;
+    opacity: 0;
+  }
+  100% {
+    position: absolute;
+    opacity: 0;
+  }
+}

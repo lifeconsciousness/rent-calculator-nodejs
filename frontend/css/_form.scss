@@ -1,3 +1,10 @@
+// .text-info {
+//   display: none;
+// }
+// #address-form {
+//   display: none;
+// }
+
 .inputs-container {
   display: flex;
   align-items: center;
@@ -52,6 +59,10 @@
     height: 30px;
     width: 100%;
     font-size: 1rem;
+
+    option {
+      font-size: 100%;
+    }
   }
 
   #number-of-rooms {
@@ -73,6 +84,11 @@
 @media (max-width: 789px) {
   .inputs {
     width: clamp(40px, 60vw, 600px);
+  }
+}
+@media (max-width: 450px) {
+  .inputs {
+    width: 100%;
   }
 }
 
