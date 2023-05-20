@@ -125,14 +125,14 @@ form.addEventListener('submit', (event) => {
           const housePostcode = data.postcodeFromApi !== undefined ? data.postcodeFromApi : ''
           document.querySelector(
             '#address'
-          ).innerText = `Address: ${streetName} ${houseNumber} ${houseLetter} ${houseAddition} ${housePostcode} ${data.city}`
+          ).innerText = `Address: ${streetName} ${houseNumber} ${houseLetter} ${houseAddition} ${housePostcode}, ${data.city}`
 
-          //
+          //displaying info about the property
           document.querySelector('#area').innerText = `Total area: ${data.area}`
           document.querySelector('#buildYear').innerText = `Build year: ${data.buildYear}`
           document.querySelector('#woz').innerText = `WOZ value of property: ${data.wozValue}`
-          document.querySelector('#energyLabel').innerText = `Energy label ${data.energyLabel}`
-          document.querySelector('#energyIndex').innerText = `Energy index ${data.energyIndex}`
+          document.querySelector('#energyLabel').innerText = `Energy label: ${data.energyLabel}`
+          document.querySelector('#energyIndex').innerText = `Energy index: ${data.energyIndex}`
           document.querySelector('#monument').innerText = `Property is rijksmonument: ${data.isMonument}`
         }
       })

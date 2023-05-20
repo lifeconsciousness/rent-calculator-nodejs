@@ -132,7 +132,7 @@ app.post('/api/search', async (req, res) => {
       buildYear = data[0]?._embedded?.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
 
       energyLabelTemp = data[1]
-      energyLabelTemp !== undefined ? (energyLabel = energyLabelTemp[0]?.labelLetter) : ''
+      energyLabelTemp !== undefined ? (energyLabel = energyLabelTemp[0]?.labelLetter) : (energyLabel = '')
 
       wozValue = woz ? woz.split('\t')[1].replace(/\./g, '').replace(' euro', '') : undefined
 
@@ -189,6 +189,7 @@ app.post('/api/search', async (req, res) => {
       return Promise.reject(error)
     })
     .catch((error) => {
+      console.log(error)
       const errMessage =
         'Error. Check if your address is correct <br/> If you still get the same error, try reloading the page/closing and opening your browser. <br/> If none of these methods work, try using our calculator spreadsheet: *INSERT LINK WITH ANCHOR TAG HERE*'
       res.json({ errMessage })
