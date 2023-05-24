@@ -29,6 +29,7 @@
     color: inherit;
     margin: 0 5px;
     transition: margin 0.25s;
+    margin-left: 0;
 
     svg {
       width: 76px;
@@ -52,6 +53,9 @@
       @media (min-width: 1285px) {
         scale: 1.1;
         left: 55%;
+      }
+      @media (max-width: 415px) {
+        bottom: -22%;
       }
     }
     &:hover {

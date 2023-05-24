@@ -93,15 +93,19 @@
         <!--             -->
         <!-- ----------- -->
 
-        <div class="loader">
-          <p class="loading-message">Please wait. Fetching data can take up to 30 seconds. <br /></p>
-          <div class="balls">
-            <div class="ball"></div>
-            <div class="ball"></div>
-            <div class="ball"></div>
-            <div class="ball"></div>
-            <div class="ball"></div>
+        <div class="loader-and-error-container">
+          <div class="loader">
+            <p class="loading-message">Please wait. Fetching data can take up to 30 seconds. <br /></p>
+            <div class="balls">
+              <div class="ball"></div>
+              <div class="ball"></div>
+              <div class="ball"></div>
+              <div class="ball"></div>
+              <div class="ball"></div>
+            </div>
           </div>
+
+          <div class="error-display"></div>
         </div>
 
         <!-- Results page -->
@@ -109,7 +113,7 @@
         <!-- ------------ -->
 
         <div id="blur"></div>
-        <!-- <button class="back-button"><span class="arrow">←</span></button> -->
+        <button class="back-button"><span class="arrow">←</span></button>
 
         <div class="display-container">
           <div class="house-info container">
@@ -152,16 +156,16 @@
             </p>
           </div>
         </div>
-      </main>
 
-      <svg>
-        <filter id="noiseFilter">
-          <feTurbulence type="fractalNoise" baseFrequency="0.75" stitchTiles="stitch" />
-          <feColorMatrix in="colorNoise" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" />
-          <feComposite operator="in" in2="SourceGraphic" result="monoNoise" />
-          <feBlend in="SourceGraphic" in2="monoNoise" mode="screen" />
-        </filter>
-      </svg>
+        <svg>
+          <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.75" stitchTiles="stitch" />
+            <feColorMatrix in="colorNoise" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" />
+            <feComposite operator="in" in2="SourceGraphic" result="monoNoise" />
+            <feBlend in="SourceGraphic" in2="monoNoise" mode="screen" />
+          </filter>
+        </svg>
+      </main>
     </div>
 
     <script type="module" src="/main.js"></script>

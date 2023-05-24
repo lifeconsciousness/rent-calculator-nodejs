@@ -48,3 +48,52 @@
 .ball:nth-child(5) {
   animation-delay: -0.8s;
 }
+
+//error display
+
+.loader-and-error-container {
+  min-height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  visibility: hidden;
+  position: absolute;
+}
+
+.back-button {
+  position: absolute;
+  // left: 2em;
+  left: -100em;
+  top: 6.5em;
+  width: 2.5em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  text-align: center;
+  padding-right: 20px;
+  background: none;
+  border: white 2px solid;
+  opacity: 0.5;
+  transition: 0.4s;
+  z-index: 5;
+
+  &:hover {
+    background-color: rgb(77, 92, 230);
+    transition: 0.3s;
+    opacity: 0.9;
+  }
+}
+
+.arrow {
+  position: absolute;
+  top: -6px;
+  left: 7px;
+  font-size: 200%;
+}
+
+.button-visible-error {
+  @media (max-width: 789px) {
+    left: 1.3em;
+  }
+  left: 2em;
+}

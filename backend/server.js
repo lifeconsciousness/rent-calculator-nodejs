@@ -191,7 +191,7 @@ app.post('/api/search', async (req, res) => {
     .catch((error) => {
       console.log(error)
       const errMessage =
-        'Error. Check if your address is correct <br/> If you still get the same error, try reloading the page/closing and opening your browser. <br/> If none of these methods work, try using our calculator spreadsheet: *INSERT LINK WITH ANCHOR TAG HERE*'
+        'Error. Check if your address is correct. <br/> If you still get the same error, try reloading the page/closing and opening your browser. <br/> If none of these methods work, try using our calculator spreadsheet: *INSERT LINK WITH ANCHOR TAG HERE*'
       res.json({ errMessage })
     })
 })

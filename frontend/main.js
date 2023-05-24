@@ -3,19 +3,6 @@ import './style.scss'
 import axios from 'axios'
 import { startResultAnimation } from './js/resultAnimation.js'
 
-////////////////////getting data from backend and displaying it
-
-// startResultAnimation()
-
-const display = document.querySelector('.display')
-const loader = document.querySelector('.loader')
-const result = document.querySelector('.result')
-const form = document.querySelector('form')
-const displayContainer = document.querySelector('.display-container')
-const blur = document.querySelector('#blur')
-const addressForm = document.querySelector('#address-form')
-const textInfo = document.querySelector('.text-info')
-
 //displaying/hiding input field depending on the value of other
 const outdoorSpace = document.querySelector('#outdoor')
 const sharingLabel = document.querySelector('#sharing-label')
@@ -36,6 +23,30 @@ if (outdoorSpace) {
   })
 }
 
+window.onpopstate = function (event) {
+  // Reload the page
+  location.reload()
+}
+
+const backButton = document.querySelector('.back-button')
+backButton.onclick = (e) => {
+  location.reload()
+}
+
+////////////////////getting data from backend and displaying it
+
+// startResultAnimation()
+
+const landeContainer = document.querySelector('.loader-and-error-container')
+const errorDisplay = document.querySelector('.error-display')
+const loader = document.querySelector('.loader')
+const result = document.querySelector('.result')
+const form = document.querySelector('form')
+const displayContainer = document.querySelector('.display-container')
+const blur = document.querySelector('#blur')
+const addressForm = document.querySelector('#address-form')
+const textInfo = document.querySelector('.text-info')
+
 // startResultAnimation()
 
 //actions on form submit
@@ -52,6 +63,8 @@ form.addEventListener('submit', (event) => {
     return
   } else {
     isRequesting = true
+    landeContainer.style.visibility = 'visible'
+    landeContainer.style.position = 'relative'
     loader.style.display = 'block'
     textInfo.style.display = 'none'
     addressForm.style.display = 'none'
@@ -107,14 +120,21 @@ form.addEventListener('submit', (event) => {
 
         if (data.errMessage) {
           console.log(data.errMessage)
+          errorDisplay.innerHTML = data.errMessage
+          backButton.classList.add('button-visible-error')
         } else {
           displayContainer.style.position = 'relative'
           blur.style.visibility = 'visible'
           displayContainer.style.visibility = 'visible'
+          landeContainer.style.visibility = 'hidden'
+          landeContainer.style.position = 'absolute'
 
           //displaying the result of calculations
           const result = Math.ceil(parseFloat(data.result))
-          document.querySelector('#result').innerText = `${result} eur`
+          const resultElement = document.querySelector('#result')
+          // document.querySelector('#result').innerText = `${result} eur`
+          console.log(resultElement)
+          resultElement.innerText = `${result} eur`
           startResultAnimation()
 
           //displaying the address

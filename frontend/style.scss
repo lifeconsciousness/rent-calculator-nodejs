@@ -47,10 +47,19 @@ main {
   padding-top: 1.5em;
   // padding-top: 1em;
   overflow-y: hidden;
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  // height: 100vh;
+}
+
+html,
+body,
+#app,
+main {
+  height: 100%;
 }
 
 main::before,
@@ -60,7 +69,9 @@ main::after {
   top: 0;
   content: '';
   width: 100%;
-  min-height: 140svh;
+  height: 100%;
+  // min-height: 140svh;
+  // min-height: 175svh;
 
   z-index: -1;
 
@@ -76,15 +87,15 @@ main::after {
     padding: 1.3em;
   }
 }
-@media (max-width: 383px) {
-  main {
-    min-height: 120svh;
-  }
-  main::before,
-  main::after {
-    min-height: 170svh;
-  }
-}
+// @media (max-width: 383px) {
+//   main {
+//     // min-height: 120svh;
+//   }
+//   main::before,
+//   main::after {
+//     // min-height: 170svh;
+//   }
+// }
 
 main::before {
   background: #0a0a0a;
@@ -171,30 +182,3 @@ a:hover {
     opacity: 0;
   }
 }
-
-// .back-button {
-//   position: absolute;
-//   left: 2em;
-//   top: 6.5em;
-//   width: 2.5em;
-//   aspect-ratio: 1;
-//   border-radius: 50%;
-//   text-align: center;
-//   padding-right: 20px;
-//   background: none;
-//   border: white 2px solid;
-//   opacity: 0.9;
-//   transition: 0.4s;
-
-//   &:hover {
-//     background-color: rgb(28, 42, 168);
-//     transition: 0.3s;
-//   }
-// }
-
-// .arrow {
-//   position: absolute;
-//   top: -6px;
-//   left: 7px;
-//   font-size: 200%;
-// }
