@@ -1,0 +1,218 @@
+.previous-requests-container {
+  //   margin-top: 1em;
+}
+
+.arrow-down {
+  opacity: 0.5;
+  cursor: pointer;
+  color: white;
+  font-size: 280%;
+}
+
+#requests {
+  padding-top: 1em;
+}
+
+///////////////////links history containers/////////////////////////
+
+.all-links-container {
+  word-wrap: break-all;
+  width: 1000px;
+  max-width: 100%;
+  min-width: 10%;
+  background-color: rgba(87, 128, 225, 0.841);
+  border-radius: 14px;
+  padding: 1.4em 0;
+  margin-bottom: 3em;
+}
+
+.prev-link-and-result {
+  margin: 0 1.4em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(239, 243, 247);
+  padding: 0.5em;
+  border-radius: 20px;
+  margin-bottom: 1em;
+  transition: 0.3s;
+}
+.prev-link-and-result:hover {
+  scale: 1.008;
+  box-shadow: 6px 7px 11px rgba(0, 0, 0, 0.275);
+}
+
+///////////////tablet responsive design//////////////////
+
+@media (min-width: 400px) and (max-width: 900px) {
+  .app-background {
+    aspect-ratio: 900/1000;
+    transform: translateY(-200px);
+  }
+  h2 {
+    box-shadow: 0px 0px 11px rgba(0, 0, 0, 0) !important;
+    margin-bottom: 0em;
+  }
+}
+
+///////////////phone responsive design//////////////////
+
+@media (max-width: 400px) {
+  .prev-link-and-result {
+    margin: 0 0.7em;
+    margin-bottom: 0.7em;
+  }
+  .result-link {
+    font-size: 1.36em !important;
+  }
+  .prev-link {
+    font-size: 0.8em;
+  }
+  .input-and-btn {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+    input {
+      width: 96%;
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+    button {
+      height: 100%;
+      padding: 0.3em;
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+  .trashBin {
+    margin-left: 5px;
+    margin-right: 0px;
+  }
+  .messages-container {
+    display: flex;
+    font-size: 0.8em;
+    justify-content: space-between;
+    color: black;
+  }
+  .app-background {
+    aspect-ratio: 900/1900;
+    transform: translateY(-300px);
+  }
+  h2 {
+    font-size: 22px !important;
+    box-shadow: 0px 0px 11px rgba(0, 0, 0, 0) !important;
+    margin-bottom: 0em;
+  }
+}
+
+///////////////small phone responsive design//////////////////
+
+@media (max-width: 290px) {
+  .prev-link-and-result {
+    margin: 0 0.7em;
+    margin-bottom: 0.7em;
+  }
+  .result-link {
+    font-size: 1.1em !important;
+  }
+  .prev-link {
+    font-size: 0.6em;
+  }
+
+  .trashBin {
+    width: 20px !important;
+    margin-right: 0px;
+  }
+  .date {
+    font-size: 9px !important;
+  }
+  .messages-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+///////////////////inside of a link history record containers////////////////////
+
+.bothLinks {
+  width: 70%;
+}
+
+.prev-link {
+  cursor: pointer;
+  margin-right: 2em;
+  margin-bottom: 0.3em;
+  opacity: 0.6;
+  word-wrap: break-word;
+}
+
+.result-link {
+  font-size: 1.8em;
+  color: rgb(71, 57, 192);
+  transition: 0.3s;
+  word-wrap: break-word;
+}
+.result-link:hover {
+  color: rgb(107, 94, 221);
+  cursor: pointer;
+}
+.result-link:active {
+  scale: 0.99;
+}
+
+.trashBin {
+  width: 30px;
+  transition: 0.2s;
+  cursor: pointer;
+  margin-left: 15px;
+  margin-right: 8px;
+}
+.trashBin:hover {
+  scale: 1.01;
+}
+
+.result-and-delete-icon {
+  display: flex;
+  flex-direction: column;
+}
+
+.date {
+  position: relative;
+  font-size: 0.8em;
+  text-align: center;
+  margin: 0;
+  margin-left: 0.54em;
+}
+
+/////////////adding and deleting record animation///////////////
+
+.container-animation {
+  animation: containerAnimation 0.8s ease-in-out forwards;
+}
+
+@keyframes containerAnimation {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+.delete-animation {
+  animation: deleteAnimation 0.6s ease-in-out forwards;
+}
+
+@keyframes deleteAnimation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+}

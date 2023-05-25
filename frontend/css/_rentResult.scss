@@ -32,12 +32,12 @@
     margin-left: 0;
 
     svg {
+      position: absolute;
       width: 76px;
       height: 40px;
 
       width: 115px;
       height: 70px;
-      position: absolute;
       left: 50%;
       bottom: -13%;
       transform: translate(-50%, 7px) translateZ(0);

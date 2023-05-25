@@ -23,10 +23,10 @@ if (outdoorSpace) {
   })
 }
 
-window.onpopstate = function (event) {
-  // Reload the page
-  location.reload()
-}
+// window.onpopstate = function (event) {
+//   // Reload the page
+//   location.reload()
+// }
 
 const backButton = document.querySelector('.back-button')
 backButton.onclick = (e) => {
@@ -80,6 +80,9 @@ form.addEventListener('submit', (event) => {
     let numberOfRooms = document.querySelector('#number-of-rooms').value
     let outdoorSpaceValue = outdoorSpace.value
     let sharedPeople = document.querySelector('#sharing').value
+    if (isSharing && sharedPeople === '') {
+      sharedPeople = 1
+    }
     let kitchen = document.querySelector('#kitchen').value
     let bathroom = document.querySelector('#bathroom').value
 
@@ -124,18 +127,22 @@ form.addEventListener('submit', (event) => {
           backButton.classList.add('button-visible-error')
         } else {
           displayContainer.style.position = 'relative'
-          blur.style.visibility = 'visible'
           displayContainer.style.visibility = 'visible'
+          blur.style.visibility = 'visible'
           landeContainer.style.visibility = 'hidden'
           landeContainer.style.position = 'absolute'
 
           //displaying the result of calculations
-          const result = Math.ceil(parseFloat(data.result))
           const resultElement = document.querySelector('#result')
-          // document.querySelector('#result').innerText = `${result} eur`
-          console.log(resultElement)
+          const resultText = document.querySelector('.contact-info')
+
+          const result = Math.ceil(parseFloat(data.result))
           resultElement.innerText = `${result} eur`
           startResultAnimation()
+
+          if (result > 800) {
+            resultText.innerHTML = 'Landlord has a right to set this price, therefore it cannot be reduced.'
+          }
 
           //displaying the address
           const streetName = data.streetNameFromApi !== undefined ? data.streetNameFromApi : ''

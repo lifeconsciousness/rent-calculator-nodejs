@@ -6,6 +6,7 @@
 @import './css/header';
 @import './css/display';
 @import './css/rentResult';
+@import './css/previous-requests';
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -56,10 +57,16 @@ main {
 }
 
 html,
-body,
-#app,
-main {
+body {
   height: 100%;
+}
+
+html {
+  overflow-y: hidden;
+}
+
+body {
+  scroll-behavior: smooth;
 }
 
 main::before,

@@ -55,7 +55,7 @@ async function calculateRentPrice(
       sharedArea = ''
     } else {
       amountPeopleShared = sharedPeople
-      sharedArea = area / amountPeopleShared
+      sharedArea = area / (amountPeopleShared + 1)
     }
 
     let isAmsOrUtr
