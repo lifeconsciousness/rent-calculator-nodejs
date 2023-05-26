@@ -160,3 +160,13 @@ function upTo(el, tagName) {
 }
 
 // createRecord('abaibabb')
+
+/////////////////accordion
+
+const accordions = document.querySelectorAll('.accordion')
+
+for (let i = 0; i < accordions.length; i++) {
+  accordions[i].addEventListener('click', (e) => {
+    accordions[i].classList.toggle('active')
+  })
+}
