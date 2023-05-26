@@ -1,3 +1,6 @@
+const linksContainer = document.querySelector('.all-links-container')
+let playAnimationAfterShortening = false
+
 //keys for the local storage
 const INDEX_LOCAL_STORAGE_KEY = 'indexKey'
 const HISTORY_OBJECT_LOCAL_STORAGE_KEY = 'historyObjectKey'
@@ -7,17 +10,17 @@ let historyElementIndex = JSON.parse(localStorage.getItem(INDEX_LOCAL_STORAGE_KE
 let historyElementsArray = JSON.parse(localStorage.getItem(HISTORY_OBJECT_LOCAL_STORAGE_KEY)) || []
 
 //creates history record object, pushes it to the array
-function createRecord(shortenedLink, firstLink) {
+function createRecord(request) {
   let currentTime = getTimeAndDate()
 
-  let historyObject = createLinkHistoryObject(shortenedLink, firstLink, currentTime)
+  let historyObject = createLinkHistoryObject(request, currentTime)
   historyElementsArray.push(historyObject)
 
   historyElementIndex++
-  buttonCanCopy = true
+  //   buttonCanCopy = true
   playAnimationAfterShortening = true
 
-  checkButtonState()
+  //   checkButtonState()
   saveAndRender()
 }
 
@@ -45,11 +48,10 @@ function getTimeAndDate() {
 }
 
 //returns an object with the unique id, old link, and shortened one
-function createLinkHistoryObject(shortenedLink, firstLink, currentTime) {
+function createLinkHistoryObject(request, currentTime) {
   return {
     id: historyElementIndex,
-    shortLink: shortenedLink,
-    longLink: firstLink,
+    mainRequest: request,
     time: currentTime,
   }
 }
@@ -80,19 +82,19 @@ function render() {
     bothLinks.classList.add('bothLinks')
     container.appendChild(bothLinks)
 
-    let prevLink = document.createElement('div')
-    prevLink.classList.add('prev-link')
-    prevLink.innerText = historyElementsArray[i].longLink
-    prevLink.addEventListener('click', copyText)
-    prevLink.addEventListener('touchend', copyText)
-    bothLinks.appendChild(prevLink)
+    let display = document.createElement('div')
+    display.classList.add('prev-link')
+    display.innerText = historyElementsArray[i].mainRequest
+    // display.addEventListener('click', copyText)
+    // display.addEventListener('touchend', copyText)
+    bothLinks.appendChild(display)
 
-    let resLink = document.createElement('div')
-    resLink.classList.add('result-link')
-    resLink.innerText = historyElementsArray[i].shortLink
-    resLink.addEventListener('click', copyText)
-    resLink.addEventListener('touchend', copyText)
-    bothLinks.appendChild(resLink)
+    // let resLink = document.createElement('div')
+    // resLink.classList.add('result-link')
+    // resLink.innerText = historyElementsArray[i].shortLink
+    // resLink.addEventListener('click', copyText)
+    // resLink.addEventListener('touchend', copyText)
+    // bothLinks.appendChild(resLink)
 
     let dateAndDelete = document.createElement('div')
     dateAndDelete.classList.add('date-and-delete')
@@ -131,14 +133,17 @@ function deleteElement(event) {
 }
 
 function deleteAnimationDelay(delEl) {
-  timeout = setTimeout(function () {
+  setTimeout(function () {
     deleteAfterDelay(delEl)
   }, 650)
+  // timeout = setTimeout(function () {
+  //   deleteAfterDelay(delEl)
+  // }, 650)
 }
 function deleteAfterDelay(elementToDelete) {
   historyElementsArray = historyElementsArray.filter((element) => element.id != elementToDelete)
-  message.innerHTML = 'Element deleted'
-  returnPreviousMesage()
+  // message.innerHTML = 'Element deleted'
+  // returnPreviousMesage()
   saveAndRender()
 }
 
@@ -153,3 +158,5 @@ function upTo(el, tagName) {
   }
   return null
 }
+
+// createRecord('abaibabb')

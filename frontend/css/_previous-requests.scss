@@ -17,7 +17,7 @@
 
 .all-links-container {
   word-wrap: break-all;
-  width: 1000px;
+  width: 700px;
   max-width: 100%;
   min-width: 10%;
   background-color: rgba(87, 128, 225, 0.841);
@@ -35,12 +35,17 @@
   background-color: rgb(239, 243, 247);
   padding: 0.5em;
   border-radius: 20px;
-  margin-bottom: 1em;
+  // margin-bottom: 1em;
   transition: 0.3s;
 }
 .prev-link-and-result:hover {
   scale: 1.008;
   box-shadow: 6px 7px 11px rgba(0, 0, 0, 0.275);
+}
+
+.prev-link,
+.date {
+  color: black;
 }
 
 ///////////////tablet responsive design//////////////////
