@@ -161,7 +161,7 @@ function upTo(el, tagName) {
 
 // createRecord('abaibabb')
 
-/////////////////accordion
+///////////////////////////////////////////////////accordion
 
 const accordions = document.querySelectorAll('.accordion')
 
@@ -170,3 +170,32 @@ for (let i = 0; i < accordions.length; i++) {
     accordions[i].classList.toggle('active')
   })
 }
+
+document.querySelectorAll('.prev-link-and-result').forEach((button) => {
+  button.addEventListener('click', () => {
+    const accordionContent = button.nextElementSibling
+    button.classList.toggle('active')
+    if (button.classList.contains('active')) {
+      accordionContent.style.maxHeight = accordionContent.scrollHeight + 1000 + 'px'
+      accordionContent.style.overflow = 'visible'
+    } else {
+      accordionContent.style.maxHeight = 0
+      accordionContent.style.overflow = 'hidden'
+    }
+  })
+})
+
+////remove arrow when accordion is visible
+
+const arrowObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      document.querySelector('.arrow-down').classList.add('fadeIn')
+    } else {
+      document.querySelector('.arrow-down').classList.remove('fadeIn')
+      document.querySelector('.arrow-down').classList.add('.arrow-down')
+    }
+  })
+})
+
+arrowObserver.observe(document.querySelector('.all-links-container'))
