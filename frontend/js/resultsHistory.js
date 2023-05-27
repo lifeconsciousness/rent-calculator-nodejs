@@ -10,17 +10,15 @@ let historyElementIndex = JSON.parse(localStorage.getItem(INDEX_LOCAL_STORAGE_KE
 let historyElementsArray = JSON.parse(localStorage.getItem(HISTORY_OBJECT_LOCAL_STORAGE_KEY)) || []
 
 //creates history record object, pushes it to the array
-function createRecord(request) {
+export function createRecord(request) {
   let currentTime = getTimeAndDate()
 
   let historyObject = createLinkHistoryObject(request, currentTime)
   historyElementsArray.push(historyObject)
 
   historyElementIndex++
-  //   buttonCanCopy = true
   playAnimationAfterShortening = true
 
-  //   checkButtonState()
   saveAndRender()
 }
 
@@ -70,31 +68,34 @@ function save() {
 function render() {
   clearElement(linksContainer)
   for (let i = historyElementsArray.length - 1; i >= 0; i--) {
+    let accordion = document.createElement('div')
+    accordion.classList.add('accordion')
+    accordion.addEventListener('click', (e) => {
+      accordion.classList.toggle('active')
+    })
+
+    linksContainer.appendChild(accordion)
+
     let container = document.createElement('div')
     container.classList.add('prev-link-and-result')
     if (playAnimationAfterShortening) {
       container.classList.add('container-animation')
       playAnimationAfterShortening = false
     }
-    linksContainer.appendChild(container)
+    accordion.appendChild(container)
 
     let bothLinks = document.createElement('div')
     bothLinks.classList.add('bothLinks')
     container.appendChild(bothLinks)
 
+    const indicator = document.createElement('div')
+    indicator.classList.add('accordion-indicator')
+    bothLinks.appendChild(indicator)
+
     let display = document.createElement('div')
     display.classList.add('prev-link')
-    display.innerText = historyElementsArray[i].mainRequest
-    // display.addEventListener('click', copyText)
-    // display.addEventListener('touchend', copyText)
+    display.innerText = historyElementsArray[i].mainRequest.address
     bothLinks.appendChild(display)
-
-    // let resLink = document.createElement('div')
-    // resLink.classList.add('result-link')
-    // resLink.innerText = historyElementsArray[i].shortLink
-    // resLink.addEventListener('click', copyText)
-    // resLink.addEventListener('touchend', copyText)
-    // bothLinks.appendChild(resLink)
 
     let dateAndDelete = document.createElement('div')
     dateAndDelete.classList.add('date-and-delete')
@@ -111,6 +112,11 @@ function render() {
     date.classList.add('date')
     date.innerText = historyElementsArray[i].time
     dateAndDelete.appendChild(date)
+
+    let content = document.createElement('div')
+    content.classList.add('content')
+    content.innerHTML = `<br />${historyElementsArray[i].mainRequest.area}<br />${historyElementsArray[i].mainRequest.year}<br />&nbsp;`
+    accordion.appendChild(content)
   }
 }
 
@@ -159,17 +165,17 @@ function upTo(el, tagName) {
   return null
 }
 
-// createRecord('abaibabb')
+render()
 
 ///////////////////////////////////////////////////accordion
 
-const accordions = document.querySelectorAll('.accordion')
+// const accordions = document.querySelectorAll('.accordion')
 
-for (let i = 0; i < accordions.length; i++) {
-  accordions[i].addEventListener('click', (e) => {
-    accordions[i].classList.toggle('active')
-  })
-}
+// for (let i = 0; i < accordions.length; i++) {
+//   accordions[i].addEventListener('click', (e) => {
+//     accordions[i].classList.toggle('active')
+//   })
+// }
 
 document.querySelectorAll('.prev-link-and-result').forEach((button) => {
   button.addEventListener('click', () => {

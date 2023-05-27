@@ -1,5 +1,5 @@
 .previous-requests-container {
-  //   margin-top: 1em;
+  margin-top: 0em;
 }
 
 .arrow-down {
@@ -37,8 +37,11 @@
 }
 
 #requests {
-  padding-top: 1em;
+  // padding-top: 1em;
   // border: 1px solid white;
+  h2 {
+    margin-top: 2em;
+  }
 }
 
 ///////////////////links history containers/////////////////////////
@@ -75,8 +78,10 @@
   padding: 0.5em;
   border-radius: 20px;
   margin-bottom: 0.5em;
+  margin-top: 0.5em;
   transition: 0.2s;
   cursor: pointer;
+  // margin-top: 1em;
 }
 .prev-link-and-result:hover {
   scale: 1.005;
@@ -95,7 +100,7 @@
 .content {
   overflow: hidden;
   max-height: 0;
-  transition: max-height 0.4s;
+  transition: max-height 0.4s ease;
   padding: 0 2.6em;
   box-sizing: border-box;
   background-color: rgb(50, 85, 156);

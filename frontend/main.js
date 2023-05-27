@@ -2,6 +2,7 @@
 import './style.scss'
 import axios from 'axios'
 import { startResultAnimation } from './js/resultAnimation.js'
+import { createRecord } from './js/resultsHistory'
 
 //displaying/hiding input field depending on the value of other
 const outdoorSpace = document.querySelector('#outdoor')
@@ -35,8 +36,6 @@ backButton.onclick = (e) => {
 
 ////////////////////getting data from backend and displaying it
 
-// startResultAnimation()
-
 const landeContainer = document.querySelector('.loader-and-error-container')
 const errorDisplay = document.querySelector('.error-display')
 const loader = document.querySelector('.loader')
@@ -46,8 +45,6 @@ const displayContainer = document.querySelector('.display-container')
 const blur = document.querySelector('#blur')
 const addressForm = document.querySelector('#address-form')
 const textInfo = document.querySelector('.text-info')
-
-// startResultAnimation()
 
 //actions on form submit
 let isRequesting = false
@@ -132,6 +129,8 @@ form.addEventListener('submit', (event) => {
           landeContainer.style.visibility = 'hidden'
           landeContainer.style.position = 'absolute'
 
+          document.querySelector('.previous-requests-container').style.marginTop = '2em'
+
           //displaying the result of calculations
           const resultElement = document.querySelector('#result')
           const resultText = document.querySelector('.contact-info')
@@ -150,17 +149,25 @@ form.addEventListener('submit', (event) => {
           const houseLetter = data.houseLetterFromApi !== undefined ? data.houseLetterFromApi : ''
           const houseAddition = data.houseAdditionFromApi !== undefined ? data.houseAdditionFromApi : ''
           const housePostcode = data.postcodeFromApi !== undefined ? data.postcodeFromApi : ''
-          document.querySelector(
-            '#address'
-          ).innerText = `Address: ${streetName} ${houseNumber} ${houseLetter} ${houseAddition} ${housePostcode}, ${data.city}`
+          const address = `${streetName} ${houseNumber} ${houseLetter} ${houseAddition} ${housePostcode}, ${data.city}`
+          document.querySelector('#address').innerText = `Address: ${address}`
+
+          const area = `Total area: ${data.area} sq.m`
+          const year = `Build year: ${data.buildYear}`
+          const woz = `WOZ value of property: ${data.wozValue} eur`
+          const el = `Energy label: ${data.energyLabel}`
+          const ei = `Energy index: ${data.energyIndex}`
+          const monument = `Property is rijksmonument: ${data.isMonument}`
 
           //displaying info about the property
-          document.querySelector('#area').innerText = `Total area: ${data.area}`
-          document.querySelector('#buildYear').innerText = `Build year: ${data.buildYear}`
-          document.querySelector('#woz').innerText = `WOZ value of property: ${data.wozValue}`
-          document.querySelector('#energyLabel').innerText = `Energy label: ${data.energyLabel}`
-          document.querySelector('#energyIndex').innerText = `Energy index: ${data.energyIndex}`
-          document.querySelector('#monument').innerText = `Property is rijksmonument: ${data.isMonument}`
+          document.querySelector('#area').innerText = area
+          document.querySelector('#buildYear').innerText = year
+          document.querySelector('#woz').innerText = woz
+          document.querySelector('#energyLabel').innerText = el
+          document.querySelector('#energyIndex').innerText = ei
+          document.querySelector('#monument').innerText = monument
+
+          createRecord({ address, area, year, woz, el, ei, monument })
         }
       })
       .catch((error) => {

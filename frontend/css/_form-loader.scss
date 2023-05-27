@@ -3,6 +3,7 @@
 
 .loader {
   display: none;
+  transform: translateY(-30px);
 }
 
 .balls {
@@ -52,7 +53,7 @@
 //error display
 
 .loader-and-error-container {
-  min-height: 65vh;
+  min-height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
