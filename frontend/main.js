@@ -3,6 +3,9 @@ import './style.scss'
 import axios from 'axios'
 import { startResultAnimation } from './js/resultAnimation.js'
 import { createRecord } from './js/resultsHistory'
+import { render } from './js/resultsHistory'
+
+render()
 
 //displaying/hiding input field depending on the value of other
 const outdoorSpace = document.querySelector('#outdoor')
@@ -152,6 +155,7 @@ form.addEventListener('submit', (event) => {
           const address = `${streetName} ${houseNumber} ${houseLetter} ${houseAddition} ${housePostcode}, ${data.city}`
           document.querySelector('#address').innerText = `Address: ${address}`
 
+          const resultInRecord = `Result: ${result} eur`
           const area = `Total area: ${data.area} sq.m`
           const year = `Build year: ${data.buildYear}`
           const woz = `WOZ value of property: ${data.wozValue} eur`
@@ -167,7 +171,7 @@ form.addEventListener('submit', (event) => {
           document.querySelector('#energyIndex').innerText = ei
           document.querySelector('#monument').innerText = monument
 
-          createRecord({ address, area, year, woz, el, ei, monument })
+          createRecord({ resultInRecord, address, area, year, woz, el, ei, monument })
         }
       })
       .catch((error) => {

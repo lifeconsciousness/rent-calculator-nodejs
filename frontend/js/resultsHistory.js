@@ -65,8 +65,13 @@ function save() {
 }
 
 //first the function clears links container, then creates DOM elements and assings array objects values to them
-function render() {
+export function render() {
   clearElement(linksContainer)
+
+  if (historyElementsArray.length === 0) {
+    linksContainer.innerText = 'Here you are going to see all your previous requests'
+  }
+
   for (let i = historyElementsArray.length - 1; i >= 0; i--) {
     let accordion = document.createElement('div')
     accordion.classList.add('accordion')
@@ -105,7 +110,10 @@ function render() {
     deleteIcon.classList.add('trashBin')
     deleteIcon.src = './img/trash.png'
     deleteIcon.dataset.index = historyElementsArray[i].id
-    deleteIcon.addEventListener('click', deleteElement)
+    deleteIcon.addEventListener('click', (e) => {
+      deleteElement(e)
+    })
+
     dateAndDelete.appendChild(deleteIcon)
 
     let date = document.createElement('p')
@@ -115,9 +123,37 @@ function render() {
 
     let content = document.createElement('div')
     content.classList.add('content')
-    content.innerHTML = `<br />${historyElementsArray[i].mainRequest.area}<br />${historyElementsArray[i].mainRequest.year}<br />&nbsp;`
+    content.innerHTML = `<br />
+    ${historyElementsArray[i].mainRequest.resultInRecord}<br />
+    ${historyElementsArray[i].mainRequest.area}<br />
+    ${historyElementsArray[i].mainRequest.year}<br />
+    ${historyElementsArray[i].mainRequest.woz}<br />
+    ${historyElementsArray[i].mainRequest.el}<br />
+    ${historyElementsArray[i].mainRequest.ei}<br />
+    ${historyElementsArray[i].mainRequest.monument}<br />
+    &nbsp;`
     accordion.appendChild(content)
   }
+
+  //accordion content dropdown
+  document.querySelectorAll('.prev-link-and-result').forEach((button) => {
+    button.addEventListener('click', (e) => {
+      //prevent animation when trash bin is clicked
+      if (e.target.classList.contains('trashBin')) {
+        return
+      } else {
+        const accordionContent = button.nextElementSibling
+        button.classList.toggle('active')
+        if (button.classList.contains('active')) {
+          accordionContent.style.maxHeight = accordionContent.scrollHeight + 1000 + 'px'
+          accordionContent.style.overflow = 'visible'
+        } else {
+          accordionContent.style.maxHeight = 0
+          accordionContent.style.overflow = 'hidden'
+        }
+      }
+    })
+  })
 }
 
 function clearElement(element) {
@@ -142,14 +178,9 @@ function deleteAnimationDelay(delEl) {
   setTimeout(function () {
     deleteAfterDelay(delEl)
   }, 650)
-  // timeout = setTimeout(function () {
-  //   deleteAfterDelay(delEl)
-  // }, 650)
 }
 function deleteAfterDelay(elementToDelete) {
   historyElementsArray = historyElementsArray.filter((element) => element.id != elementToDelete)
-  // message.innerHTML = 'Element deleted'
-  // returnPreviousMesage()
   saveAndRender()
 }
 
@@ -166,30 +197,6 @@ function upTo(el, tagName) {
 }
 
 render()
-
-///////////////////////////////////////////////////accordion
-
-// const accordions = document.querySelectorAll('.accordion')
-
-// for (let i = 0; i < accordions.length; i++) {
-//   accordions[i].addEventListener('click', (e) => {
-//     accordions[i].classList.toggle('active')
-//   })
-// }
-
-document.querySelectorAll('.prev-link-and-result').forEach((button) => {
-  button.addEventListener('click', () => {
-    const accordionContent = button.nextElementSibling
-    button.classList.toggle('active')
-    if (button.classList.contains('active')) {
-      accordionContent.style.maxHeight = accordionContent.scrollHeight + 1000 + 'px'
-      accordionContent.style.overflow = 'visible'
-    } else {
-      accordionContent.style.maxHeight = 0
-      accordionContent.style.overflow = 'hidden'
-    }
-  })
-})
 
 ////remove arrow when accordion is visible
 
