@@ -71,7 +71,7 @@ form.addEventListener('submit', (event) => {
 
     //////////values from inputs
     //address
-    let postcode = document.querySelector('#postcode').value.replace(/\s+/g, '')
+    let postcode = document.querySelector('#postcode').value.replace(/\s+/g, '').toUpperCase()
     let houseNumber = document.querySelector('#house-number').value.replace(/\s+/g, '')
     let houseLetter = document.querySelector('#house-letter').value.replace(/\s+/g, '')
     let houseAddition = document.querySelector('#house-addition').value.replace(/\s+/g, '')
@@ -139,9 +139,19 @@ form.addEventListener('submit', (event) => {
           const resultText = document.querySelector('.contact-info')
 
           const result = Math.ceil(parseFloat(data.result))
-          resultElement.innerText = `${result} eur`
+          let resultValue
+          if (Number.isNaN(result)) {
+            resultValue = `unknown`
+          } else {
+            resultValue = `${result} eur`
+          }
+          resultElement.innerText = resultValue
           startResultAnimation()
 
+          if (Number.isNaN(result)) {
+            resultText.innerHTML =
+              'One or several parameters about the property were not found, hence the rent price cannot be calculated. The building at this address may not be in WOZ or Energy label database'
+          }
           if (result > 800) {
             resultText.innerHTML = 'Landlord has a right to set this price, therefore it cannot be reduced.'
           }
@@ -155,10 +165,15 @@ form.addEventListener('submit', (event) => {
           const address = `${streetName} ${houseNumber} ${houseLetter} ${houseAddition} ${housePostcode}, ${data.city}`
           document.querySelector('#address').innerText = `Address: ${address}`
 
-          const resultInRecord = `Result: ${result} eur`
+          const resultInRecord = `Result: ${resultValue}`
           const area = `Total area: ${data.area} sq.m`
           const year = `Build year: ${data.buildYear}`
-          const woz = `WOZ value of property: ${data.wozValue} eur`
+          let woz
+          if (data.wozValue === 'Not found') {
+            woz = `WOZ value of property: ${data.wozValue}`
+          } else {
+            woz = `WOZ value of property: ${data.wozValue} eur`
+          }
           const el = `Energy label: ${data.energyLabel}`
           const ei = `Energy index: ${data.energyIndex}`
           const monument = `Property is rijksmonument: ${data.isMonument}`

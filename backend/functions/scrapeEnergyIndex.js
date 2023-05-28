@@ -35,7 +35,9 @@ async function scrapeEnergyIndex(adresseerbaarId) {
       return result
     }
 
-    const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 12000)
+    const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 25000)
+
+    // console.log(elementExists)
 
     // const element = await Promise.race([
     //   page.waitForSelector('.se-result-item-nta'),
@@ -47,10 +49,10 @@ async function scrapeEnergyIndex(adresseerbaarId) {
       if (/\bEI\b/.test(container)) {
         energyIndex = container.split('EI')[1].split('EI')[0].replace(/\s+/g, '')
       } else {
-        energyIndex = ''
+        energyIndex = 'Not found'
       }
     } else {
-      energyIndex = ''
+      energyIndex = 'Not found'
     }
   } catch (error) {
     console.error(error)

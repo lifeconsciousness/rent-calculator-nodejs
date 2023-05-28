@@ -85,8 +85,8 @@ app.post('/api/search', async (req, res) => {
     energyLabelUrl.searchParams.set('huisnummertoevoeging', houseAddition)
   }
 
-  // energyLabelUrl.searchParams.set('postcode', '8021AP')
-  // energyLabelUrl.searchParams.set('huisnummer', '4')
+  // energyLabelUrl.searchParams.set('postcode', '3024RC')
+  // energyLabelUrl.searchParams.set('huisnummer', '136')
   // energyLabelUrl.searchParams.set('huisletter', '')
   // energyLabelUrl.searchParams.set('huisnummertoevoeging', '')
 
@@ -119,22 +119,35 @@ app.post('/api/search', async (req, res) => {
       monument = result[1] === '' ? 'No' : 'Yes'
       return Promise.all(requests)
     })
-    .then((responses) => {
+    .then(async (responses) => {
       data = responses.map((response) => response.data)
+      // console.log(data)
 
       if (!data[0]?._embedded?.adressen?.[0]) {
-        return Promise.reject('Address not found')
-          .then((resolved) => '')
-          .catch((err) => console.log(err))
+        try {
+          const resolved = await Promise.reject('Address not found')
+          return ''
+        } catch (err) {
+          return console.log(err)
+        }
       }
+      // .then((responses) => {
+      //   data = responses.map((response) => response.data)
+      //   console.log(data)
+
+      //   if (!data[0]?._embedded?.adressen?.[0]) {
+      //     return Promise.reject('Address not found')
+      //       .then((resolved) => '')
+      //       .catch((err) => console.log(err))
+      //   }
 
       area = data[0]?._embedded?.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
       buildYear = data[0]?._embedded?.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
 
       energyLabelTemp = data[1]
-      energyLabelTemp !== undefined ? (energyLabel = energyLabelTemp[0]?.labelLetter) : (energyLabel = '')
+      energyLabelTemp !== undefined ? (energyLabel = energyLabelTemp[0]?.labelLetter) : (energyLabel = 'Not found')
 
-      wozValue = woz ? woz.split('\t')[1].replace(/\./g, '').replace(' euro', '') : undefined
+      wozValue = woz ? woz.split('\t')[1].replace(/\./g, '').replace(' euro', '') : 'Not found'
 
       city = data[0]?._embedded?.adressen[0].woonplaatsNaam
       isMonument = monument

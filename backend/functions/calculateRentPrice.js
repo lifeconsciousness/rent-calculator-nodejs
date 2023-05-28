@@ -75,7 +75,8 @@ async function calculateRentPrice(
       energyLabelTemp = energyLabel
     }
 
-    const energyLabelValue = energyIndex === '' ? energyLabelTemp : 'None'
+    const energyLabelValue = energyIndex === 'Not found' ? energyLabelTemp : 'None'
+    const energyIndexValue = energyIndex === 'Not found' ? '' : energyIndex
 
     //cells and according data put into them
     const setCellsData = [
@@ -129,7 +130,7 @@ async function calculateRentPrice(
       },
       {
         range: 'Independent calculator!R24',
-        values: [[energyIndex]],
+        values: [[energyIndexValue]],
       },
     ]
 

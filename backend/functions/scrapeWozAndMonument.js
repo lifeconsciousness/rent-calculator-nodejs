@@ -39,21 +39,14 @@ async function scrapeWozAndMonument(address) {
       return result
     }
 
-    const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 30000)
-
-    // const listExists = await Promise.race([
-    //   page.waitForSelector('#ggcSuggestionList-0'),
-    //   new Promise((resolve) => {
-    //     setTimeout(() => resolve(null), 1000)
-    //   }),
-    // ])
+    const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 20000)
 
     if (listExists) {
       await page.click('#ggcSuggestionList-0')
       await page.waitForSelector('.waarden-row')
       wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
     } else {
-      wozValue = ''
+      wozValue = 'Not found'
     }
   } catch (error) {
     console.log(error)
