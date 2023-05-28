@@ -60,6 +60,10 @@
 
   visibility: hidden;
   position: absolute;
+
+  @media (max-width: 790px) {
+    // margin-bottom: 2em;
+  }
 }
 
 .back-button {

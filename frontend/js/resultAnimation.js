@@ -1,6 +1,5 @@
 ///////////////////////////////////////manipulating the result string animation
 export function startResultAnimation() {
-  console.log('start animation')
   const rentPrice = document.querySelector('.rent-price')
   const maxLegalPrice = document.querySelector('.max-legal-price')
   const price = document.querySelector('.price')
