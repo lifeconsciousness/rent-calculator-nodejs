@@ -5,6 +5,23 @@ import { startResultAnimation } from './js/resultAnimation.js'
 import { createRecord } from './js/resultsHistory'
 import { render } from './js/resultsHistory'
 
+//modal window
+const isFirstTimeModalWindow = localStorage.getItem('isFirstTimeModalWindow') || 'first'
+
+if (isFirstTimeModalWindow === 'first') {
+  document.querySelector('.modal-guide').style.opacity = '1'
+  const buttons = Array.from(document.querySelectorAll('.close-modal'))
+  buttons.map((button) => {
+    button.addEventListener('click', (e) => {
+      document.querySelector('.modal-guide').style.display = 'none'
+      localStorage.setItem('isFirstTimeModalWindow', 'not first')
+      console.log('not')
+    })
+  })
+} else {
+  document.querySelector('.modal-guide').style.display = 'none'
+}
+
 render()
 
 //displaying/hiding input field depending on the value of other
@@ -26,11 +43,6 @@ if (outdoorSpace) {
     }
   })
 }
-
-// window.onpopstate = function (event) {
-//   // Reload the page
-//   location.reload()
-// }
 
 const backButton = document.querySelector('.back-button')
 backButton.onclick = (e) => {
@@ -150,10 +162,11 @@ form.addEventListener('submit', (event) => {
 
           if (Number.isNaN(result)) {
             resultText.innerHTML =
-              'One or several parameters about the property were not found, hence the rent price cannot be calculated. The building at this address may not be in WOZ or Energy label database'
+              'One or multiple parameters of the property were not found, hence the rent price cannot be calculated. Contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
           }
           if (result > 800) {
-            resultText.innerHTML = 'Landlord has a right to set this price, therefore it cannot be reduced.'
+            resultText.innerHTML =
+              'Landlord has a right to set this price, therefore it cannot be reduced. For more details contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
           }
 
           //displaying the address
@@ -171,6 +184,8 @@ form.addEventListener('submit', (event) => {
           let woz
           if (data.wozValue === 'Not found') {
             woz = `WOZ value of property: ${data.wozValue}`
+            resultText.innerHTML =
+              'WOZ value was not found. Contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
           } else {
             woz = `WOZ value of property: ${data.wozValue} eur`
           }

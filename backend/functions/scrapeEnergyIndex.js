@@ -35,7 +35,7 @@ async function scrapeEnergyIndex(adresseerbaarId) {
       return result
     }
 
-    const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 25000)
+    const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 14000)
 
     // console.log(elementExists)
 

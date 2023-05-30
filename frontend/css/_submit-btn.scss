@@ -6,6 +6,8 @@
 .submit-btn {
   position: relative;
   // box-shadow: 0 0 10px rgba(0, 0, 0, 0.178);
+  // background-color: rgba(255, 255, 255, 0.045);
+  background-color: rgba(18, 17, 17, 0.071);
 
   overflow: hidden;
   width: 100%;
@@ -14,7 +16,7 @@
   margin-top: 15px;
   margin-top: 12px;
   padding: 0.8em 0;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 2px solid rgba(255, 255, 255, 0.14);
   transition: 0.6s all;
 
   span {
@@ -28,9 +30,9 @@ $line-color: #8aacf771;
 
 .submit-btn:hover {
   scale: 1.08;
-  border: 1px solid rgba(255, 255, 255, 0);
-  // box-shadow: 0 0 50px rgba(220, 220, 224, 0.295);
-  // box-shadow: 0 0 200px #3b79ffdc;
+  border: 2px solid rgba(255, 255, 255, 0);
+  background-color: rgba(0, 0, 0, 0.684);
+
   box-shadow: 0 0 200px rgba(0, 47, 255, 0.473);
   box-shadow: 0 0 200px rgba(0, 47, 255, 0.8);
   transition: 0.6s all;
