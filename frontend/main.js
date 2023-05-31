@@ -64,6 +64,12 @@ const textInfo = document.querySelector('.text-info')
 //actions on form submit
 let isRequesting = false
 
+//REMOVE
+landeContainer.style.visibility = 'visible'
+landeContainer.style.position = 'relative'
+loader.style.display = 'block'
+// blur.style.visibility = 'visible'
+
 ////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////
