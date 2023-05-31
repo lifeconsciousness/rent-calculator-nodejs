@@ -11,15 +11,17 @@ const isFirstTimeModalWindow = localStorage.getItem('isFirstTimeModalWindow') ||
 if (isFirstTimeModalWindow === 'first') {
   document.querySelector('.modal-guide').style.opacity = '1'
   const buttons = Array.from(document.querySelectorAll('.close-modal'))
+  document.body.style.overflowY = 'hidden'
   buttons.map((button) => {
     button.addEventListener('click', (e) => {
       document.querySelector('.modal-guide').style.display = 'none'
       localStorage.setItem('isFirstTimeModalWindow', 'not first')
-      console.log('not')
+      document.body.style.overflowY = 'visible'
     })
   })
 } else {
   document.querySelector('.modal-guide').style.display = 'none'
+  document.body.style.overflowY = 'visible'
 }
 
 render()
@@ -57,7 +59,7 @@ const loader = document.querySelector('.loader')
 const result = document.querySelector('.result')
 const form = document.querySelector('form')
 const displayContainer = document.querySelector('.display-container')
-const blur = document.querySelector('#blur')
+const blur = document.querySelector('.blur')
 const addressForm = document.querySelector('#address-form')
 const textInfo = document.querySelector('.text-info')
 
@@ -65,9 +67,10 @@ const textInfo = document.querySelector('.text-info')
 let isRequesting = false
 
 //REMOVE
-landeContainer.style.visibility = 'visible'
-landeContainer.style.position = 'relative'
-loader.style.display = 'block'
+// landeContainer.style.visibility = 'visible'
+// landeContainer.style.position = 'relative'
+// loader.style.display = 'block'
+// blurLoader.style.visibility = 'visible'
 // blur.style.visibility = 'visible'
 
 ////////////////////////////////////////////////////////////////////
