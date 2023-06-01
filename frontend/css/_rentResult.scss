@@ -136,12 +136,10 @@ html {
 
 .blur {
   height: 100vh;
-  // height: 1000vh;
   width: 100vw;
   width: 100%;
   position: absolute;
   z-index: -3;
-  // z-index: 0;
   backdrop-filter: blur(1vmax);
   backdrop-filter: blur(15px);
   left: 0;

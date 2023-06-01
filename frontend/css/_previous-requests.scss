@@ -2,8 +2,11 @@
   margin-top: 0em;
 }
 
+//arrow pointing to the previous requests section
+
+$arrow-opacity: 0.25;
 .arrow-down {
-  opacity: 0.4;
+  opacity: $arrow-opacity;
   cursor: pointer;
   color: white;
   font-size: 280%;
@@ -16,7 +19,7 @@
     opacity: 0;
   }
   to {
-    opacity: 0.4;
+    opacity: $arrow-opacity;
   }
 }
 .fadeIn {
@@ -24,7 +27,7 @@
 }
 @keyframes fadeIn {
   0% {
-    opacity: 0.4;
+    opacity: $arrow-opacity;
   }
   99% {
     opacity: 0;
@@ -37,8 +40,6 @@
 }
 
 #requests {
-  // padding-top: 1em;
-  // border: 1px solid white;
   h2 {
     margin-top: 2em;
   }
@@ -46,7 +47,7 @@
 
 ///////////////////links history containers/////////////////////////
 
-.all-links-container {
+.all-requests-container {
   word-wrap: break-all;
   width: 670px;
   max-width: 100%;
@@ -54,8 +55,8 @@
   border-radius: 14px;
   padding-top: 0;
   padding: 1.4em 1.4em;
-  margin-bottom: 3em;
-  margin-bottom: 10em;
+  // margin-bottom: 3em;
+  // margin-bottom: 10em;
   margin-top: 1em;
   // border: 1px solid white;
   border: 1px solid rgba(255, 255, 255, 0.171);
@@ -65,9 +66,13 @@
   &:hover {
     box-shadow: 0 0 20px rgba(235, 235, 235, 0.11);
   }
+
+  @media (max-width: 789px) {
+    width: 100%;
+  }
 }
 
-.prev-link-and-result {
+.accordion-head {
   margin: 0 1.4em;
   display: flex;
   flex-direction: row;
@@ -83,15 +88,15 @@
   cursor: pointer;
   // margin-top: 1em;
 }
-.prev-link-and-result:hover {
+.accordion-head:hover {
   scale: 1.005;
   box-shadow: 6px 7px 11px rgba(0, 0, 0, 0.275);
 }
-.prev-link-and-result:last-child {
+.accordion-head:last-child {
   margin-bottom: 0;
 }
 
-.prev-link,
+.address-in-accordion,
 .date,
 .content {
   color: black;
@@ -148,7 +153,7 @@
 ///////////////phone responsive design//////////////////
 
 @media (max-width: 400px) {
-  .prev-link-and-result,
+  .accordion-head,
   .content {
     margin: 0 0.7em;
     margin-bottom: 0.7em;
@@ -160,7 +165,7 @@
   .result-link {
     font-size: 1.36em !important;
   }
-  .prev-link {
+  .address-in-accordion {
     font-size: 0.9em;
   }
   .input-and-btn {
@@ -203,14 +208,14 @@
 ///////////////small phone responsive design//////////////////
 
 @media (max-width: 290px) {
-  .prev-link-and-result {
+  .accordion-head {
     margin: 0 0.7em;
     // margin-bottom: 0.7em;
   }
   .result-link {
     font-size: 1.1em !important;
   }
-  .prev-link {
+  .address-in-accordion {
     font-size: 0.6em;
   }
 
@@ -230,14 +235,14 @@
 
 ///////////////////inside of a link history record containers////////////////////
 
-.bothLinks {
+.indicator-and-address {
   width: 70%;
   height: 100%;
   display: flex;
   align-items: center;
 }
 
-.prev-link {
+.address-in-accordion {
   cursor: pointer;
   // margin-right: 2em;
   margin-left: 0.5em;

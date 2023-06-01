@@ -1,11 +1,11 @@
-const linksContainer = document.querySelector('.all-links-container')
+const requestsContainer = document.querySelector('.all-requests-container')
 let playAnimationAfterShortening = false
 
 //keys for the local storage
 const INDEX_LOCAL_STORAGE_KEY = 'indexKey'
 const HISTORY_OBJECT_LOCAL_STORAGE_KEY = 'historyObjectKey'
 
-//onload it either gets value from storage or assigns 0/empty array
+//on load it either gets value from storage or assigns 0/empty array
 let historyElementIndex = JSON.parse(localStorage.getItem(INDEX_LOCAL_STORAGE_KEY)) || 0
 let historyElementsArray = JSON.parse(localStorage.getItem(HISTORY_OBJECT_LOCAL_STORAGE_KEY)) || []
 
@@ -66,10 +66,10 @@ function save() {
 
 //first the function clears links container, then creates DOM elements and assings array objects values to them
 export function render() {
-  clearElement(linksContainer)
+  clearElement(requestsContainer)
 
   if (historyElementsArray.length === 0) {
-    linksContainer.innerText = 'Here you are going to see all your previous requests'
+    requestsContainer.innerText = 'Here you are going to see all your previous requests'
   }
 
   for (let i = historyElementsArray.length - 1; i >= 0; i--) {
@@ -79,28 +79,28 @@ export function render() {
       accordion.classList.toggle('active')
     })
 
-    linksContainer.appendChild(accordion)
+    requestsContainer.appendChild(accordion)
 
     let container = document.createElement('div')
-    container.classList.add('prev-link-and-result')
+    container.classList.add('accordion-head')
     if (playAnimationAfterShortening) {
       container.classList.add('container-animation')
       playAnimationAfterShortening = false
     }
     accordion.appendChild(container)
 
-    let bothLinks = document.createElement('div')
-    bothLinks.classList.add('bothLinks')
-    container.appendChild(bothLinks)
+    let indicatorAndAddress = document.createElement('div')
+    indicatorAndAddress.classList.add('indicator-and-address')
+    container.appendChild(indicatorAndAddress)
 
     const indicator = document.createElement('div')
     indicator.classList.add('accordion-indicator')
-    bothLinks.appendChild(indicator)
+    indicatorAndAddress.appendChild(indicator)
 
     let display = document.createElement('div')
-    display.classList.add('prev-link')
+    display.classList.add('address-in-accordion')
     display.innerText = historyElementsArray[i].mainRequest.address
-    bothLinks.appendChild(display)
+    indicatorAndAddress.appendChild(display)
 
     let dateAndDelete = document.createElement('div')
     dateAndDelete.classList.add('date-and-delete')
@@ -136,7 +136,7 @@ export function render() {
   }
 
   //accordion content dropdown
-  document.querySelectorAll('.prev-link-and-result').forEach((button) => {
+  document.querySelectorAll('.accordion-head').forEach((button) => {
     button.addEventListener('click', (e) => {
       //prevent animation when trash bin is clicked
       if (e.target.classList.contains('trashBin')) {
@@ -167,7 +167,7 @@ function deleteElement(event) {
   if (event.target.classList.contains('trashBin')) {
     let elementToDelete = event.target.dataset.index
 
-    let parentalContainer = upTo(event.target, 'prev-link-and-result')
+    let parentalContainer = upTo(event.target, 'accordion-head')
     parentalContainer.classList.add('delete-animation')
 
     deleteAnimationDelay(elementToDelete)
@@ -211,4 +211,4 @@ const arrowObserver = new IntersectionObserver((entries) => {
   })
 })
 
-arrowObserver.observe(document.querySelector('.all-links-container'))
+arrowObserver.observe(document.querySelector('.all-requests-container'))

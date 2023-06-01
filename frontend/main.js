@@ -24,9 +24,10 @@ if (isFirstTimeModalWindow === 'first') {
   document.body.style.overflowY = 'visible'
 }
 
+//render the list of previous requests
 render()
 
-//displaying/hiding input field depending on the value of other
+//displaying/hiding input field whether outdoor space is shared or not
 const outdoorSpace = document.querySelector('#outdoor')
 const sharingLabel = document.querySelector('#sharing-label')
 const sharingInput = document.querySelector('#sharing')
@@ -46,13 +47,13 @@ if (outdoorSpace) {
   })
 }
 
+//button to refresh the page and return back to form
 const backButton = document.querySelector('.back-button')
 backButton.onclick = (e) => {
   location.reload()
 }
 
-////////////////////getting data from backend and displaying it
-
+//different elements on the page
 const landeContainer = document.querySelector('.loader-and-error-container')
 const errorDisplay = document.querySelector('.error-display')
 const loader = document.querySelector('.loader')
@@ -66,15 +67,14 @@ const textInfo = document.querySelector('.text-info')
 //actions on form submit
 let isRequesting = false
 
-//REMOVE
+// for testing loader
 // landeContainer.style.visibility = 'visible'
 // landeContainer.style.position = 'relative'
 // loader.style.display = 'block'
 // blurLoader.style.visibility = 'visible'
-// blur.style.visibility = 'visible'
 
 ////////////////////////////////////////////////////////////////////
-
+//form that sends and retrieves data from backend
 /////////////////////////////////////////////////////////////////////
 
 form.addEventListener('submit', (event) => {
@@ -84,28 +84,30 @@ form.addEventListener('submit', (event) => {
     return
   } else {
     isRequesting = true
+    //switch the elements on the page to loader
     landeContainer.style.visibility = 'visible'
     landeContainer.style.position = 'relative'
     loader.style.display = 'block'
     textInfo.style.display = 'none'
     addressForm.style.display = 'none'
 
-    //////////values from inputs
+    //user inputs
+
     //address
-    let postcode = document.querySelector('#postcode').value.replace(/\s+/g, '').toUpperCase()
-    let houseNumber = document.querySelector('#house-number').value.replace(/\s+/g, '')
-    let houseLetter = document.querySelector('#house-letter').value.replace(/\s+/g, '')
-    let houseAddition = document.querySelector('#house-addition').value.replace(/\s+/g, '')
+    const postcode = document.querySelector('#postcode').value.replace(/\s+/g, '').toUpperCase()
+    const houseNumber = document.querySelector('#house-number').value.replace(/\s+/g, '')
+    const houseLetter = document.querySelector('#house-letter').value.replace(/\s+/g, '')
+    const houseAddition = document.querySelector('#house-addition').value.replace(/\s+/g, '')
 
     //house parameters
-    let numberOfRooms = document.querySelector('#number-of-rooms').value
-    let outdoorSpaceValue = outdoorSpace.value
+    const numberOfRooms = document.querySelector('#number-of-rooms').value
+    const outdoorSpaceValue = outdoorSpace.value
     let sharedPeople = document.querySelector('#sharing').value
     if (isSharing && sharedPeople === '') {
       sharedPeople = 1
     }
-    let kitchen = document.querySelector('#kitchen').value
-    let bathroom = document.querySelector('#bathroom').value
+    const kitchen = document.querySelector('#kitchen').value
+    const bathroom = document.querySelector('#bathroom').value
 
     const postParameters = isSharing
       ? {
@@ -139,14 +141,13 @@ form.addEventListener('submit', (event) => {
         loader.style.display = 'none'
         isRequesting = false
 
-        //after getting the data hide form, other text, and show list with data about the house (calculations were based on this data:) and result
-        //also display back button
-
         if (data.errMessage) {
+          //showing the error
           console.log(data.errMessage)
           errorDisplay.innerHTML = data.errMessage
           backButton.classList.add('button-visible-error')
         } else {
+          //unhiding elements that show the result
           displayContainer.style.position = 'relative'
           displayContainer.style.visibility = 'visible'
           blur.style.visibility = 'visible'
@@ -167,8 +168,11 @@ form.addEventListener('submit', (event) => {
             resultValue = `${result} eur`
           }
           resultElement.innerText = resultValue
+
+          //circle the result
           startResultAnimation()
 
+          //displaying different messages depending on the result number
           if (Number.isNaN(result)) {
             resultText.innerHTML =
               'One or multiple parameters of the property were not found, hence the rent price cannot be calculated. Contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
@@ -187,6 +191,7 @@ form.addEventListener('submit', (event) => {
           const address = `${streetName} ${houseNumber} ${houseLetter} ${houseAddition} ${housePostcode}, ${data.city}`
           document.querySelector('#address').innerText = `Address: ${address}`
 
+          //displaying all other data about the house
           const resultInRecord = `Result: ${resultValue}`
           const area = `Total area: ${data.area} sq.m`
           const year = `Build year: ${data.buildYear}`
@@ -210,6 +215,7 @@ form.addEventListener('submit', (event) => {
           document.querySelector('#energyIndex').innerText = ei
           document.querySelector('#monument').innerText = monument
 
+          //record in previous requests section
           createRecord({ resultInRecord, address, area, year, woz, el, ei, monument })
         }
       })

@@ -1,4 +1,3 @@
-///////////////////////////////////////manipulating the result string animation
 export function startResultAnimation() {
   const rentPrice = document.querySelector('.rent-price')
   const maxLegalPrice = document.querySelector('.max-legal-price')
@@ -16,7 +15,6 @@ export function startResultAnimation() {
     textWidth = rentPrice.innerText.length - 4
 
     rentPrice.style.width = `${textWidth}ch`
-    // price.style.opacity = '1 !important'
 
     //old eventlistener
     rentPrice.addEventListener('animationend', () => {
@@ -27,7 +25,6 @@ export function startResultAnimation() {
   } else {
     rentPrice.classList.remove('typing')
     maxLegalPrice.classList.add('typing')
-    // price.classList.add('typing-price')
     price.style.marginLeft = '200px'
     price.style.margin = '0 auto'
     price.style.opacity = '0'
@@ -59,5 +56,3 @@ export function startResultAnimation() {
     }
   }
 }
-
-// startResultAnimation()

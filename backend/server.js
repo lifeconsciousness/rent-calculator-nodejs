@@ -28,8 +28,6 @@ app.post('/api/search', async (req, res) => {
     bathroom,
   } = req.body
 
-  const postcodeValue = postcode.toUpperCase()
-
   let addressString
   if (houseLetter !== '' && houseAddition !== '') {
     addressString = `${postcode} ${houseNumber} ${houseLetter} ${houseAddition}`
@@ -43,7 +41,6 @@ app.post('/api/search', async (req, res) => {
   if (houseAddition === '' && houseLetter === '') {
     addressString = `${postcode} ${houseNumber}`
   }
-  // console.log(addressString)
 
   //setting the parameters of request url
 
@@ -58,15 +55,6 @@ app.post('/api/search', async (req, res) => {
   if (houseAddition !== '') {
     bagUrl.searchParams.set('huisnummertoevoeging', houseAddition)
   }
-
-  // bagUrl.searchParams.set('postcode', '1017EL')
-  // bagUrl.searchParams.set('huisnummer', '538')
-  // bagUrl.searchParams.set('huisnummertoevoeging', 'O')
-
-  // bagUrl.searchParams.set('postcode', '6227SP')
-  // bagUrl.searchParams.set('huisnummer', '27')
-  // bagUrl.searchParams.set('huisletter', 'A')
-  // bagUrl.searchParams.set('huisnummertoevoeging', '02')
 
   const bagConfig = {
     headers: {
@@ -85,11 +73,6 @@ app.post('/api/search', async (req, res) => {
     energyLabelUrl.searchParams.set('huisnummertoevoeging', houseAddition)
   }
 
-  // energyLabelUrl.searchParams.set('postcode', '3024RC')
-  // energyLabelUrl.searchParams.set('huisnummer', '136')
-  // energyLabelUrl.searchParams.set('huisletter', '')
-  // energyLabelUrl.searchParams.set('huisnummertoevoeging', '')
-
   const energyLabelConfig = {
     headers: {
       'Content-Type': 'application/json',
@@ -97,8 +80,7 @@ app.post('/api/search', async (req, res) => {
     },
   }
 
-  //returning an empty object in case of error to then check in order which request has failed and display according info
-  //DO NOT change order of requests because correct errors display depends on it
+  //DO NOT change order of requests because correct results display depends on it
   const requests = [
     axios.get(bagUrl, bagConfig).catch(() => {
       return {}
@@ -112,8 +94,6 @@ app.post('/api/search', async (req, res) => {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   scrapeWozAndMonument(addressString)
-    // scrapeWozAndMonument('6227 SP 27 A02')
-    // scrapeWozAndMonument('1017 EL 538 O')
     .then((result) => {
       woz = result[0]
       monument = result[1] === '' ? 'No' : 'Yes'
@@ -131,15 +111,6 @@ app.post('/api/search', async (req, res) => {
           return console.log(err)
         }
       }
-      // .then((responses) => {
-      //   data = responses.map((response) => response.data)
-      //   console.log(data)
-
-      //   if (!data[0]?._embedded?.adressen?.[0]) {
-      //     return Promise.reject('Address not found')
-      //       .then((resolved) => '')
-      //       .catch((err) => console.log(err))
-      //   }
 
       area = data[0]?._embedded?.adressen[0]._embedded.adresseerbaarObject.verblijfsobject.verblijfsobject.oppervlakte
       buildYear = data[0]?._embedded?.adressen[0]._embedded.panden[0].pand.oorspronkelijkBouwjaar
@@ -204,7 +175,7 @@ app.post('/api/search', async (req, res) => {
     .catch((error) => {
       console.log(error)
       const errMessage =
-        'Error. Check if your address is correct. <br/> If you still get the same error, try reloading the page/closing and opening your browser. <br/> If none of these methods work, try using our calculator spreadsheet: *INSERT LINK WITH ANCHOR TAG HERE*'
+        'Error. Check if your address is correct. <br/> If you still get the same error, try reloading the page/closing and opening your browser. <br/> If none of these methods work, try using our <a href="https://1drv.ms/x/s!AhS9UiEeuDTxgoA79X98W0bwNUdOFA?e=LwPAgd" target="_blank">Calculator Spreadsheet</a>'
       res.json({ errMessage })
     })
 })

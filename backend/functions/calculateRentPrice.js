@@ -65,6 +65,7 @@ async function calculateRentPrice(
       isAmsOrUtr = 'No'
     }
 
+    //values that sheet accepts
     let energyLabelTemp
     if (energyLabel === 'A++') {
       energyLabelTemp = "'++"
@@ -210,15 +211,15 @@ async function calculateRentPrice(
     })
     const result = getResultingValue.data.values[0][0]
 
-    //clear cells
-    // await googleSheets.spreadsheets.values.batchUpdate({
-    //   auth,
-    //   spreadsheetId,
-    //   resource: {
-    //     data: clearCellsData,
-    //     valueInputOption: 'USER_ENTERED',
-    //   },
-    // })
+    // clear cells
+    await googleSheets.spreadsheets.values.batchUpdate({
+      auth,
+      spreadsheetId,
+      resource: {
+        data: clearCellsData,
+        valueInputOption: 'USER_ENTERED',
+      },
+    })
 
     return result
   } finally {
