@@ -3,3 +3,5 @@
 node_modules/
 backend/data/mock-data.js
 backend/data/mock-data.json
+dist
+.cache

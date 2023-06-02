@@ -4,13 +4,15 @@
   "description": "Rent calculator app that takes address and multiple house parameters as input and retrieves information about the property from publicly available databases. The app then sends this data to a Google Spreadsheet where the final value is calculated and returned.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon backend/server.js"
+    "start": "nodemon backend/server.js",
+    "build": "cd frontend && npm install && npm run build && cd ../ && npm cache clean --force && npm install puppeteer"
   },
   "author": "Maksym Tovstolis",
   "license": "ISC",
   "dependencies": {
     "async-mutex": "^0.4.0",
     "axios": "^1.3.5",
+    "chromium": "^3.0.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "googleapis": "^118.0.0",
