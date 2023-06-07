@@ -8,6 +8,7 @@ const scrapeEnergyIndex = require('./scrapeEnergyIndex')
 const scrapeWozAndMonument = require('./scrapeWozAndMonument.js')
 const calculateRentPrice = require('./backend/functions/calculateRentPrice')
 const path = require('path')
+const cron = require('node-cron')
 
 const app = express()
 dotenv.config()
@@ -184,13 +185,22 @@ app.post('/api/search', async (req, res) => {
     })
 })
 
-console.log(process.env.PORT)
+/////////ping server every 14 minutes
 
-// scrapeWozAndMonument('6220SP 27 A 02') // use this address to test WOZ error
-// scrapeWozAndMonument('1017 EL 538 O').then((res) => console.log(res))
+function pingServer() {
+  const serverUrl = 'https://rentcalculator.onrender.com'
 
-// scrapeEnergyIndex('0363010000701271').then((res) => console.log(res)) //not working, returns empty string
-// scrapeEnergyIndex('0193010000101063').then((res) => console.log(res)) //working request
+  axios
+    .get(serverUrl)
+    .then((response) => {
+      console.log('Server pinged successfully')
+    })
+    .catch((error) => {
+      console.error('Error pinging server:', error)
+    })
+}
+
+cron.schedule('*/10 * * * *', pingServer)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -202,9 +212,6 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname1, 'dist', 'index.html'))
   })
-  // app.get('/', (req, res) => {
-  //   res.send('API is running')
-  // })
 } else {
   app.get('/', (req, res) => {
     res.send('API is running')
