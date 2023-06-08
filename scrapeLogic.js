@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer')
 require('dotenv').config()
 
-async function scrapeWozAndMonument(address) {
+async function scrapeWozAndMonument(address, adresseerbaarId) {
   // const browser = await puppeteer.launch({ headless: 'new' })
 
   // const browser = await puppeteer.launch({
@@ -68,24 +68,74 @@ async function scrapeWozAndMonument(address) {
 
   /////////////////////////////////////////////////////////////////////////////////scraping rijksmonument value
 
-  const monumentPage = await browser.newPage()
+  // const monumentPage = await browser.newPage()
 
-  await monumentPage.goto('https://monumentenregister.cultureelerfgoed.nl')
+  await page.goto('https://monumentenregister.cultureelerfgoed.nl')
   await delay(Math.random() * 30 + 1)
 
-  await monumentPage.waitForSelector('#edit-tekst--2')
-  await monumentPage.type('#edit-tekst--2', address)
+  await page.waitForSelector('#edit-tekst--2')
+  await page.type('#edit-tekst--2', address)
   await delay(Math.random() * 30 + 1)
 
-  await monumentPage.waitForSelector('#edit-submit-register-of-monuments--2')
-  await monumentPage.click('#edit-submit-register-of-monuments--2')
+  await page.waitForSelector('#edit-submit-register-of-monuments--2')
+  await page.click('#edit-submit-register-of-monuments--2')
   await delay(Math.random() * 30 + 1)
 
-  await monumentPage.waitForSelector('#content')
-  const content = await monumentPage.$eval('#content', (el) => el.innerText)
+  await page.waitForSelector('#content')
+  const monumentValue = await page.$eval('#content', (el) => el.innerText)
+
+  //////////////////////////////////////////////////////////////////////////////scraping energy index value
+
+  await page.goto('https://www.ep-online.nl/Energylabel/Search')
+  await delay(Math.random() * 18 + 1)
+
+  await page.waitForSelector('#SearchValue')
+  await delay(Math.random() * 18 + 1)
+  await page.type('#SearchValue', adresseerbaarId)
+
+  await page.waitForSelector('#searchButton')
+  await delay(Math.random() * 18 + 1)
+  await page.click('#searchButton')
+
+  let energyIndex
+
+  try {
+    let timeout
+
+    const waitForSelectorWithTimeout = async (selector, timeoutMs) => {
+      let resolveFunc
+      const timeoutPromise = new Promise((resolve) => {
+        resolveFunc = resolve
+        timeout = setTimeout(() => resolve(null), timeoutMs)
+      })
+
+      const selectorPromise = page.waitForSelector(selector)
+
+      const result = await Promise.race([selectorPromise, timeoutPromise])
+      clearTimeout(timeout)
+      resolveFunc(null) // Resolving the timeout promise to prevent unhandled promise rejection
+      return result
+    }
+
+    const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 14000)
+
+    if (elementExists) {
+      const container = await page.$eval('.se-result-item-nta', (element) => element.innerText)
+      if (/\bEI\b/.test(container)) {
+        energyIndex = container.split('EI')[1].split('EI')[0].replace(/\s+/g, '')
+      } else {
+        energyIndex = 'Not found'
+      }
+    } else {
+      energyIndex = 'Not found'
+    }
+  } catch (error) {
+    console.error(error)
+  }
 
   await browser.close()
-  return [wozValue, content]
+  return [wozValue, monumentValue, energyIndex]
+  // return [wozValue, monumentValue]
 }
 
 function delay(time) {

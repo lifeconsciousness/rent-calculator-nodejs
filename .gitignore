@@ -6,3 +6,4 @@ backend/data/mock-data.json
 mock-data.json
 dist
 .cache
+todo.md

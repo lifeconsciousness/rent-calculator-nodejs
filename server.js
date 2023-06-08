@@ -1,21 +1,13 @@
 const express = require('express')
 const axios = require('axios')
 const dotenv = require('dotenv')
-// const scrapeEnergyIndex = require('./functions/scrapeEnergyIndex.js')
-// const scrapeWozAndMonument = require('./functions/scrapeWozAndMonument.js')
-// const calculateRentPrice = require('./functions/calculateRentPrice.js')
-const scrapeEnergyIndex = require('./scrapeEnergyIndex')
-const scrapeWozAndMonument = require('./scrapeWozAndMonument.js')
+const scrapeLogic = require('./scrapeLogic.js')
 const calculateRentPrice = require('./backend/functions/calculateRentPrice')
 const path = require('path')
 const cron = require('node-cron')
 
 const app = express()
 dotenv.config()
-
-// app.get('/', (req, res) => {
-//   res.send('API is running')
-// })
 
 app.use(express.json()) // parse JSON request bodies
 
@@ -96,14 +88,9 @@ app.post('/api/search', async (req, res) => {
   ]
 
   //executing the woz searching function and writing all other requests into json file to be displayed in frontend
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////
 
-  scrapeWozAndMonument(addressString)
-    .then((result) => {
-      woz = result[0]
-      monument = result[1] === '' ? 'No' : 'Yes'
-      return Promise.all(requests)
-    })
+  Promise.all(requests)
     .then(async (responses) => {
       data = responses.map((response) => response.data)
       // console.log(data)
@@ -123,10 +110,7 @@ app.post('/api/search', async (req, res) => {
       energyLabelTemp = data[1]
       energyLabelTemp !== undefined ? (energyLabel = energyLabelTemp[0]?.labelLetter) : (energyLabel = 'Not found')
 
-      wozValue = woz ? woz.split('\t')[1].replace(/\./g, '').replace(' euro', '') : 'Not found'
-
       city = data[0]?._embedded?.adressen[0].woonplaatsNaam
-      isMonument = monument
       addressId = data[0]?._embedded?.adressen[0].adresseerbaarObjectIdentificatie
 
       streetNameFromApi = data[0]?._embedded?.adressen[0]?.openbareRuimteNaam
@@ -135,10 +119,15 @@ app.post('/api/search', async (req, res) => {
       houseAdditionFromApi = data[0]?._embedded?.adressen[0]?.huisnummertoevoeging
       postcodeFromApi = data[0]?._embedded?.adressen[0]?.postcode
 
-      return scrapeEnergyIndex(addressId)
+      return scrapeLogic(addressString, addressId)
     })
-    .then((energyIndexValue) => {
-      energyIndex = energyIndexValue
+    .then((result) => {
+      woz = result[0]
+      monument = result[1] === '' ? 'No' : 'Yes'
+
+      wozValue = woz ? woz.split('\t')[1].replace(/\./g, '').replace(' euro', '') : 'Not found'
+      isMonument = monument
+      energyIndex = result[2]
 
       return calculateRentPrice(
         area,
@@ -185,7 +174,7 @@ app.post('/api/search', async (req, res) => {
     })
 })
 
-/////////ping server every 14 minutes
+////////////////////////////////////////ping server every 14 minutes
 
 function pingServer() {
   const serverUrl = 'https://rentcalculator.onrender.com'
@@ -202,7 +191,7 @@ function pingServer() {
 
 cron.schedule('*/10 * * * *', pingServer)
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 
 //deployment
 const __dirname1 = path.resolve()
