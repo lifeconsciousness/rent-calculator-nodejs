@@ -79,7 +79,8 @@ let isRequesting = false
 
 form.addEventListener('submit', (event) => {
   event.preventDefault()
-  window.scrollTo(0, 0)
+  // document.querySelector('.rentbuster-logo').scrollIntoView()
+  document.querySelector('.dummy-element').scrollIntoView()
 
   if (isRequesting) {
     return

@@ -114,7 +114,9 @@ $arrow-opacity: 0.25;
   margin: 0 1.4em;
   text-align: start;
   border-radius: 20px;
-  // transition: all 0.5s ease;
+  color: rgba(0, 0, 0, 0);
+
+  transition: 0.5s;
 }
 
 .active {
@@ -122,6 +124,9 @@ $arrow-opacity: 0.25;
     font-size: 2em;
     width: 25px;
     content: '-';
+  }
+  .content {
+    color: rgb(9, 9, 9);
   }
 }
 
