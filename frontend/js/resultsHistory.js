@@ -106,9 +106,13 @@ export function render() {
     dateAndDelete.classList.add('date-and-delete')
     container.appendChild(dateAndDelete)
 
+    // let deleteIcon = document.createElement('button')
+    // deleteIcon.classList.add('trashBin')
+    // deleteIcon.innerText = 'X'
     let deleteIcon = document.createElement('img')
     deleteIcon.classList.add('trashBin')
-    deleteIcon.src = './img/trash.png'
+    // deleteIcon.src = 'img/trash.png'
+    deleteIcon.src = 'trash.png'
     deleteIcon.dataset.index = historyElementsArray[i].id
     deleteIcon.addEventListener('click', (e) => {
       deleteElement(e)

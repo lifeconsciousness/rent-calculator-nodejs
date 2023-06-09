@@ -212,14 +212,14 @@ async function calculateRentPrice(
     const result = getResultingValue.data.values[0][0]
 
     // clear cells
-    await googleSheets.spreadsheets.values.batchUpdate({
-      auth,
-      spreadsheetId,
-      resource: {
-        data: clearCellsData,
-        valueInputOption: 'USER_ENTERED',
-      },
-    })
+    // await googleSheets.spreadsheets.values.batchUpdate({
+    //   auth,
+    //   spreadsheetId,
+    //   resource: {
+    //     data: clearCellsData,
+    //     valueInputOption: 'USER_ENTERED',
+    //   },
+    // })
 
     return result
   } finally {

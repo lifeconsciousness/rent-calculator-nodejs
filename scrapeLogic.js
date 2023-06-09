@@ -16,7 +16,9 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
   })
 
   const page = await browser.newPage()
-  // await page.setDefaultNavigationTimeout(200000)
+  page.setDefaultNavigationTimeout(300000)
+
+  /////////////////////////////////////////////////////////////////////////////////scraping WOZ value
 
   await page.goto('https://www.wozwaardeloket.nl/')
   //maybe unnecessary delay before doing some actions on website
@@ -53,7 +55,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
       return result
     }
 
-    const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 18000)
+    const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 22000)
 
     if (listExists) {
       await page.click('#ggcSuggestionList-0')
@@ -117,7 +119,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
       return result
     }
 
-    const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 14000)
+    const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 20000)
 
     if (elementExists) {
       const container = await page.$eval('.se-result-item-nta', (element) => element.innerText)
@@ -135,7 +137,6 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 
   await browser.close()
   return [wozValue, monumentValue, energyIndex]
-  // return [wozValue, monumentValue]
 }
 
 function delay(time) {

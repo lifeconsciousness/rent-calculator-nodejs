@@ -79,6 +79,7 @@ let isRequesting = false
 
 form.addEventListener('submit', (event) => {
   event.preventDefault()
+  window.scrollTo(0, 0)
 
   if (isRequesting) {
     return

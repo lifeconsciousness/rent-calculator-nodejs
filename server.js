@@ -182,7 +182,7 @@ function pingServer() {
   axios
     .get(serverUrl)
     .then((response) => {
-      console.log('Server pinged successfully')
+      // console.log('Server pinged successfully')
     })
     .catch((error) => {
       console.error('Error pinging server:', error)
