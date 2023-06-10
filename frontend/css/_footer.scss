@@ -1,12 +1,16 @@
 footer {
-  background-color: var(--black-main);
-  //background-color: rgb(21, 21, 21);
+  width: 100%;
   padding: 40px 0;
   padding-bottom: 0px;
   font-family: 'Inter', sans-serif;
-
-  width: 100%;
   border-top: 2px solid rgba(235, 235, 235, 0.11);
+
+  @media (max-width: 500px) {
+    padding-top: 0;
+  }
+  @media (max-width: 620px) {
+    padding-left: 3vw;
+  }
 
   .footer-container {
     max-width: 1170px;
@@ -26,10 +30,15 @@ footer {
       font-weight: 500;
       justify-content: space-between;
 
-      width: clamp(40px, 90vw, 672px);
+      // width: clamp(40px, 90vw, 672px);
 
       @media (max-width: 300px) {
-        scale: 0.9;
+        scale: 0.85;
+        transform: translateX(-12px);
+      }
+
+      .social-media-container {
+        margin-right: 0 !important;
       }
 
       .footer-column {

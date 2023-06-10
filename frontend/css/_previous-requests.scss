@@ -4,7 +4,7 @@
 
 //arrow pointing to the previous requests section
 
-$arrow-opacity: 0.25;
+$arrow-opacity: 0.15;
 .arrow-down {
   opacity: $arrow-opacity;
   cursor: pointer;
@@ -12,6 +12,11 @@ $arrow-opacity: 0.25;
   font-size: 280%;
 
   animation: fadeOut 1s ease-in-out;
+
+  &:hover {
+    color: white;
+    opacity: 0.5;
+  }
 }
 
 @keyframes fadeOut {
