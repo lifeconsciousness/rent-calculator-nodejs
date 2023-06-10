@@ -12,7 +12,7 @@ Web-application that calculates the approximate max legal price of any property 
 
 ## Demo
 
-Will be added soon
+<a href='https://rentcalculator.onrender.com' target='_blank'>Live version🏠<a/>
 
 ## Resources that were used to obtain data
 
