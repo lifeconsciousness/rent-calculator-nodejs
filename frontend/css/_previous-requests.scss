@@ -8,13 +8,13 @@ $arrow-opacity: 0.15;
 .arrow-down {
   opacity: $arrow-opacity;
   cursor: pointer;
-  color: white;
+  color: var(--arrow-color);
   font-size: 280%;
 
   animation: fadeOut 1s ease-in-out;
 
   &:hover {
-    color: white;
+    color: var(--arrow-color);
     opacity: 0.5;
   }
 }
@@ -60,16 +60,14 @@ $arrow-opacity: 0.15;
   border-radius: 14px;
   padding-top: 0;
   padding: 1.4em 1.4em;
-  // margin-bottom: 3em;
-  // margin-bottom: 10em;
   margin-top: 1em;
-  // border: 1px solid white;
   border: 1px solid rgba(255, 255, 255, 0.171);
   box-shadow: 0 0 20px rgba(59, 59, 63, 0.295);
   transition: 0.6s all;
 
   &:hover {
-    box-shadow: 0 0 20px rgba(235, 235, 235, 0.11);
+    // box-shadow: 0 0 20px rgba(235, 235, 235, 0.11);
+    box-shadow: 0 0 20px var(--white-shadow);
   }
 
   @media (max-width: 789px) {
@@ -91,11 +89,14 @@ $arrow-opacity: 0.15;
   margin-top: 0.5em;
   transition: 0.2s;
   cursor: pointer;
-  // margin-top: 1em;
+
+  border: 1px solid var(--light-grey);
 }
 .accordion-head:hover {
   scale: 1.005;
   box-shadow: 6px 7px 11px rgba(0, 0, 0, 0.275);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.203);
+  // box-shadow: 3px 3px 5px 10000px rgba(0, 0, 0, 0.203);
 }
 .accordion-head:last-child {
   margin-bottom: 0;
@@ -119,9 +120,15 @@ $arrow-opacity: 0.15;
   margin: 0 1.4em;
   text-align: start;
   border-radius: 20px;
-  color: rgba(0, 0, 0, 0);
+
+  // position: relative;
+  // z-index: 100;
 
   transition: 0.5s;
+
+  // &:hover {
+  //   box-shadow: 3px 3px 5px 10000px rgba(0, 0, 0, 0.203);
+  // }
 }
 
 .active {
@@ -132,6 +139,7 @@ $arrow-opacity: 0.15;
   }
   .content {
     color: rgb(9, 9, 9);
+    border: 1px solid var(--light-grey);
   }
 }
 

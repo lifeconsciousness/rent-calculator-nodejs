@@ -5,16 +5,12 @@
 
 header {
   width: 100%;
-  //   border: 1px rgba(255, 255, 255, 0.178) solid;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.2em;
-  //   padding: 0 0.5em;
-  padding-bottom: 0.4em;
-  padding-bottom: 0.7em;
   padding-bottom: 1.1em;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.171);
+  border-bottom: 2px solid var(--light-grey);
 }
 
 h1 {
@@ -28,7 +24,6 @@ h1 {
   font-family: 'Prompt', sans-serif;
 
   transform: translateX(-38px);
-  // transform: translateX(-20px);
 
   width: 100%;
 }

@@ -1,9 +1,9 @@
 footer {
   width: 100%;
-  padding: 40px 0;
+  padding: 20px 0;
   padding-bottom: 0px;
   font-family: 'Inter', sans-serif;
-  border-top: 2px solid rgba(235, 235, 235, 0.11);
+  border-top: 2px solid var(--light-grey);
 
   @media (max-width: 500px) {
     padding-top: 0;

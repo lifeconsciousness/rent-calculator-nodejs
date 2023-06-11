@@ -5,8 +5,8 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.171);
-  box-shadow: 0 0 20px rgba(59, 59, 63, 0.295);
+  border: 1px solid var(--light-grey);
+  // box-shadow: 0 0 20px var(--grey-shadow);
   margin-top: 1.4em;
   transform: translateY(-18px);
 
@@ -20,7 +20,7 @@
   }
 }
 .inputs-container:hover {
-  box-shadow: 0 0 20px rgba(235, 235, 235, 0.11);
+  box-shadow: 0 0 20px var(--white-shadow);
 }
 
 .inputs {
@@ -34,7 +34,8 @@
   transition: 0.4s;
 
   .inputs-title {
-    border-bottom: #f5f5f8 1px solid;
+    // border-bottom: var(--loader-color) 1px solid;
+    border-bottom: var(--white-transparent) 1px solid;
     margin-bottom: 18px;
     margin-top: 1em;
   }
@@ -47,6 +48,7 @@
   select {
     font-size: 110%;
     font-family: inherit;
+    color: inherit;
   }
   select {
     height: 30px;
@@ -86,13 +88,15 @@
 }
 
 .inputs:hover {
-  box-shadow: 0 0 80px rgba(0, 47, 255, 0.247);
-  border: 1px solid rgba(255, 255, 255, 0.479);
+  // border: 1px solid rgba(255, 255, 255, 0.479);
+  // box-shadow: 0 0 80px var(--main-blue-transparent);
+  border: 1px solid var(--white-transparent);
   transition: 1s all;
 }
 .inputs:focus-within {
-  box-shadow: 0 0 80px rgba(0, 47, 255, 0.247);
-  border: 1px solid rgba(255, 255, 255, 0.479);
+  // border: 1px solid rgba(255, 255, 255, 0.479);
+  box-shadow: 0 0 80px var(--main-blue-transparent);
+  border: 1px solid var(--white-transparent);
   transition: 1s all;
 }
 

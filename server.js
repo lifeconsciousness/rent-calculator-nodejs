@@ -2,7 +2,7 @@ const express = require('express')
 const axios = require('axios')
 const dotenv = require('dotenv')
 const scrapeLogic = require('./scrapeLogic.js')
-const calculateRentPrice = require('./backend/functions/calculateRentPrice')
+const calculateRentPrice = require('./backend/functions/calculateRentPrice.js')
 const path = require('path')
 const cron = require('node-cron')
 
@@ -90,9 +90,27 @@ app.post('/api/search', async (req, res) => {
   //executing the woz searching function and writing all other requests into json file to be displayed in frontend
   ///////////////////////////////////////////////////////////////////////////////////////
 
+  //variables declaration
+  let area
+  let buildYear
+  let energyLabelTemp
+  let energyLabel
+  let city
+  let addressId
+  let streetNameFromApi
+  let houseNumberFromApi
+  let houseLetterFromApi
+  let houseAdditionFromApi
+  let postcodeFromApi
+  let woz
+  let monument
+  let wozValue
+  let isMonument
+  let energyIndex
+
   Promise.all(requests)
     .then(async (responses) => {
-      data = responses.map((response) => response.data)
+      const data = responses.map((response) => response.data)
       // console.log(data)
 
       if (!data[0]?._embedded?.adressen?.[0]) {

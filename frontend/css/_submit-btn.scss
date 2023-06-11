@@ -14,8 +14,9 @@
   margin-top: 15px;
   margin-top: 12px;
   padding: 0.8em 0;
-  border: 2px solid rgba(255, 255, 255, 0.14);
+  border: 2px solid var(--light-grey);
   transition: 0.6s all;
+  color: inherit;
 
   span {
     opacity: 0;
@@ -28,6 +29,7 @@ $line-color: #8aacf771;
 
 .submit-btn:hover {
   scale: 1.08;
+  color: rgb(220, 218, 224);
   border: 2px solid rgba(255, 255, 255, 0);
   background-color: rgba(0, 0, 0, 0.684);
 
@@ -49,7 +51,7 @@ $line-color: #8aacf771;
   right: 0;
   width: 100%;
   height: 5px;
-  background: linear-gradient(to right, #171618, $line-color);
+  background: linear-gradient(to right, var(--submit-btn-trace), $line-color);
   animation: animate1 1.3s ease-in-out infinite;
 }
 
@@ -68,7 +70,7 @@ $line-color: #8aacf771;
   right: 0;
   height: 100%;
   width: 5px;
-  background: linear-gradient(to bottom, #171618, $line-color);
+  background: linear-gradient(to bottom, var(--submit-btn-trace), $line-color);
   animation: animate2 1.3s linear infinite;
   animation-delay: 0.5s;
 }
@@ -87,7 +89,7 @@ $line-color: #8aacf771;
   right: 0;
   width: 100%;
   height: 5px;
-  background: linear-gradient(to left, #171618, $line-color);
+  background: linear-gradient(to left, var(--submit-btn-trace), $line-color);
   animation: animate3 1.3s ease-in-out infinite;
 }
 
@@ -106,7 +108,7 @@ $line-color: #8aacf771;
   left: 0;
   height: 100%;
   width: 5px;
-  background: linear-gradient(to top, #171618, $line-color);
+  background: linear-gradient(to top, var(--submit-btn-trace), $line-color);
   animation: animate4 1.3s linear infinite;
   animation-delay: 0.5s;
 }

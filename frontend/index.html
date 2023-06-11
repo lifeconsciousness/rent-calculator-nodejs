@@ -37,9 +37,12 @@
         <section class="text-info">
           <h2 class="title-small">Rent price calculator</h2>
           <h3>
+            Important! Sometimes letter in address can be the addition (e.g. in '1017EL 538H' - H is addition). <br />
+          </h3>
+          <!-- <h3>
             Important! Sometimes letter in address can be the addition (e.g. in '1017EL 538H' - H is addition). Also be
             aware that calculator may not work in non-Chromium browsers.
-          </h3>
+          </h3> -->
         </section>
         <section>
           <form id="address-form">
@@ -47,9 +50,16 @@
               <div class="inputs">
                 <h4 class="inputs-title">Your address</h4>
                 <label for="postcode">Postcode:</label>
-                <input type="text" id="postcode" name="postcode" style="text-transform: uppercase" maxlength="8" />
+                <input
+                  type="text"
+                  id="postcode"
+                  name="postcode"
+                  required
+                  style="text-transform: uppercase"
+                  maxlength="8"
+                />
                 <label for="house-number">House Number:</label>
-                <input type="text" id="house-number" name="house-number" />
+                <input type="number" required id="house-number" name="house-number" />
                 <label for="house-letter">House letter (optional):</label>
                 <input type="text" id="house-letter" name="house-letter" />
                 <label for="house-addition">Addition (optional):</label>
@@ -58,7 +68,7 @@
               <div class="inputs">
                 <h4 class="inputs-title">Your house</h4>
                 <label for="number-of-rooms">Number of rooms in your house/apartment:</label>
-                <input type="number" id="number-of-rooms" name="number-of-rooms" min="1" />
+                <input type="number" id="number-of-rooms" required name="number-of-rooms" min="1" />
 
                 <label for="outdoor">Do you have outdoor space?</label>
                 <select name="outdoor" id="outdoor">
