@@ -12,7 +12,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     // WOZ scraping logic
 
     const page = await browser.newPage()
-    page.setDefaultNavigationTimeout(100000)
+    page.setDefaultNavigationTimeout(60000)
 
     await page.goto('https://www.wozwaardeloket.nl/')
     //maybe unnecessary delay before doing some actions on website
@@ -69,7 +69,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     // Monument scraping logic
 
     const page = await browser.newPage()
-    page.setDefaultNavigationTimeout(100000)
+    page.setDefaultNavigationTimeout(30000)
 
     await page.goto('https://monumentenregister.cultureelerfgoed.nl')
     await delay(Math.random() * 30 + 1)
@@ -91,7 +91,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     // Energy index scraping logic
 
     const page = await browser.newPage()
-    page.setDefaultNavigationTimeout(100000)
+    page.setDefaultNavigationTimeout(40000)
 
     await page.goto('https://www.ep-online.nl/Energylabel/Search')
     await delay(Math.random() * 18 + 1)
@@ -149,15 +149,9 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 
   await Promise.all([wozValuePromise(address), monumentValuePromise(address), energyIndexPromise(adresseerbaarId)])
     .then(([wozValue, monumentValue, energyIndexValue]) => {
-      // browser.close()
-      console.log('new scraping')
-      console.log(wozValue, monumentValue, energyIndexValue)
-
       woz = wozValue
       monument = monumentValue
       energyIndex = energyIndexValue
-
-      // return [wozValue, monumentValue, energyIndex]
     })
     .catch((error) => {
       console.error(error)

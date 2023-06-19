@@ -114,21 +114,15 @@ $arrow-opacity: 0.15;
   transition: max-height 0.4s ease;
   padding: 0 2.6em;
   box-sizing: border-box;
-  background-color: rgb(50, 85, 156);
   background-color: rgb(232, 237, 243);
 
   margin: 0 1.4em;
   text-align: start;
   border-radius: 20px;
 
-  // position: relative;
-  // z-index: 100;
+  color: rgba(0, 0, 0, 0);
 
   transition: 0.5s;
-
-  // &:hover {
-  //   box-shadow: 3px 3px 5px 10000px rgba(0, 0, 0, 0.203);
-  // }
 }
 
 .active {

@@ -36,6 +36,8 @@
   --loader-color: #f5f5f8;
   --submit-btn-trace: #171618;
   --arrow-color: white;
+
+  --bg-gradient: linear-gradient(120deg, #3b79ff, #171618, #3b79ff);
 }
 
 @media (prefers-color-scheme: light) {
@@ -49,13 +51,9 @@
     --loader-color: #181819;
     --submit-btn-trace: #f0edf4;
     --arrow-color: black;
+
+    --bg-gradient: linear-gradient(120deg, #3b79ff, #f1eef5, #3b79ff);
   }
-  // a:hover {
-  //   color: #747bff;
-  // }
-  // button {
-  //   background-color: #f9f9f9;
-  // }
 }
 
 body {
@@ -124,6 +122,7 @@ main::before {
   background: linear-gradient(to right, #171618, #3b79ff);
   background: linear-gradient(150deg, #3b79ff, #171618, #3b79ff);
   background: linear-gradient(120deg, #3b79ff, #171618, #3b79ff);
+  background: var(--bg-gradient);
 
   filter: url(#noiseFilter);
 }

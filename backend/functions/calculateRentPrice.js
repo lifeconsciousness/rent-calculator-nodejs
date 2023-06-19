@@ -193,6 +193,16 @@ async function calculateRentPrice(
       },
     ]
 
+    // clear cells
+    await googleSheets.spreadsheets.values.batchUpdate({
+      auth,
+      spreadsheetId,
+      resource: {
+        data: clearCellsData,
+        valueInputOption: 'USER_ENTERED',
+      },
+    })
+
     //set the value of cells
     await googleSheets.spreadsheets.values.batchUpdate({
       auth,
@@ -210,16 +220,6 @@ async function calculateRentPrice(
       range: 'Independent calculator!Q5:Q7',
     })
     const result = getResultingValue.data.values[0][0]
-
-    // clear cells
-    // await googleSheets.spreadsheets.values.batchUpdate({
-    //   auth,
-    //   spreadsheetId,
-    //   resource: {
-    //     data: clearCellsData,
-    //     valueInputOption: 'USER_ENTERED',
-    //   },
-    // })
 
     return result
   } finally {

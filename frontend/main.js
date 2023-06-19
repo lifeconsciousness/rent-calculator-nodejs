@@ -1,5 +1,5 @@
 // import { build } from 'vite'
-import './style.scss'
+// import './style.scss'
 import axios from 'axios'
 import { startResultAnimation } from './js/resultAnimation.js'
 import { createRecord } from './js/resultsHistory'
@@ -67,11 +67,13 @@ const textInfo = document.querySelector('.text-info')
 //actions on form submit
 let isRequesting = false
 
-// for testing loader
+//// for testing loader
 // landeContainer.style.visibility = 'visible'
 // landeContainer.style.position = 'relative'
 // loader.style.display = 'block'
 // blurLoader.style.visibility = 'visible'
+// displayContainer.style.visibility = 'visible'
+// displayContainer.style.display = 'black'
 
 ////////////////////////////////////////////////////////////////////
 //form that sends and retrieves data from backend
@@ -177,7 +179,7 @@ form.addEventListener('submit', (event) => {
           //displaying different messages depending on the result number
           if (Number.isNaN(result)) {
             resultText.innerHTML =
-              'One or multiple parameters of the property were not found, hence the rent price cannot be calculated. Contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
+              'One or multiple parameters of the property were not found, hence the rent price cannot be calculated. Try using our <a href="https://1drv.ms/x/s!AhS9UiEeuDTxgoA79X98W0bwNUdOFA?e=LwPAgd" target="_blank">Calculator Spreadsheet</a>'
           }
           if (result > 800) {
             resultText.innerHTML =
