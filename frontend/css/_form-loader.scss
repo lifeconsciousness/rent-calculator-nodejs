@@ -60,6 +60,11 @@
 
   visibility: hidden;
   position: absolute;
+
+  @media (max-width: 500px) {
+    min-height: 75vh;
+    min-height: 75svh;
+  }
 }
 
 .back-button {
@@ -187,4 +192,5 @@ $animation-start-delay: 1s;
 .loading-message {
   position: relative;
   z-index: 100;
+  max-width: 500px;
 }

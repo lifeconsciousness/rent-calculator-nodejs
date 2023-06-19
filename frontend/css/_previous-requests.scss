@@ -1,5 +1,9 @@
 .previous-requests-container {
   margin-top: 0em;
+
+  @media (max-width: 890px) {
+    transform: translateY(-1em);
+  }
 }
 
 //arrow pointing to the previous requests section
