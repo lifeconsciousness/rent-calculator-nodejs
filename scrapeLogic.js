@@ -12,7 +12,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     // WOZ scraping logic
 
     const page = await browser.newPage()
-    page.setDefaultNavigationTimeout(60000)
+    page.setDefaultNavigationTimeout(120000)
 
     await page.goto('https://www.wozwaardeloket.nl/')
     //maybe unnecessary delay before doing some actions on website
