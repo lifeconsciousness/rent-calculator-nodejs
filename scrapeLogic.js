@@ -14,7 +14,10 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     const page = await browser.newPage()
     page.setDefaultNavigationTimeout(150000)
 
-    await page.goto('https://www.wozwaardeloket.nl/')
+    await page.goto('https://www.wozwaardeloket.nl/', {
+      waitUntil: 'load',
+      timeout: 0,
+    })
     //maybe unnecessary delay before doing some actions on website
     await delay(Math.random() * 30 + 1)
 
@@ -71,7 +74,10 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     const page = await browser.newPage()
     page.setDefaultNavigationTimeout(30000)
 
-    await page.goto('https://monumentenregister.cultureelerfgoed.nl')
+    await page.goto('https://monumentenregister.cultureelerfgoed.nl', {
+      waitUntil: 'load',
+      timeout: 0,
+    })
     await delay(Math.random() * 30 + 1)
 
     await page.waitForSelector('#edit-tekst--2')
@@ -93,7 +99,10 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     const page = await browser.newPage()
     page.setDefaultNavigationTimeout(40000)
 
-    await page.goto('https://www.ep-online.nl/Energylabel/Search')
+    await page.goto('https://www.ep-online.nl/Energylabel/Search', {
+      waitUntil: 'load',
+      timeout: 0,
+    })
     await delay(Math.random() * 18 + 1)
 
     await page.waitForSelector('#SearchValue')
