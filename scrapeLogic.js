@@ -3,10 +3,15 @@ require('dotenv').config()
 
 async function scrapeWozAndMonument(address, adresseerbaarId) {
   const browser = await puppeteer.launch({
-    args: ['--disable-setuid-sandbox', '--no-sandbox', '--single-process', '--no-zygote'],
+    args: ['--disable-setuid-sandbox', '--no-sandbox'],
     executablePath:
       process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
   })
+  // const browser = await puppeteer.launch({
+  //   args: ['--disable-setuid-sandbox', '--no-sandbox', '--single-process', '--no-zygote'],
+  //   executablePath:
+  //     process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
+  // })
 
   const wozValuePromise = async (address) => {
     // WOZ scraping logic
