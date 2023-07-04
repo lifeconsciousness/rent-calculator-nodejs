@@ -141,6 +141,7 @@ app.post('/api/search', async (req, res) => {
     })
     .then((result) => {
       woz = result[0]
+      console.log(result[1])
       monument = result[1] === '' ? 'No' : 'Yes'
       console.log(result[1])
 

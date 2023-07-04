@@ -12,7 +12,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     // WOZ scraping logic
 
     const page = await browser.newPage()
-    page.setDefaultNavigationTimeout(150000)
+    page.setDefaultNavigationTimeout(200000)
 
     await page.goto('https://www.wozwaardeloket.nl/', {
       waitUntil: 'load',
@@ -23,9 +23,14 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 
     //clicking the button 'ga verder'
     await page.waitForSelector('#kaart-bekijken-btn')
-    const myData = await page.$eval('#kaart-bekijken-btn', (el) => el.innerText)
-    console.log(myData)
-    await page.click('#kaart-bekijken-btn')
+    // const myData = await page.$eval('#kaart-bekijken-btn', (el) => el.innerText)
+    // console.log(myData)
+
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'load', timeout: 0 }), // Wait for the page to load after clicking the button
+      page.click('#kaart-bekijken-btn'), // Click the button
+    ])
+    // await page.click('#kaart-bekijken-btn')
 
     await delay(Math.random() * 30 + 1)
     //typing the address and choosing the first address suggestion
