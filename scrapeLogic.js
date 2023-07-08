@@ -3,6 +3,7 @@ require('dotenv').config()
 
 async function scrapeWozAndMonument(address, adresseerbaarId) {
   const browser = await puppeteer.launch({
+    headless: true,
     args: ['--disable-setuid-sandbox', '--no-sandbox'],
     executablePath:
       process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
@@ -19,10 +20,11 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     const page = await browser.newPage()
     page.setDefaultNavigationTimeout(200000)
 
-    await page.goto('https://www.wozwaardeloket.nl/', {
-      waitUntil: 'load',
-      timeout: 0,
-    })
+    await page.goto('https://www.wozwaardeloket.nl/')
+    // await page.goto('https://www.wozwaardeloket.nl/', {
+    //   waitUntil: 'load',
+    //   timeout: 0,
+    // })
     //maybe unnecessary delay before doing some actions on website
     await delay(Math.random() * 30 + 1)
 
