@@ -112,6 +112,7 @@ app.post('/api/search', async (req, res) => {
     .then(async (responses) => {
       const data = responses.map((response) => response.data)
       // console.log(data)
+      console.log(streetNameFromApi, houseNumberFromApi, houseLetterFromApi, houseAdditionFromApi, postcodeFromApi)
 
       if (!data[0]?._embedded?.adressen?.[0]) {
         try {
@@ -141,7 +142,6 @@ app.post('/api/search', async (req, res) => {
     })
     .then((result) => {
       woz = result[0]
-      console.log(result[1])
       monument = result[1] === '' ? 'No' : 'Yes'
       console.log(result[1])
 
