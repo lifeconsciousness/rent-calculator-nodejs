@@ -19,7 +19,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 
     const page = await browser.newPage()
     // page.setDefaultNavigationTimeout(200000)
-    page.waitForNavigation({ timeout: 100, waitUntil: 'domcontentloaded' })
+    page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
 
     await page.goto('https://www.wozwaardeloket.nl/')
     // await page.goto('https://www.wozwaardeloket.nl/', {
