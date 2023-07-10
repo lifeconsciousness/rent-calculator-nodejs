@@ -30,11 +30,21 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     await delay(Math.random() * 30 + 1)
 
     //clicking the button 'ga verder'
-    await page.waitForSelector('#kaart-bekijken-btn')
+    // await page.waitForSelector('#kaart-bekijken-btn')
+
     // const myData = await page.$eval('#kaart-bekijken-btn', (el) => el.innerText)
     // console.log(myData)
+    // await page.waitForFunction(() => {
+    //   const button = document.querySelector('#kaart-bekijken-btn')
+    //   return button && button.isConnected
+    // })
 
-    await page.click('#kaart-bekijken-btn')
+    // await page.click('#kaart-bekijken-btn')
+
+    const kaartBekijkenButton = await page.$('#kaart-bekijken-btn')
+    if (kaartBekijkenButton) {
+      await kaartBekijkenButton.click()
+    }
 
     await delay(Math.random() * 30 + 1)
     //typing the address and choosing the first address suggestion
