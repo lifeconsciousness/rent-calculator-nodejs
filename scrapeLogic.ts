@@ -41,10 +41,14 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 
     // await page.click('#kaart-bekijken-btn')
 
-    const kaartBekijkenButton = await page.$('#kaart-bekijken-btn')
-    if (kaartBekijkenButton) {
-      await kaartBekijkenButton.click()
-    }
+    //MOST STABLE VARIANT OF CLICK UP TO DATE
+
+    // const kaartBekijkenButton = await page.$('#kaart-bekijken-btn')
+    // if (kaartBekijkenButton) {
+    //   await kaartBekijkenButton.click()
+    // }
+
+    await page.$eval('#kaart-bekijken-btn', (elem) => (elem as HTMLElement).click())
 
     await delay(Math.random() * 30 + 1)
     //typing the address and choosing the first address suggestion
