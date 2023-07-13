@@ -19,7 +19,6 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 
     const page = await browser.newPage()
     // page.setDefaultNavigationTimeout(200000)
-    page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
 
     await page.goto('https://www.wozwaardeloket.nl/')
     // await page.goto('https://www.wozwaardeloket.nl/', {
@@ -27,6 +26,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     //   timeout: 0,
     // })
     //maybe unnecessary delay before doing some actions on website
+    page.waitForNavigation({ timeout: 300000, waitUntil: 'domcontentloaded' })
     await delay(Math.random() * 30 + 1)
 
     //clicking the button 'ga verder'
@@ -50,8 +50,23 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     //typing the address and choosing the first address suggestion
     await page.type('#ggcSearchInput', address)
 
-    //if there's no ggcsuggestion list woz value is empty
+    //if there's no ggcsuggestion st woz value is empty
     let wozValue
+
+    //newly added WOZ value retrieving
+    // const suggestionList = await page.$('#ggcSuggestionList-0')
+    // if (suggestionList) {
+    //   await suggestionList.click()
+    // }
+
+    // const waardenRow = await page.$('.waarden-row')
+    // if (waardenRow) {
+    //   wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
+    // } else {
+    //   wozValue = 'Not found'
+    // }
+
+    ////old version of WOZ retrieving
 
     try {
       let timeout
@@ -71,7 +86,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
         return result
       }
 
-      const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 22000)
+      const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 220000)
 
       if (listExists) {
         await page.click('#ggcSuggestionList-0')
