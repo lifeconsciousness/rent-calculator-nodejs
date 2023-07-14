@@ -33,17 +33,59 @@ const sharingLabel = document.querySelector('#sharing-label')
 const sharingInput = document.querySelector('#sharing')
 let isSharing = false
 
+// if (outdoorSpace) {
+//   outdoorSpace.addEventListener('change', (e) => {
+//     if (outdoorSpace.value === 'Shared') {
+//       sharingLabel.style.display = 'block'
+//       sharingInput.style.display = 'block'
+//       isSharing = true
+//     } else {
+//       sharingLabel.style.display = 'none'
+//       sharingInput.style.display = 'none'
+//       isSharing = false
+//     }
+//   })
+// }
+
 if (outdoorSpace) {
+  if (outdoorSpace.value === 'Shared') {
+    sharingLabel.style.position = 'relative'
+    sharingLabel.style.visibility = 'visible'
+    sharingInput.style.position = 'relative'
+    sharingInput.style.visibility = 'visible'
+    isSharing = true
+  } else {
+    sharingLabel.style.position = 'absolute'
+    sharingLabel.style.visibility = 'hidden'
+    sharingInput.style.position = 'absolute'
+    sharingInput.style.visibility = 'hidden'
+    isSharing = false
+  }
+
   outdoorSpace.addEventListener('change', (e) => {
     if (outdoorSpace.value === 'Shared') {
-      sharingLabel.style.display = 'block'
-      sharingInput.style.display = 'block'
+      sharingLabel.style.position = 'relative'
+      sharingLabel.style.visibility = 'visible'
+      sharingInput.style.position = 'relative'
+      sharingInput.style.visibility = 'visible'
       isSharing = true
     } else {
-      sharingLabel.style.display = 'none'
-      sharingInput.style.display = 'none'
+      sharingLabel.style.position = 'absolute'
+      sharingLabel.style.visibility = 'hidden'
+      sharingInput.style.position = 'absolute'
+      sharingInput.style.visibility = 'hidden'
       isSharing = false
     }
+
+    // if (outdoorSpace.value === 'Shared') {
+    //   sharingLabel.style.display = 'block'
+    //   sharingInput.style.display = 'block'
+    //   isSharing = true
+    // } else {
+    //   sharingLabel.style.display = 'none'
+    //   sharingInput.style.display = 'none'
+    //   isSharing = false
+    // }
   })
 }
 
@@ -108,7 +150,7 @@ form.addEventListener('submit', (event) => {
     const outdoorSpaceValue = outdoorSpace.value
     let sharedPeople = document.querySelector('#sharing').value
     if (isSharing && sharedPeople === '') {
-      sharedPeople = 1
+      sharedPeople = 0
     }
     const kitchen = document.querySelector('#kitchen').value
     const bathroom = document.querySelector('#bathroom').value
