@@ -43,15 +43,20 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 
     //MOST STABLE VARIANT OF CLICK UP TO DATE
 
-    // const kaartBekijkenButton = await page.$('#kaart-bekijken-btn')
-    // if (kaartBekijkenButton) {
-    //   await kaartBekijkenButton.click()
-    // }
+    const kaartBekijkenButton = await page.$('#kaart-bekijken-btn')
+    if (kaartBekijkenButton) {
+      await kaartBekijkenButton.click()
+    }
 
-    await page.$eval('#kaart-bekijken-btn', (elem) => (elem as HTMLElement).click())
+    // await page.$eval('#kaart-bekijken-btn', (elem) => (elem as HTMLElement).click())
 
     await delay(Math.random() * 30 + 1)
     //typing the address and choosing the first address suggestion
+    // const inputField = await page.$('#ggcSearchInput')
+    // if (inputField) {
+    //   await page.type('#ggcSearchInput', address)
+    // }
+
     await page.type('#ggcSearchInput', address)
 
     //if there's no ggcsuggestion list woz value is empty
@@ -75,12 +80,17 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
         return result
       }
 
-      const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 22000)
+      const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 100000)
 
       if (listExists) {
         await page.click('#ggcSuggestionList-0')
-        await page.waitForSelector('.waarden-row')
-        wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
+
+        const waardenRow = await page.$('.waarden-row')
+        if (waardenRow) {
+          wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
+        }
+        // await page.waitForSelector('.waarden-row')
+        // wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
       } else {
         wozValue = 'Not found'
       }
