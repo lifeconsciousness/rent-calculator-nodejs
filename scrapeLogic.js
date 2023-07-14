@@ -53,39 +53,54 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     //typing the address and choosing the first address suggestion
     await page.type('#ggcSearchInput', address)
 
-    //if there's no ggcsuggestion list woz value is empty
+    //if there's no ggcsuggestion st woz value is empty
     let wozValue
 
-    try {
-      let timeout
-
-      const waitForSelectorWithTimeout = async (selector, timeoutMs) => {
-        let resolveFunc
-        const timeoutPromise = new Promise((resolve) => {
-          resolveFunc = resolve
-          timeout = setTimeout(() => resolve(null), timeoutMs)
-        })
-
-        const selectorPromise = page.waitForSelector(selector)
-
-        const result = await Promise.race([selectorPromise, timeoutPromise]) //wait for either selector or timeout to resolve
-        clearTimeout(timeout)
-        resolveFunc(null) // Resolving the timeout promise to prevent unhandled promise rejection
-        return result
-      }
-
-      const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 22000)
-
-      if (listExists) {
-        await page.click('#ggcSuggestionList-0')
-        await page.waitForSelector('.waarden-row')
-        wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
-      } else {
-        wozValue = 'Not found'
-      }
-    } catch (error) {
-      console.log(error)
+    //newly added WOZ value retrieving
+    const suggestionList = await page.$('#ggcSuggestionList-0')
+    if (suggestionList) {
+      await suggestionList.click()
     }
+
+    const waardenRow = await page.$('.waarden-row')
+    if (waardenRow) {
+      wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
+    } else {
+      wozValue = 'Not found'
+    }
+
+    ////old version of WOZ retrieving
+
+    // try {
+    //   let timeout
+
+    //   const waitForSelectorWithTimeout = async (selector, timeoutMs) => {
+    //     let resolveFunc
+    //     const timeoutPromise = new Promise((resolve) => {
+    //       resolveFunc = resolve
+    //       timeout = setTimeout(() => resolve(null), timeoutMs)
+    //     })
+
+    //     const selectorPromise = page.waitForSelector(selector)
+
+    //     const result = await Promise.race([selectorPromise, timeoutPromise]) //wait for either selector or timeout to resolve
+    //     clearTimeout(timeout)
+    //     resolveFunc(null) // Resolving the timeout promise to prevent unhandled promise rejection
+    //     return result
+    //   }
+
+    //   const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 22000)
+
+    //   if (listExists) {
+    //     await page.click('#ggcSuggestionList-0')
+    //     await page.waitForSelector('.waarden-row')
+    //     wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
+    //   } else {
+    //     wozValue = 'Not found'
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
 
     return wozValue
   }
