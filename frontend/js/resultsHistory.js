@@ -75,9 +75,9 @@ export function render() {
   for (let i = historyElementsArray.length - 1; i >= 0; i--) {
     let accordion = document.createElement('div')
     accordion.classList.add('accordion')
-    accordion.addEventListener('click', (e) => {
-      accordion.classList.toggle('active')
-    })
+    // accordion.addEventListener('click', (e) => {
+    //   accordion.classList.toggle('active')
+    // })
 
     requestsContainer.appendChild(accordion)
 
@@ -87,6 +87,10 @@ export function render() {
       container.classList.add('container-animation')
       playAnimationAfterShortening = false
     }
+    container.addEventListener('click', (e) => {
+      accordion.classList.toggle('active')
+    })
+
     accordion.appendChild(container)
 
     let indicatorAndAddress = document.createElement('div')
