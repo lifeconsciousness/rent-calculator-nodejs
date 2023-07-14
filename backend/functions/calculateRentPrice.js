@@ -67,12 +67,18 @@ async function calculateRentPrice(
 
     //values that sheet accepts
     let energyLabelTemp
-    if (energyLabel === 'A++') {
+    if (energyLabel.includes('A++')) {
       energyLabelTemp = "'++"
     }
-    if (energyLabel === 'A+') {
+    if (energyLabel.includes('A+')) {
       energyLabelTemp = "'+"
     }
+    // if (energyLabel === 'A++') {
+    //   energyLabelTemp = "'++"
+    // }
+    // if (energyLabel === 'A+') {
+    //   energyLabelTemp = "'+"
+    // }
     if (energyLabel === 'Not found') {
       energyLabelTemp = 'None'
     } else {
