@@ -221,7 +221,7 @@ form.addEventListener('submit', (event) => {
           //displaying different messages depending on the result number
           if (Number.isNaN(result)) {
             resultText.innerHTML =
-              'One or multiple parameters of the property were not found, hence the rent price cannot be calculated. Try using our <a href="https://1drv.ms/x/s!AhS9UiEeuDTxgoA79X98W0bwNUdOFA?e=LwPAgd" target="_blank">Calculator Spreadsheet</a>'
+              'Try searching the same address again. If second request is not successful, try using our <a href="https://1drv.ms/x/s!AhS9UiEeuDTxgoA79X98W0bwNUdOFA?e=LwPAgd" target="_blank">Calculator Spreadsheet</a>'
           }
           if (result > 800) {
             resultText.innerHTML =

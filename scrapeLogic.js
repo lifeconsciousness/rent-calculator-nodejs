@@ -145,49 +145,26 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
       waitUntil: 'load',
       timeout: 0,
     })
+    page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
+
     await delay(Math.random() * 30 + 1)
 
     await page.waitForSelector('#edit-tekst--2')
     await page.type('#edit-tekst--2', address)
     await delay(Math.random() * 30 + 1)
 
+    page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
+
     await page.waitForSelector('#edit-submit-register-of-monuments--2')
     await page.click('#edit-submit-register-of-monuments--2')
     await delay(Math.random() * 30 + 1)
+
+    page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
 
     await page.waitForSelector('#content')
     const monumentValue = await page.$eval('#content', (el) => el.innerText)
     return monumentValue
   }
-
-  //////////////////////selenium
-
-  // const monumentValuePromise = async (address) => {
-  //   // Monument scraping logic
-
-  //   const options = new chrome.Options()
-  //   options.addArguments('--headless')
-  //   const driver = new Builder().forBrowser('chrome').setChromeOptions(options).build()
-
-  //   await driver.manage().setTimeouts({ implicit: 30000 })
-
-  //   await driver.get('https://monumentenregister.cultureelerfgoed.nl')
-  //   await delay(Math.random() * 30 + 1)
-
-  //   const inputField = await driver.findElement(By.css('#edit-tekst--2'))
-  //   await inputField.sendKeys(address)
-  //   await delay(Math.random() * 30 + 1)
-
-  //   const submitButton = await driver.findElement(By.css('#edit-submit-register-of-monuments--2'))
-  //   await submitButton.click()
-  //   await delay(Math.random() * 30 + 1)
-
-  //   await driver.wait(until.elementLocated(By.css('#content')))
-  //   const contentElement = await driver.findElement(By.css('#content'))
-  //   const monumentValue = await contentElement.getAttribute('innerText')
-
-  //   return monumentValue
-  // }
 
   const energyIndexPromise = async (adresseerbaarId) => {
     // Energy index scraping logic
@@ -200,6 +177,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
       timeout: 0,
     })
     await delay(Math.random() * 18 + 1)
+    page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
 
     await page.waitForSelector('#SearchValue')
     await delay(Math.random() * 18 + 1)
@@ -229,7 +207,9 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
         return result
       }
 
-      const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 20000)
+      page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
+
+      const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 60000)
 
       if (elementExists) {
         const container = await page.$eval('.se-result-item-nta', (element) => element.innerText)
