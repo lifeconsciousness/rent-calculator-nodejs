@@ -223,9 +223,11 @@ form.addEventListener('submit', (event) => {
             resultText.innerHTML =
               'Try searching the same address again. If second request is not successful, try using our <a href="https://1drv.ms/x/s!AhS9UiEeuDTxgoA79X98W0bwNUdOFA?e=LwPAgd" target="_blank">Calculator Spreadsheet</a>'
           }
-          if (result > 800) {
+          if (result > 808) {
+            // resultText.innerHTML =
+            //   'Landlord has a right to set this price, therefore it cannot be reduced. For more details contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
             resultText.innerHTML =
-              'Landlord has a right to set this price, therefore it cannot be reduced. For more details contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
+              'As the rent price is above the liberalization limit of 808 euro, whatever price your landlord makes you pay now is considered to be (legally) reasonable. There is not much you can do about this as any Huurcommissie case will likely be unsuccessful. If you are very close to the limit of 808 euro (+/- 100 euro) the calculator may be inaccurate enough that I need to take a closer look to be sure (email me Info@rentbuster.nl) If the calculated price is above 1000 euro, your home is 80sqm+ with an energy label better than C or if you have a permanent contract and have been paying above the limit for more than 6 months, then you have no grounds for a case'
           }
 
           //displaying the address

@@ -107,6 +107,8 @@ app.post('/api/search', async (req, res) => {
   let wozValue
   let isMonument
   let energyIndex
+  let errMessage =
+    'Error. Check if your address is correct. <br/> If you still get the same error, try reloading the page/closing and opening your browser. <br/> If none of these methods work, try using our <a href="https://1drv.ms/x/s!AhS9UiEeuDTxgoA79X98W0bwNUdOFA?e=LwPAgd" target="_blank">Calculator Spreadsheet</a>'
 
   Promise.all(requests)
     .then(async (responses) => {
@@ -140,7 +142,12 @@ app.post('/api/search', async (req, res) => {
       return scrapeLogic(addressString, addressId)
     })
     .then((result) => {
-      woz = result[0]
+      try {
+        woz = result[0]
+      } catch (error) {
+        errMessage =
+          'In cases where the WOZ value does not appear: sometimes the database is not accessible for anyone. It often happens during weekends. If you get a result that says "no WOZ data" try again on Monday. if it still happens. Send me an email (info@rentbuster.nl)'
+      }
       monument = result[1] === '' ? 'No' : 'Yes'
       console.log(result[1])
 
@@ -189,8 +196,6 @@ app.post('/api/search', async (req, res) => {
     })
     .catch((error) => {
       console.log(error)
-      const errMessage =
-        'Error. Check if your address is correct. <br/> If you still get the same error, try reloading the page/closing and opening your browser. <br/> If none of these methods work, try using our <a href="https://1drv.ms/x/s!AhS9UiEeuDTxgoA79X98W0bwNUdOFA?e=LwPAgd" target="_blank">Calculator Spreadsheet</a>'
       res.json({ errMessage })
     })
 })
