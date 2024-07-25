@@ -1,0 +1,127 @@
+footer {
+  width: 100%;
+  padding: 20px 0;
+  padding-bottom: 0px;
+  font-family: 'Inter', sans-serif;
+  border-top: 2px solid var(--light-grey);
+
+  @media (max-width: 500px) {
+    padding-top: 0;
+  }
+  @media (max-width: 620px) {
+    padding-left: 3vw;
+  }
+
+  .footer-container {
+    max-width: 1170px;
+    margin: auto;
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .footer-row {
+      display: flex;
+      font-weight: 500;
+      justify-content: space-between;
+
+      // width: clamp(40px, 90vw, 672px);
+
+      @media (max-width: 300px) {
+        scale: 0.85;
+        transform: translateX(-12px);
+      }
+
+      .social-media-container {
+        margin-right: 0 !important;
+      }
+
+      .footer-column {
+        font-size: 0.95rem;
+        margin-right: 1.5rem;
+        justify-content: space-between;
+
+        h4 {
+          font-size: 1.4rem;
+          font-weight: 600;
+          color: var(--white-main);
+
+          text-align: start;
+        }
+        .social-media-title {
+          text-align: start;
+
+          @media (max-width: 620px) {
+            text-align: center;
+          }
+        }
+
+        color: var(--white-main);
+
+        a {
+          text-decoration: none;
+          color: var(--white-main);
+        }
+
+        img {
+          width: 50px;
+          transition: 0.1s;
+        }
+
+        img:hover {
+          transform: scale(1.1);
+          transition: 0.1s ease-in;
+        }
+
+        p {
+          margin: 8px 0;
+          margin: 3px 0;
+          text-align: left;
+        }
+
+        .social-media {
+          width: 100%;
+          display: flex;
+          flex-direction: row !important;
+          flex-wrap: wrap;
+          justify-content: center;
+
+          // margin-left: 50px;
+          a {
+            margin-right: 0.5rem;
+          }
+        }
+
+        @media (max-width: 320px) {
+          .social-media {
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .footer-document {
+    color: var(--white-main);
+    text-decoration: none;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    font-size: 0.95rem;
+  }
+}
+
+.credit {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8em;
+}

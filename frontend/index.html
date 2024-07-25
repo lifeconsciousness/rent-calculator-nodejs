@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rent calculator and house info lookup from RentBuster NL</title>
+    <meta
+      name="keywords"
+      content="RentBuster, rent buster, rentbuster, Nederland, rent price, calculate rent, rent calculator, rent, huurprijs, rekenen, huurprijs rekenen"
+    />
+    <link rel="stylesheet" href="./style.scss" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png" />
+    <link rel="manifest" href="/favicons/site.webmanifest" />
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5" />
+    <link rel="shortcut icon" href="/favicons/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
+  <body>
+    <div id="app">
+      <main>
+        <header>
+          <a href="https://rentbuster.nl/" target="_blank" style="z-index: 13">
+            <img src="./img/RentBuster logo without background.png" class="rentbuster-logo" alt="rentbuster logo" />
+          </a>
+          <h1>Rent price calculator</h1>
+          <a href="mailto:info@rentbuster.nl" class="contact-navbar">Contact</a>
+        </header>
+
+        <!--  Form page   -->
+        <!--              -->
+        <!-- ------------ -->
+
+        <section class="text-info">
+          <h2 class="title-small">Rent price calculator</h2>
+          <h3 style="font-weight: 700">
+            <!-- Important! Sometimes letter in address can be the addition (e.g. in '1017EL 538H' - H is addition). <br /> -->
+            Important! If WOZ value was not found try searching the same address again. <br />
+          </h3>
+          <!-- <h3>
+            Important! Sometimes letter in address can be the addition (e.g. in '1017EL 538H' - H is addition). Also be
+            aware that calculator may not work in non-Chromium browsers.
+          </h3> -->
+        </section>
+        <section>
+          <form id="address-form">
+            <div class="inputs-container">
+              <div class="inputs">
+                <h4 class="inputs-title">Your address</h4>
+                <label for="postcode">Postcode:</label>
+                <input
+                  type="text"
+                  id="postcode"
+                  name="postcode"
+                  required
+                  style="text-transform: uppercase"
+                  maxlength="8"
+                />
+                <label for="house-number">House Number:</label>
+                <input type="number" required id="house-number" name="house-number" />
+                <label for="house-letter">House letter (optional):</label>
+                <input type="text" id="house-letter" name="house-letter" />
+                <label for="house-addition">Addition (optional):</label>
+                <input type="text" id="house-addition" name="house-addition" />
+              </div>
+              <div class="inputs">
+                <h4 class="inputs-title">Your house</h4>
+                <label for="number-of-rooms">Number of rooms in your house/apartment:</label>
+                <input type="number" id="number-of-rooms" required name="number-of-rooms" min="1" />
+
+                <label for="outdoor">Do you have outdoor space?</label>
+                <select name="outdoor" id="outdoor">
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                  <option value="Shared">Yes, shared</option>
+                </select>
+
+                <label for="people-sharing-with" id="sharing-label" class="sharing"
+                  >With how many people you share it?</label
+                >
+                <input type="number" name="people-sharing-with" id="sharing" min="0" class="sharing" />
+
+                <label for="kitchen">Describe your kitchen:</label>
+                <select name="kitchen" id="kitchen">
+                  <option value="Bare/small">Only tap and small kitchen counter</option>
+                  <option value="Basic essential">Sink, ventilation hood, cooker and fridge</option>
+                  <option value="Modern">Dishwasher, medium kitchen counter</option>
+                  <option value="Large">Large family sized kitchen</option>
+                  <option value="Jamie Olivers Kitchen’">Jamie Olivers Kitchen’</option>
+                </select>
+
+                <label for="bathroom">And the bathroom:</label>
+                <select name="bathroom" id="bathroom">
+                  <option value="Bare/small">Only toilet, shower, washbasin</option>
+                  <option value="Modern">Towel heater, wall-mounted toilet</option>
+                  <option value="Modern with Bath">With bath</option>
+                  <option value="High end">High end</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="button-container">
+              <button class="submit-btn" type="submit">
+                <span> </span>
+                <span> </span>
+                <span> </span>
+                <span> </span>
+                Search
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Loader page -->
+        <!--             -->
+        <!-- ----------- -->
+
+        <section class="loader-and-error-container">
+          <div class="loader">
+            <div class="spinning-circles-container">
+              <div class="circle-container">
+                <div class="circle-loader"></div>
+                <div class="circle-loader"></div>
+                <div class="circle-loader"></div>
+              </div>
+            </div>
+
+            <p class="loading-message">Please wait. Fetching data usually takes several minutes. <br /></p>
+          </div>
+
+          <div class="error-display"></div>
+        </section>
+
+        <!-- Results page -->
+        <!--              -->
+        <!-- ------------ -->
+
+        <div class="blur"></div>
+        <button class="back-button"><span class="arrow">←</span></button>
+
+        <section class="display-container">
+          <div class="house-info container">
+            <h2 class="house-info-title">Calculations were based on this information:</h2>
+            <ul>
+              <li id="address"></li>
+              <li id="area"></li>
+              <li id="buildYear"></li>
+              <li id="woz"></li>
+              <li id="energyLabel"></li>
+              <li id="energyIndex"></li>
+              <li id="monument"></li>
+            </ul>
+
+            <button class="go-back-btn" onclick="{location.reload()}">Go back</button>
+          </div>
+
+          <div class="result container">
+            <div class="result-text">
+              <div class="blob-container">
+                <div class="blob"></div>
+              </div>
+              <p class="rent-price">
+                <span class="max-legal-price"> Resulting rent price: </span>
+                <span class="price">
+                  <span id="result">130 eur</span>
+                  <svg viewBox="0 0 70 36">
+                    <path
+                      d="M6.9739 30.8153H63.0244C65.5269 30.8152 75.5358 -3.68471 35.4998 2.81531C-16.1598 11.2025 0.894099 33.9766 26.9922 34.3153C104.062 35.3153 54.5169 -6.68469 23.489 9.31527"
+                    />
+                  </svg>
+                </span>
+              </p>
+            </div>
+
+            <p class="contact-info">
+              If the result is much lower than what the landlord is asking then you might be getting overcharged.
+              Contact
+              <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>
+            </p>
+          </div>
+        </section>
+
+        <!-- Previous requests -->
+        <!--                   -->
+        <!-- ----------------- -->
+
+        <section class="previous-requests-container">
+          <a href="#requests" class="arrow-down">˅</a>
+
+          <div id="requests">
+            <h2>Previous requests</h2>
+            <div class="all-requests-container">
+              <!-- Record html markup -->
+
+              <!-- <div class="accordion">
+                <div class="prev-link-and-result">
+                  <div class="bothLinks">
+                    <div class="accordion-indicator"></div>
+                    <div class="prev-link">deserunt ipsam quibusdam minima ea earum!</div>
+                  </div>
+
+                  <div class="date-and-delete">
+                    <img src="/img/trash.png" class="trashBin" data-index="1" />
+                    <p class="date">1:41</p>
+                    <p class="date">1:41</p>
+                  </div>
+                </div>
+                <div class="content">
+                  <br />
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia beatae iste earum, repellat sed
+                  saepe aut hic modi eligendi obcaecati eos doloremque totam temporibus asperiores nulla. Quisquam
+                  expedita et sed velit, blanditiis mollitia? Numquam itaque quam, aut veniam tempora placeat ipsam
+                  facere eveniet quasi aspernatur. Odit asperiores cumque itaque cupiditate quod accusamus? Dicta
+                  expinima labore. Ad quod corporis eveniet ea iusto, porro n lore aboba expinima labore. Ad quod
+                  corporis eveniet ea iusto, porro n lore aboba
+                  <br />
+                  &nbsp;
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Grainy filter -->
+        <!--               -->
+        <!-- ------------- -->
+
+        <svg>
+          <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.75" stitchTiles="stitch" />
+            <feColorMatrix in="colorNoise" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" />
+            <feComposite operator="in" in2="SourceGraphic" result="monoNoise" />
+            <feBlend in="SourceGraphic" in2="monoNoise" mode="screen" />
+          </filter>
+        </svg>
+
+        <!-- <a href="https://lifeconsciousness.github.io/Contact_page/" target="_blank" class="credit"
+          >Made by Maksym Tovstolis</a
+        > -->
+
+        <footer class="footer">
+          <div class="footer-container">
+            <div class="footer-row">
+              <div class="footer-column" id="info-footer">
+                <h4>Contacts</h4>
+                <ul>
+                  <li>
+                    <p>Contact phone: <span class="break"></span>+31 681261764</p>
+                  </li>
+                  <li>
+                    <p>Whatsapp: <span class="break"></span>+31 681261764</p>
+                  </li>
+                  <li>
+                    <p>Email: <span class="break"></span>info(at)rentbuster(dot)nl</p>
+                  </li>
+                  <li>
+                    <p>KvK: <span class="break"></span>87138840</p>
+                  </li>
+                  <li>
+                    <p>Bank Account number: <span class="break"></span>NL80INGB0755908910</p>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="footer-column social-media-container">
+                <h4 class="social-media-title">Social media</h4>
+                <div class="social-media">
+                  <a href="https://www.reddit.com/r/Rentbusters/" target="_blank"
+                    ><img src="reddit-logo.png" alt="reddit-icon" class="reddit-icon"
+                  /></a>
+                  <a href="https://www.facebook.com/profile.php?id=100085087598391" target="_blank"
+                    ><img src="facebook-icon.png" alt="facebook-icon" class="facebook-icon"
+                  /></a>
+                  <a href="https://www.youtube.com/channel/UCjg0X1ZwTVahyRfkCr2OkNg" target="_blank"
+                    ><img src="youtube-logo.png" alt="youtube-icon" class="youtube-icon"
+                  /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="/Privacyverklaring.pdf" target="_blank" class="footer-document"
+            >Privacyverklaring - ©
+            <script type="text/javascript">
+              document.write(new Date().getFullYear())
+            </script>
+            RentBusterNL</a
+          >
+
+          <a href="https://lifeconsciousness.github.io/Contact_page/" target="_blank" class="credit"
+            >Made by Maksym Tovstolis</a
+          >
+        </footer>
+      </main>
+
+      <div class="dummy-element" style="position: absolute; top: -200px; left: 0"></div>
+
+      <!-- Window with app description -->
+      <!--                             -->
+      <!-- --------------------------- -->
+
+      <div class="modal-guide" role="dialog">
+        <div class="guide-window">
+          <div class="title-container">
+            <h2 class="window-title">About this app</h2>
+          </div>
+          <div class="close-button-container">
+            <button class="close-window close-modal">X</button>
+          </div>
+
+          <p class="program-description">
+            With this handy calculator, you can determine the approximate rent price of a property in the Netherlands.
+            Not only that, but you can also access a range of information about the house itself. Discover details like
+            the total area, build year, WOZ value, energy label, and energy index. This comprehensive tool provides all
+            the essential information you need to make informed decisions about properties in the Netherlands.
+          </p>
+
+          <div class="okay-btn-container">
+            <button class="okay-btn close-modal">Okay</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/main.js"></script>
+    <script type="module" src="./js/resultAnimation.js"></script>
+    <script type="module" src="./js/resultsHistory.js"></script>
+  </body>
+</html>

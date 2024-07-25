@@ -1,0 +1,72 @@
+.rentbuster-logo {
+  width: 155px;
+  margin: 0;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2em;
+  padding-bottom: 1.1em;
+  border-bottom: 2px solid var(--light-grey);
+}
+
+h1 {
+  font-size: clamp(1.7rem, 0.7153rem + 1.4vw, 2.4rem);
+
+  line-height: 1.1;
+  margin-top: 0;
+  margin-bottom: 0;
+  flex-basis: 100%;
+  margin-top: 6px;
+  font-family: 'Prompt', sans-serif;
+
+  transform: translateX(-38px);
+
+  width: 100%;
+}
+
+.title-small {
+  display: none;
+  font-size: clamp(1.3rem, 0.8rem + 1.4vw, 2.4rem);
+  font-family: 'Prompt', sans-serif;
+}
+
+h3 {
+  margin-bottom: 0;
+  margin-top: 0.5em;
+  font-size: clamp(0.9rem, 0.4rem + 1.2vw, 1.1rem);
+  max-width: 50rem;
+  font-weight: 500;
+}
+
+.contact-navbar {
+  font-size: clamp(1.1rem, 0.6rem + 0.8vw, 2.4rem);
+}
+
+@media (max-width: 910px) {
+  //   h1 {
+  //     // transform: translateX(-40px);
+  //   }
+  .rentbuster-logo {
+    width: 140px;
+  }
+}
+@media (max-width: 790px) {
+  h1 {
+    display: none;
+  }
+  .title-small {
+    display: block;
+  }
+  header {
+    margin-bottom: 1.5em;
+  }
+}
+@media (max-width: 335px) {
+  .rentbuster-logo {
+    width: 120px;
+  }
+}

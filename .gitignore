@@ -1,0 +1,10 @@
+.env
+/node_modules
+node_modules/
+backend/data/mock-data.js
+backend/data/mock-data.json
+mock-data.json
+dist
+.cache
+todo.md
+desktop.ini

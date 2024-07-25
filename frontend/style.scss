@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@500&display=swap');
+
+@import './css/form';
+@import './css/form-loader';
+@import './css/submit-btn';
+@import './css/header';
+@import './css/display';
+@import './css/rentResult';
+@import './css/previous-requests';
+@import './css/modal-guide';
+@import './css/footer';
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  //colors
+  --main-blue: rgba(0, 47, 255, 0.5);
+  --main-blue-transparent: rgba(0, 47, 255, 0.247);
+
+  --light-grey: rgba(255, 255, 255, 0.171);
+  --grey-shadow: rgba(59, 59, 63, 0.295);
+  --white-shadow: rgba(235, 235, 235, 0.11);
+  --white-transparent: rgba(255, 255, 255, 0.568);
+  --loader-color: #f5f5f8;
+  --submit-btn-trace: #171618;
+  --arrow-color: white;
+
+  --bg-gradient: linear-gradient(120deg, #3b79ff, #171618, #3b79ff);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: rgba(24, 23, 23, 0.87);
+
+    --light-grey: rgba(0, 0, 0, 0.361);
+    --grey-shadow: rgba(59, 59, 63, 0.295);
+    --white-shadow: rgba(18, 17, 17, 0.243);
+    --white-transparent: rgba(15, 14, 14, 0.568);
+    --loader-color: #181819;
+    --submit-btn-trace: #f0edf4;
+    --arrow-color: black;
+
+    --bg-gradient: linear-gradient(120deg, #3b79ff, #f1eef5, #3b79ff);
+  }
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+main {
+  margin: 0 auto;
+  text-align: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  gap: 1em;
+  padding: 2em;
+  padding-top: 1.5em;
+  overflow-y: hidden;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+html,
+body,
+main {
+  height: 100%;
+  position: relative;
+}
+
+html {
+  overflow-y: hidden;
+}
+
+body {
+  scroll-behavior: smooth;
+}
+
+//pseudo elements to apply grainy texture
+main::before,
+main::after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: '';
+  width: 100%;
+  height: 100%;
+
+  z-index: -1;
+
+  opacity: 17%;
+  opacity: 24%;
+}
+
+@media (max-width: 789px) {
+  main {
+    display: block;
+    min-height: 110vh;
+    min-height: 110svh;
+    padding: 1.3em;
+  }
+}
+
+main::before {
+  background: #0a0a0a;
+  background: linear-gradient(to right, #171618, #3b79ff);
+  background: linear-gradient(150deg, #3b79ff, #171618, #3b79ff);
+  background: linear-gradient(120deg, #3b79ff, #171618, #3b79ff);
+  background: var(--bg-gradient);
+
+  filter: url(#noiseFilter);
+}
+
+button {
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+.appear {
+  animation: appearingAnim 1s forwards;
+}
+
+@keyframes appearingAnim {
+  0% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    position: absolute;
+    opacity: 1;
+  }
+}
+
+.disappear {
+  animation: disappearingAnim 1s forwards;
+}
+
+@keyframes disappearingAnim {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    position: absolute;
+    opacity: 0;
+  }
+}
+
+.error-display {
+  max-width: 650px;
+}
