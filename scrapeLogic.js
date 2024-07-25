@@ -173,7 +173,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     // Energy index scraping logic
 
     const page = await browser.newPage()
-    page.setDefaultNavigationTimeout(50000)
+    page.setDefaultNavigationTimeout(26000)
 
     await page.goto('https://www.ep-online.nl/Energylabel/Search', {
       waitUntil: 'load',
@@ -212,7 +212,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 
       // page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
 
-      const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 60000)
+      const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 14000)
 
       if (elementExists) {
         const container = await page.$eval('.se-result-item-nta', (element) => element.innerText)
