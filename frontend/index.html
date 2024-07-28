@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rent calculator and house info lookup from RentBuster NL</title>
-    <meta
-      name="keywords"
-      content="RentBuster, rent buster, rentbuster, Nederland, rent price, calculate rent, rent calculator, rent, huurprijs, rekenen, huurprijs rekenen"
-    />
+    <meta name="keywords" content="RentBuster, rent buster, rentbuster, Nederland, rent price, calculate rent, rent calculator, rent, huurprijs, rekenen, huurprijs rekenen" />
     <link rel="stylesheet" href="./style.scss" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
@@ -52,14 +49,7 @@
               <div class="inputs">
                 <h4 class="inputs-title">Your address</h4>
                 <label for="postcode">Postcode:</label>
-                <input
-                  type="text"
-                  id="postcode"
-                  name="postcode"
-                  required
-                  style="text-transform: uppercase"
-                  maxlength="8"
-                />
+                <input type="text" id="postcode" name="postcode" required style="text-transform: uppercase" maxlength="8" />
                 <label for="house-number">House Number:</label>
                 <input type="number" required id="house-number" name="house-number" />
                 <label for="house-letter">House letter (optional):</label>
@@ -79,9 +69,7 @@
                   <option value="Shared">Yes, shared</option>
                 </select>
 
-                <label for="people-sharing-with" id="sharing-label" class="sharing"
-                  >With how many people you share it?</label
-                >
+                <label for="people-sharing-with" id="sharing-label" class="sharing">With how many people you share it?</label>
                 <input type="number" name="people-sharing-with" id="sharing" min="0" class="sharing" />
 
                 <label for="kitchen">Describe your kitchen:</label>
@@ -99,6 +87,12 @@
                   <option value="Modern">Towel heater, wall-mounted toilet</option>
                   <option value="Modern with Bath">With bath</option>
                   <option value="High end">High end</option>
+                </select>
+
+                <label for="signedContract">You signed the contract:</label>
+                <select name="signedContract" id="signedContract">
+                  <option value="Before">Before July 2024</option>
+                  <option value="After">After July 2024</option>
                 </select>
               </div>
             </div>
@@ -168,17 +162,14 @@
                 <span class="price">
                   <span id="result">130 eur</span>
                   <svg viewBox="0 0 70 36">
-                    <path
-                      d="M6.9739 30.8153H63.0244C65.5269 30.8152 75.5358 -3.68471 35.4998 2.81531C-16.1598 11.2025 0.894099 33.9766 26.9922 34.3153C104.062 35.3153 54.5169 -6.68469 23.489 9.31527"
-                    />
+                    <path d="M6.9739 30.8153H63.0244C65.5269 30.8152 75.5358 -3.68471 35.4998 2.81531C-16.1598 11.2025 0.894099 33.9766 26.9922 34.3153C104.062 35.3153 54.5169 -6.68469 23.489 9.31527" />
                   </svg>
                 </span>
               </p>
             </div>
 
             <p class="contact-info">
-              If the result is much lower than what the landlord is asking then you might be getting overcharged.
-              Contact
+              If the result is much lower than what the landlord is asking then you might be getting overcharged. Contact
               <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>
             </p>
           </div>
@@ -269,15 +260,9 @@
               <div class="footer-column social-media-container">
                 <h4 class="social-media-title">Social media</h4>
                 <div class="social-media">
-                  <a href="https://www.reddit.com/r/Rentbusters/" target="_blank"
-                    ><img src="reddit-logo.png" alt="reddit-icon" class="reddit-icon"
-                  /></a>
-                  <a href="https://www.facebook.com/profile.php?id=100085087598391" target="_blank"
-                    ><img src="facebook-icon.png" alt="facebook-icon" class="facebook-icon"
-                  /></a>
-                  <a href="https://www.youtube.com/channel/UCjg0X1ZwTVahyRfkCr2OkNg" target="_blank"
-                    ><img src="youtube-logo.png" alt="youtube-icon" class="youtube-icon"
-                  /></a>
+                  <a href="https://www.reddit.com/r/Rentbusters/" target="_blank"><img src="reddit-logo.png" alt="reddit-icon" class="reddit-icon" /></a>
+                  <a href="https://www.facebook.com/profile.php?id=100085087598391" target="_blank"><img src="facebook-icon.png" alt="facebook-icon" class="facebook-icon" /></a>
+                  <a href="https://www.youtube.com/channel/UCjg0X1ZwTVahyRfkCr2OkNg" target="_blank"><img src="youtube-logo.png" alt="youtube-icon" class="youtube-icon" /></a>
                 </div>
               </div>
             </div>
@@ -290,9 +275,7 @@
             RentBusterNL</a
           >
 
-          <a href="https://lifeconsciousness.github.io/Contact_page/" target="_blank" class="credit"
-            >Made by Maksym Tovstolis</a
-          >
+          <a href="https://lifeconsciousness.github.io/Contact_page/" target="_blank" class="credit">Made by Maksym Tovstolis</a>
         </footer>
       </main>
 
@@ -311,12 +294,7 @@
             <button class="close-window close-modal">X</button>
           </div>
 
-          <p class="program-description">
-            With this handy calculator, you can determine the approximate rent price of a property in the Netherlands.
-            Not only that, but you can also access a range of information about the house itself. Discover details like
-            the total area, build year, WOZ value, energy label, and energy index. This comprehensive tool provides all
-            the essential information you need to make informed decisions about properties in the Netherlands.
-          </p>
+          <p class="program-description">With this handy calculator, you can determine the approximate rent price of a property in the Netherlands. Not only that, but you can also access a range of information about the house itself. Discover details like the total area, build year, WOZ value, energy label, and energy index. This comprehensive tool provides all the essential information you need to make informed decisions about properties in the Netherlands.</p>
 
           <div class="okay-btn-container">
             <button class="okay-btn close-modal">Okay</button>

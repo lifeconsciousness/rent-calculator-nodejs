@@ -154,6 +154,7 @@ form.addEventListener('submit', (event) => {
     }
     const kitchen = document.querySelector('#kitchen').value
     const bathroom = document.querySelector('#bathroom').value
+    const signedContract = document.querySelector('#signedContract').value
 
     const postParameters = isSharing
       ? {
@@ -166,6 +167,7 @@ form.addEventListener('submit', (event) => {
           sharedPeople,
           kitchen,
           bathroom,
+          signedContract,
         }
       : {
           postcode,
@@ -176,6 +178,7 @@ form.addEventListener('submit', (event) => {
           outdoorSpaceValue,
           kitchen,
           bathroom,
+          signedContract,
         }
 
     axios

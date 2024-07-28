@@ -60,13 +60,13 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     // WOZ scraping logic
 
     const page = await browser.newPage()
-    page.setDefaultNavigationTimeout(300000)
+    page.setDefaultNavigationTimeout(30000)
     // page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
 
     // await page.goto('https://www.wozwaardeloket.nl/')
     await page.goto('https://www.wozwaardeloket.nl/', {
       waitUntil: 'load',
-      timeout: 300000,
+      timeout: 30000,
     })
     //maybe unnecessary delay before doing some actions on website
     await delay(Math.random() * 30 + 1)
@@ -116,7 +116,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
       }
 
       // page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
-      const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 222000)
+      const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 22200)
 
       if (listExists) {
         await page.click('#ggcSuggestionList-0')
@@ -138,7 +138,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
   ////////////////////puppeteer
 
   const monumentValuePromise = async (address) => {
-    return false
+    return ''
     // Monument scraping logic
 
     const page = await browser.newPage()

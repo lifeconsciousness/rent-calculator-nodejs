@@ -15,7 +15,8 @@ async function calculateRentPrice(
   bathroom,
   city,
   isMonument,
-  energyIndex
+  energyIndex,
+  signedContract
 ) {
   console.log(
     "Area: " + area,
@@ -29,14 +30,15 @@ async function calculateRentPrice(
     "Bathroom: " + bathroom,
     "City: " + city,
     "Is monument: " + isMonument,
-    "Energy index: " + energyIndex
+    "Energy index: " + energyIndex,
+    "Contract is signed before July 2024: " + signedContract,
   )
 
   const auth = new google.auth.GoogleAuth({
     keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
     scopes: 'https://www.googleapis.com/auth/spreadsheets',
   })
-
+ 
   const spreadsheetId = process.env.SPREADSHEET_ID
   const client = await auth.getClient()
   const googleSheets = google.sheets({ version: 'v4', auth: client })
@@ -95,7 +97,7 @@ async function calculateRentPrice(
     console.log(`energy label value: ${energyLabelValue}`)
 
     //cells and according data put into them
-    const setCellsData = [
+    const setCellsDataOldCalculator = [
       {
         range: 'Independent calculator!K8',
         values: [[numberOfRooms]],
@@ -150,7 +152,7 @@ async function calculateRentPrice(
       },
     ]
 
-    const clearCellsData = [
+    const clearCellsDataOldCalculator = [
       {
         range: 'Independent calculator!K8',
         values: [['']],
@@ -205,25 +207,46 @@ async function calculateRentPrice(
       },
     ]
 
-    // clear cells
-    await googleSheets.spreadsheets.values.batchUpdate({
-      auth,
-      spreadsheetId,
-      resource: {
-        data: clearCellsData,
-        valueInputOption: 'USER_ENTERED',
-      },
-    })
-
-    //set the value of cells
-    await googleSheets.spreadsheets.values.batchUpdate({
-      auth,
-      spreadsheetId,
-      resource: {
-        data: setCellsData,
-        valueInputOption: 'USER_ENTERED',
-      },
-    })
+    if(signedContract == 'Before'){
+      // clear cells
+      await googleSheets.spreadsheets.values.batchUpdate({
+        auth,
+        spreadsheetId,
+        resource: {
+          data: clearCellsDataOldCalculator,
+          valueInputOption: 'USER_ENTERED',
+        },
+      })
+  
+      //set the value of cells
+      await googleSheets.spreadsheets.values.batchUpdate({
+        auth,
+        spreadsheetId,
+        resource: {
+          data: setCellsDataOldCalculator,
+          valueInputOption: 'USER_ENTERED',
+        },
+      })
+    } else {
+      await googleSheets.spreadsheets.values.batchUpdate({
+        auth,
+        spreadsheetId,
+        resource: {
+          data: clearCellsDataOldCalculator,
+          valueInputOption: 'USER_ENTERED',
+        },
+      })
+  
+      //set the value of cells
+      await googleSheets.spreadsheets.values.batchUpdate({
+        auth,
+        spreadsheetId,
+        resource: {
+          data: setCellsDataOldCalculator,
+          valueInputOption: 'USER_ENTERED',
+        },
+      }) 
+    }
 
     //result value request
     const getResultingValue = await googleSheets.spreadsheets.values.get({
