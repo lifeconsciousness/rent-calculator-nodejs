@@ -9,6 +9,7 @@
 @import './css/previous-requests';
 @import './css/modal-guide';
 @import './css/footer';
+@import './css/clear-form-btn';
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -35,6 +36,7 @@
   --white-transparent: rgba(255, 255, 255, 0.568);
   --loader-color: #f5f5f8;
   --submit-btn-trace: #171618;
+  // --submit-btn-trace: #2e2e2e;
   --arrow-color: white;
 
   --bg-gradient: linear-gradient(120deg, #3b79ff, #171618, #3b79ff);

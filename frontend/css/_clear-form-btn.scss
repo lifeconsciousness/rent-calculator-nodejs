@@ -1,0 +1,25 @@
+#clear-form-button{
+    position: absolute;
+    top: 1px;
+    right: 1px;
+
+    background-color: rgba(255, 222, 173, 0);
+    border-radius: 30px;
+    border-top-right-radius: 100%;
+    transition: box-shadow 0.3s;
+    border: none;
+    color: rgba(255, 255, 255, 0.749);
+    // scale: 0.8;
+    // width: 40px;
+    // height: 40px;
+}
+
+#clear-form-button:hover {
+    box-shadow: 0 0 20px var(--white-shadow);
+    border: 1px solid var(--light-grey);    
+    top: 0px;
+    right: 0px;
+}
+#clear-form-button:active {
+    scale: 0.9;
+}

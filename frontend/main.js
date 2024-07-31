@@ -34,19 +34,27 @@ const sharingLabel = document.querySelector('#sharing-label')
 const sharingInput = document.querySelector('#sharing')
 let isSharing = false
 
+function hideSharing() {
+  sharingLabel.style.position = 'absolute'
+  sharingLabel.style.visibility = 'hidden'
+  sharingInput.style.position = 'absolute'
+  sharingInput.style.visibility = 'hidden'
+  isSharing = false
+}
+
+function setSharingVisible() {
+  sharingLabel.style.position = 'relative'
+  sharingLabel.style.visibility = 'visible'
+  sharingInput.style.position = 'relative'
+  sharingInput.style.visibility = 'visible'
+  isSharing = true
+}
+
 if (outdoorSpace) {
   if (outdoorSpace.value === 'Shared') {
-    sharingLabel.style.position = 'relative'
-    sharingLabel.style.visibility = 'visible'
-    sharingInput.style.position = 'relative'
-    sharingInput.style.visibility = 'visible'
-    isSharing = true
+    setSharingVisible()
   } else {
-    sharingLabel.style.position = 'absolute'
-    sharingLabel.style.visibility = 'hidden'
-    sharingInput.style.position = 'absolute'
-    sharingInput.style.visibility = 'hidden'
-    isSharing = false
+    hideSharing()
   }
 
   outdoorSpace.addEventListener('change', (e) => {
@@ -121,6 +129,21 @@ function loadFormData() {
       document.getElementById('periodSignedContract').value = formData.periodSignedContract || 'July 2024 - December 2024';
   }
 }
+
+document.getElementById('clear-form-button').addEventListener('click', () => {
+  document.getElementById('postcode').value = '';
+  document.getElementById('house-number').value = '';
+  document.getElementById('house-letter').value = '';
+  document.getElementById('house-addition').value = '';
+
+  document.getElementById('number-of-rooms').value = '';
+  document.getElementById('outdoor').value ='No';
+  document.getElementById('sharing').value ='';
+  document.getElementById('kitchen').value ='Bare/small';
+  document.getElementById('bathroom').value = 'Bare/small';
+  document.getElementById('periodSignedContract').value = 'July 2024 - December 2024';
+  hideSharing()
+})
 
 ////////////////////////////////////////////////////////////////////
 //form that sends and retrieves data from backend
@@ -220,7 +243,7 @@ form.addEventListener('submit', (event) => {
           if (Number.isNaN(result)) {
             resultValue = `unknown`
           } else {
-            resultValue = `${result} eur`
+            resultValue = `±${result} eur`
           }
           resultElement.innerText = resultValue
 
