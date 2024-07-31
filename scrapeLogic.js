@@ -16,51 +16,11 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
   //     process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
   // })
 
-  ////////////////////selenium
-
-  // const wozValuePromise = async (address) => {
-  //   // WOZ scraping logic
-  //   let wozValue
-
-  //   const options = new chrome.Options()
-  //   options.addArguments('--headless')
-  //   const driver = new Builder().forBrowser('chrome').setChromeOptions(options).build()
-
-  //   await driver.manage().setTimeouts({ implicit: 300000 })
-
-  //   await driver.get('https://www.wozwaardeloket.nl/')
-  //   await delay(Math.random() * 30 + 1)
-
-  //   const kaartBekijkenButton = await driver.findElement(By.css('#kaart-bekijken-btn'))
-  //   await kaartBekijkenButton.click()
-  //   await delay(Math.random() * 30 + 1)
-
-  //   const inputField = await driver.findElement(By.css('#ggcSearchInput'))
-  //   await inputField.sendKeys(address)
-  //   await delay(Math.random() * 30 + 1)
-
-  //   const suggestionElements = await driver.findElements(By.css('#ggcSuggestionList-0'))
-  //   if (suggestionElements.length > 0) {
-  //     const suggestion = suggestionElements[0]
-  //     await suggestion.click()
-
-  //     await driver.wait(until.elementLocated(By.css('.waarden-row')))
-  //     const waardenRow = await driver.findElement(By.css('.waarden-row'))
-  //     wozValue = await waardenRow.getAttribute('innerText')
-  //   } else {
-  //     wozValue = 'Not found'
-  //   }
-
-  //   return wozValue
-  // }
-
-  /////////////////////puppeteer
-
   const wozValuePromise = async (address) => {
     // WOZ scraping logic
 
     const page = await browser.newPage()
-    page.setDefaultNavigationTimeout(30000)
+    page.setDefaultNavigationTimeout(60000)
     // page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
 
     // await page.goto('https://www.wozwaardeloket.nl/')
@@ -130,7 +90,8 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
       console.log("Error in WOZ value promise " + error)
     }
 
-    console.log("Woz found: " + wozValue);
+    console.log("Got woz found: " + wozValue);
+
 
     return wozValue
   }
@@ -227,6 +188,8 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     } catch (error) {
       console.error(error)
     }
+
+    console.log("got energy index: " + energyIndex)
 
     return energyIndex
   }

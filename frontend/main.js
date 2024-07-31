@@ -26,26 +26,13 @@ if (isFirstTimeModalWindow === 'first') {
 
 //render the list of previous requests
 render()
+loadFormData()
 
 //displaying/hiding input field whether outdoor space is shared or not
 const outdoorSpace = document.querySelector('#outdoor')
 const sharingLabel = document.querySelector('#sharing-label')
 const sharingInput = document.querySelector('#sharing')
 let isSharing = false
-
-// if (outdoorSpace) {
-//   outdoorSpace.addEventListener('change', (e) => {
-//     if (outdoorSpace.value === 'Shared') {
-//       sharingLabel.style.display = 'block'
-//       sharingInput.style.display = 'block'
-//       isSharing = true
-//     } else {
-//       sharingLabel.style.display = 'none'
-//       sharingInput.style.display = 'none'
-//       isSharing = false
-//     }
-//   })
-// }
 
 if (outdoorSpace) {
   if (outdoorSpace.value === 'Shared') {
@@ -76,16 +63,6 @@ if (outdoorSpace) {
       sharingInput.style.visibility = 'hidden'
       isSharing = false
     }
-
-    // if (outdoorSpace.value === 'Shared') {
-    //   sharingLabel.style.display = 'block'
-    //   sharingInput.style.display = 'block'
-    //   isSharing = true
-    // } else {
-    //   sharingLabel.style.display = 'none'
-    //   sharingInput.style.display = 'none'
-    //   isSharing = false
-    // }
   })
 }
 
@@ -109,13 +86,41 @@ const textInfo = document.querySelector('.text-info')
 //actions on form submit
 let isRequesting = false
 
-//// for testing loader
-// landeContainer.style.visibility = 'visible'
-// landeContainer.style.position = 'relative'
-// loader.style.display = 'block'
-// blurLoader.style.visibility = 'visible'
-// displayContainer.style.visibility = 'visible'
-// displayContainer.style.display = 'black'
+function saveFormData() {
+  const formData = {
+      postcode: document.getElementById('postcode').value,
+      houseNumber: document.getElementById('house-number').value,
+      houseLetter: document.getElementById('house-letter').value,
+      houseAddition: document.getElementById('house-addition').value,
+
+      numberOfRooms: document.getElementById('number-of-rooms').value,
+      outdoor: document.getElementById('outdoor').value,
+      sharing: document.getElementById('sharing').value,
+      kitchen: document.getElementById('kitchen').value,
+      bathroom: document.getElementById('bathroom').value,
+      periodSignedContract: document.getElementById('periodSignedContract').value,
+
+  };
+  localStorage.setItem('formData', JSON.stringify(formData));
+}
+
+// Function to load form data from localStorage
+function loadFormData() {
+  const formData = JSON.parse(localStorage.getItem('formData'));
+  if (formData) {
+      document.getElementById('postcode').value = formData.postcode || '';
+      document.getElementById('house-number').value = formData.houseNumber || '';
+      document.getElementById('house-letter').value = formData.houseLetter || '';
+      document.getElementById('house-addition').value = formData.houseAddition || '';
+
+      document.getElementById('number-of-rooms').value = formData.numberOfRooms || '';
+      document.getElementById('outdoor').value = formData.outdoor || 'No';
+      document.getElementById('sharing').value = formData.sharing || '';
+      document.getElementById('kitchen').value = formData.kitchen || 'Bare/small';
+      document.getElementById('bathroom').value = formData.bathroom || 'Bare/small';
+      document.getElementById('periodSignedContract').value = formData.periodSignedContract || 'July 2024 - December 2024';
+  }
+}
 
 ////////////////////////////////////////////////////////////////////
 //form that sends and retrieves data from backend
@@ -136,6 +141,7 @@ form.addEventListener('submit', (event) => {
     loader.style.display = 'block'
     textInfo.style.display = 'none'
     addressForm.style.display = 'none'
+    saveFormData()
 
     //user inputs
 
@@ -230,7 +236,7 @@ form.addEventListener('submit', (event) => {
             // resultText.innerHTML =
             //   'Landlord has a right to set this price, therefore it cannot be reduced. For more details contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
             resultText.innerHTML =
-              'As the rent price is above the liberalization limit of 808 euro, whatever price your landlord makes you pay now is considered to be (legally) reasonable. There is not much you can do about this as any Huurcommissie case will likely be unsuccessful. If you are very close to the limit of 808 euro (+/- 100 euro) the calculator may be inaccurate enough that I need to take a closer look to be sure (email me Info@rentbuster.nl) If the calculated price is above 1000 euro, your home is 80sqm+ with an energy label better than C or if you have a permanent contract and have been paying above the limit for more than 6 months, then you have no grounds for a case'
+              'As the rent price is above the liberalization limit of 808 euro (2023) or 879 euro (<July 2024) or 1150 euro (for contracts signed after July 1 2024), whatever price your landlord makes you pay now is considered to be (legally) reasonable. There is not much you can do about this as any Huurcommissie case will likely be unsuccessful. If you are very close to the limit for the year you moved in (+/- 100 euro) the calculator may be inaccurate enough that I need to take a closer look to be sure (email me Info@rentbuster.nl) If the calculated price is above 1150 euro, your home is 100sqm+ with an energy label better than A'
           }
 
           //displaying the address

@@ -13,8 +13,11 @@ dotenv.config()
 
 app.use(express.json()) // parse JSON request bodies
 
+
 //route to request data about the building from multiple API's and send it to the frontend
 app.post('/api/search', async (req, res) => {
+  console.log('requested')
+
   const {
     postcode,
     houseNumber,
@@ -144,10 +147,11 @@ app.post('/api/search', async (req, res) => {
       houseAdditionFromApi = data[0]?._embedded?.adressen[0]?.huisnummertoevoeging
       postcodeFromApi = data[0]?._embedded?.adressen[0]?.postcode
 
-      return scrapeLogic(addressString, addressId)
+      return await scrapeLogic(addressString, addressId)
       // return ['DJ 100000', false, 'Not found']
     })
-    .then(async (result) => {
+    .then((result) => {
+      console.log('returned srape logic\n')
       try {
         woz = result[0]
       } catch (error) {
