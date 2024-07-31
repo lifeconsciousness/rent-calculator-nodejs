@@ -250,7 +250,7 @@ form.addEventListener('submit', (event) => {
           if (data.wozValue === 'Not found') {
             woz = `WOZ value of property: ${data.wozValue}`
             resultText.innerHTML =
-              'WOZ value was not found. Contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
+              'WOZ value was not found. Try refreshing the page and searching again. If not successful, contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
           } else {
             woz = `WOZ value of property: ${data.wozValue} eur`
           }

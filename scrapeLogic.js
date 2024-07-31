@@ -116,7 +116,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
       }
 
       // page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
-      const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 22200)
+      const listExists = await waitForSelectorWithTimeout('#ggcSuggestionList-0', 30000)
 
       if (listExists) {
         await page.click('#ggcSuggestionList-0')

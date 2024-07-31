@@ -44,6 +44,7 @@ app.post('/api/search', async (req, res) => {
 
   //setting the parameters of request url
 
+  //parameters for BAG API
   const bagUrl = new URL('https://api.bag.kadaster.nl/lvbag/viewerbevragingen/v2/adressen')
   bagUrl.searchParams.set('expand', 'true')
 
@@ -63,6 +64,7 @@ app.post('/api/search', async (req, res) => {
     },
   }
 
+  // parameters for energy label API
   const energyLabelUrl = new URL('https://public.ep-online.nl/api/v3/PandEnergieLabel/Adres')
   energyLabelUrl.searchParams.set('postcode', postcode)
   energyLabelUrl.searchParams.set('huisnummer', houseNumber)
@@ -113,7 +115,7 @@ app.post('/api/search', async (req, res) => {
   let errMessage =
     'Error. Check if your address is correct. <br/> If you still get the same error, try reloading the page/closing and opening your browser. <br/> If none of these methods work, try using our <a href="https://1drv.ms/x/s!AhS9UiEeuDTxgoA79X98W0bwNUdOFA?e=LwPAgd" target="_blank">Calculator Spreadsheet</a>'
 
-  Promise.all(requests)
+  await Promise.all(requests)
     .then(async (responses) => {
       const data = responses.map((response) => response.data)
       // console.log(data)
@@ -143,13 +145,14 @@ app.post('/api/search', async (req, res) => {
       postcodeFromApi = data[0]?._embedded?.adressen[0]?.postcode
 
       return scrapeLogic(addressString, addressId)
+      // return ['DJ 100000', false, 'Not found']
     })
-    .then((result) => {
+    .then(async (result) => {
       try {
         woz = result[0]
       } catch (error) {
         errMessage =
-          'In cases where the WOZ value does not appear: sometimes the database is not accessible for anyone. It often happens during weekends. If you get a result that says "no WOZ data" try again on Monday. if it still happens. Send me an email (info@rentbuster.nl)'
+          'You might see this error because you are using Firefox. In cases where the WOZ value does not appear: sometimes the database is not accessible for anyone. It often happens during weekends. If you get a result that says "no WOZ data" try again on Monday. if it still happens. Send me an email (info@rentbuster.nl)'
       }
       monument = result[1] === '' ? 'No' : 'Yes'
       console.log("Is a monument: " + result[1])
