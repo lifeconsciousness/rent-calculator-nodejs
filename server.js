@@ -25,7 +25,7 @@ app.post('/api/search', async (req, res) => {
     sharedPeople,
     kitchen,
     bathroom,
-    signedContract
+    periodSignedContract
   } = req.body
 
   let addressString
@@ -171,7 +171,7 @@ app.post('/api/search', async (req, res) => {
         city,
         isMonument,
         energyIndex,
-        signedContract
+        periodSignedContract
       )
     })
     .then((result) => {

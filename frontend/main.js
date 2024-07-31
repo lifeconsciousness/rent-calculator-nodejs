@@ -144,7 +144,7 @@ form.addEventListener('submit', (event) => {
     const houseNumber = document.querySelector('#house-number').value.replace(/\s+/g, '')
     const houseLetter = document.querySelector('#house-letter').value.replace(/\s+/g, '')
     const houseAddition = document.querySelector('#house-addition').value.replace(/\s+/g, '')
-
+ 
     //house parameters
     const numberOfRooms = document.querySelector('#number-of-rooms').value
     const outdoorSpaceValue = outdoorSpace.value
@@ -154,7 +154,7 @@ form.addEventListener('submit', (event) => {
     }
     const kitchen = document.querySelector('#kitchen').value
     const bathroom = document.querySelector('#bathroom').value
-    const signedContract = document.querySelector('#signedContract').value
+    const periodSignedContract = document.querySelector('#periodSignedContract').value
 
     const postParameters = isSharing
       ? {
@@ -167,7 +167,7 @@ form.addEventListener('submit', (event) => {
           sharedPeople,
           kitchen,
           bathroom,
-          signedContract,
+          periodSignedContract,
         }
       : {
           postcode,
@@ -178,7 +178,7 @@ form.addEventListener('submit', (event) => {
           outdoorSpaceValue,
           kitchen,
           bathroom,
-          signedContract,
+          periodSignedContract,
         }
 
     axios
