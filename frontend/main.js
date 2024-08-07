@@ -81,7 +81,7 @@ backButton.onclick = (e) => {
 }
 
 //different elements on the page
-const landeContainer = document.querySelector('.loader-and-error-container')
+const loaderAndErrorContainer = document.querySelector('.loader-and-error-container')
 const errorDisplay = document.querySelector('.error-display')
 const loader = document.querySelector('.loader')
 const result = document.querySelector('.result')
@@ -159,8 +159,8 @@ form.addEventListener('submit', (event) => {
   } else {
     isRequesting = true
     //switch the elements on the page to loader
-    landeContainer.style.visibility = 'visible'
-    landeContainer.style.position = 'relative'
+    loaderAndErrorContainer.style.visibility = 'visible'
+    loaderAndErrorContainer.style.position = 'relative'
     loader.style.display = 'block'
     textInfo.style.display = 'none'
     addressForm.style.display = 'none'
@@ -229,8 +229,8 @@ form.addEventListener('submit', (event) => {
           displayContainer.style.position = 'relative'
           displayContainer.style.visibility = 'visible'
           blur.style.visibility = 'visible'
-          landeContainer.style.visibility = 'hidden'
-          landeContainer.style.position = 'absolute'
+          loaderAndErrorContainer.style.visibility = 'hidden'
+          loaderAndErrorContainer.style.position = 'absolute'
 
           document.querySelector('.previous-requests-container').style.marginTop = '2em'
 
@@ -259,7 +259,7 @@ form.addEventListener('submit', (event) => {
             // resultText.innerHTML =
             //   'Landlord has a right to set this price, therefore it cannot be reduced. For more details contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
             resultText.innerHTML =
-              'As the rent price is above the liberalization limit of 808 euro (2023) or 879 euro (<July 2024) or 1150 euro (for contracts signed after July 1 2024), whatever price your landlord makes you pay now is considered to be (legally) reasonable. There is not much you can do about this as any Huurcommissie case will likely be unsuccessful. If you are very close to the limit for the year you moved in (+/- 100 euro) the calculator may be inaccurate enough that I need to take a closer look to be sure (email me Info@rentbuster.nl) If the calculated price is above 1150 euro, your home is 100sqm+ with an energy label better than A'
+              '<p>As the rent price is above the liberalization limit of 808 euro (2023) or 879 euro (July 2024) or 1150 euro (for contracts signed after July 1 2024), whatever price your landlord makes you pay now is considered to be (legally) reasonable. There is not much you can do about this as any Huurcommissie case will likely be unsuccessful. If you are very close to the limit for the year you moved in (+/- 100 euro) the calculator may be inaccurate enough that I need to take a closer look to be sure (email me <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>) If the calculated price is above 1150 euro, your home is 100sqm+ with an energy label better than A</p>'
           }
 
           //displaying the address

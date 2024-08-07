@@ -10,9 +10,23 @@ Web-application that calculates the approximate max legal price of any property 
 - Displays information about the property
 - Shows all previous requests with according info
 
+
 ## Demo
 
-<a href='https://rentcalculator.onrender.com' target='_blank'>Live version🏠<a/>
+<a href='https://rentcalculator.onrender.com' target='_blank'>Live version🏠</a>
+
+## How to run the application locally
+
+`npm start` to start the server
+
+`cd frontend && npm run dev` to start the frontend 
+
+## Descirption of main javascript files
+
+- server.js: server set up with express, has endpoint that takes address entered by the user and finds the data about it. Has multiple API requests.
+- scrapeLogic.js: has functions that scrape websites listed below, to obtain information about the house.
+- calculateRentPrice.js: sends API/scraped data to the spreadsheet that calculates the result
+- main.js: makes an API call and displays the result in the frontend, has miscelaneous code for remembering last form input, loading animation, etc.
 
 ## Resources that were used to obtain data
 
