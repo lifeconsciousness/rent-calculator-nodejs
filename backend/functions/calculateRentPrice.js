@@ -73,10 +73,10 @@ async function calculateRentPrice(
     console.log(`energy label: ${energyLabel} temp: ${energyLabelTemp}`)
 
     if (energyLabel.includes('A++')) {
-      energyLabelTemp = "'++"
+      energyLabelTemp = "'plusplus"
     }
     if (energyLabel.includes('A+')) {
-      energyLabelTemp = "'+"
+      energyLabelTemp = "'plus"
     }
     // if (energyLabel === 'A++') {
     //   energyLabelTemp = "'++"

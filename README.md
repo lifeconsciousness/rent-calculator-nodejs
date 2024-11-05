@@ -17,6 +17,17 @@ Web-application that calculates the approximate max legal price of any property 
 
 ## How to run the application locally
 
+Put .env in the root directory. Format:
+
+`PORT = 10000`
+`ENERGY_LABEL_API_KEY =` 
+`BAG_API_KEY =`
+`SPREADSHEET_ID =`
+`GOOGLE_APPLICATION_CREDENTIALS =`
+`NODE_ENV = production OR development`
+
+`npm i` to install dependencies
+
 `npm start` to start the server
 
 `cd frontend && npm run dev` to start the frontend 

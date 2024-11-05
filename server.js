@@ -162,6 +162,7 @@ app.post('/api/search', async (req, res) => {
       console.log("Is a monument: " + result[1])
 
       wozValue = woz ? woz.split('\t')[1].replace(/\./g, '').replace(' euro', '') : 'Not found'
+//      wozValue = '1200'
       isMonument = monument
       energyIndex = result[2]
 
