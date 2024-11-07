@@ -10,7 +10,7 @@ async function calculateRentPrice(
   wozValue,
   numberOfRooms,
   outdoorSpaceValue,
-  sharedPeople,
+//  sharedPeople,
   kitchen,
   bathroom,
   city,
@@ -25,7 +25,7 @@ async function calculateRentPrice(
     "WOZ value: " + wozValue,
     "Number of rooms: " + numberOfRooms,
     "Outdoorspacevalue: " + outdoorSpaceValue,
-    "Shared people: " + sharedPeople,
+//    "Shared people: " + sharedPeople,
     "Kitchen: " + kitchen,
     "Bathroom: " + bathroom,
     "City: " + city,
@@ -49,16 +49,16 @@ async function calculateRentPrice(
 
   try {
     //determine the parameters for the according cells
-    let amountPeopleShared
-    let sharedArea
+    let amountPeopleShared = ''
+    let sharedArea = ''
 
-    if (sharedPeople === undefined) {
-      amountPeopleShared = ''
-      sharedArea = ''
-    } else {
-      amountPeopleShared = sharedPeople
-      sharedArea = area / (amountPeopleShared + 1)
-    }
+//    if (sharedPeople === undefined) {
+//      amountPeopleShared = ''
+//      sharedArea = ''
+//    } else {
+//      amountPeopleShared = sharedPeople
+//      sharedArea = area / (amountPeopleShared + 1)
+//    }
 
     let isAmsOrUtr
     if (city === 'Amsterdam' || city === 'Utrecht') {
