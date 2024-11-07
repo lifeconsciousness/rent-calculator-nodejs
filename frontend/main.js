@@ -30,49 +30,51 @@ loadFormData()
 
 //displaying/hiding input field whether outdoor space is shared or not
 const outdoorSpace = document.querySelector('#outdoor')
-const sharingLabel = document.querySelector('#sharing-label')
-const sharingInput = document.querySelector('#sharing')
-let isSharing = false
+//const sharingLabel = document.querySelector('#sharing-label')
+//const sharingInput = document.querySelector('#sharing')
+//let isSharing = false
 
-function hideSharing() {
-  sharingLabel.style.position = 'absolute'
-  sharingLabel.style.visibility = 'hidden'
-  sharingInput.style.position = 'absolute'
-  sharingInput.style.visibility = 'hidden'
-  isSharing = false
-}
+//function hideSharing() {
+//  sharingLabel.style.position = 'absolute'
+//  sharingLabel.style.visibility = 'hidden'
+//  sharingInput.style.position = 'absolute'
+//  sharingInput.style.visibility = 'hidden'
+//  isSharing = false
+//}
+//
+//function setSharingVisible() {
+//  sharingLabel.style.position = 'relative'
+//  sharingLabel.style.visibility = 'visible'
+//  sharingInput.style.position = 'relative'
+//  sharingInput.style.visibility = 'visible'
+//  isSharing = true
+//}
 
-function setSharingVisible() {
-  sharingLabel.style.position = 'relative'
-  sharingLabel.style.visibility = 'visible'
-  sharingInput.style.position = 'relative'
-  sharingInput.style.visibility = 'visible'
-  isSharing = true
-}
+//hideSharing()
 
-if (outdoorSpace) {
-  if (outdoorSpace.value === 'Shared') {
-    setSharingVisible()
-  } else {
-    hideSharing()
-  }
-
-  outdoorSpace.addEventListener('change', (e) => {
-    if (outdoorSpace.value === 'Shared') {
-      sharingLabel.style.position = 'relative'
-      sharingLabel.style.visibility = 'visible'
-      sharingInput.style.position = 'relative'
-      sharingInput.style.visibility = 'visible'
-      isSharing = true
-    } else {
-      sharingLabel.style.position = 'absolute'
-      sharingLabel.style.visibility = 'hidden'
-      sharingInput.style.position = 'absolute'
-      sharingInput.style.visibility = 'hidden'
-      isSharing = false
-    }
-  })
-}
+//if (outdoorSpace) {
+//  if (outdoorSpace.value === 'Shared') {
+//    setSharingVisible()
+//  } else {
+//    hideSharing()
+//  }
+//
+//  outdoorSpace.addEventListener('change', (e) => {
+//    if (outdoorSpace.value === 'Shared') {
+//      sharingLabel.style.position = 'relative'
+//      sharingLabel.style.visibility = 'visible'
+//      sharingInput.style.position = 'relative'
+//      sharingInput.style.visibility = 'visible'
+//      isSharing = true
+//    } else {
+//      sharingLabel.style.position = 'absolute'
+//      sharingLabel.style.visibility = 'hidden'
+//      sharingInput.style.position = 'absolute'
+//      sharingInput.style.visibility = 'hidden'
+//      isSharing = false
+//    }
+//  })
+//}
 
 //button to refresh the page and return back to form
 const backButton = document.querySelector('.back-button')
@@ -103,7 +105,7 @@ function saveFormData() {
 
       numberOfRooms: document.getElementById('number-of-rooms').value,
       outdoor: document.getElementById('outdoor').value,
-      sharing: document.getElementById('sharing').value,
+//      sharing: document.getElementById('sharing').value,
       kitchen: document.getElementById('kitchen').value,
       bathroom: document.getElementById('bathroom').value,
       periodSignedContract: document.getElementById('periodSignedContract').value,
@@ -123,7 +125,7 @@ function loadFormData() {
 
       document.getElementById('number-of-rooms').value = formData.numberOfRooms || '';
       document.getElementById('outdoor').value = formData.outdoor || 'No';
-      document.getElementById('sharing').value = formData.sharing || '';
+//      document.getElementById('sharing').value = formData.sharing || '';
       document.getElementById('kitchen').value = formData.kitchen || 'Bare/small';
       document.getElementById('bathroom').value = formData.bathroom || 'Bare/small';
       document.getElementById('periodSignedContract').value = formData.periodSignedContract || 'July 2024 - December 2024';
@@ -138,11 +140,11 @@ document.getElementById('clear-form-button').addEventListener('click', () => {
 
   document.getElementById('number-of-rooms').value = '';
   document.getElementById('outdoor').value ='No';
-  document.getElementById('sharing').value ='';
+//  document.getElementById('sharing').value ='';
   document.getElementById('kitchen').value ='Bare/small';
   document.getElementById('bathroom').value = 'Bare/small';
   document.getElementById('periodSignedContract').value = 'July 2024 - December 2024';
-  hideSharing()
+//  hideSharing()
 })
 
 ////////////////////////////////////////////////////////////////////
@@ -177,28 +179,40 @@ form.addEventListener('submit', (event) => {
     //house parameters
     const numberOfRooms = document.querySelector('#number-of-rooms').value
     const outdoorSpaceValue = outdoorSpace.value
-    let sharedPeople = document.querySelector('#sharing').value
-    if (isSharing && sharedPeople === '') {
-      sharedPeople = 0
-    }
+//    let sharedPeople = document.querySelector('#sharing').value
+//    if (isSharing && sharedPeople === '') {
+//      sharedPeople = 0
+//    }
     const kitchen = document.querySelector('#kitchen').value
     const bathroom = document.querySelector('#bathroom').value
     const periodSignedContract = document.querySelector('#periodSignedContract').value
 
-    const postParameters = isSharing
-      ? {
-          postcode,
-          houseNumber,
-          houseLetter,
-          houseAddition,
-          numberOfRooms,
-          outdoorSpaceValue,
-          sharedPeople,
-          kitchen,
-          bathroom,
-          periodSignedContract,
-        }
-      : {
+//    const postParameters = isSharing
+//      ? {
+//          postcode,
+//          houseNumber,
+//          houseLetter,
+//          houseAddition,
+//          numberOfRooms,
+//          outdoorSpaceValue,
+//          sharedPeople,
+//          kitchen,
+//          bathroom,
+//          periodSignedContract,
+//        }
+//      : {
+//          postcode,
+//          houseNumber,
+//          houseLetter,
+//          houseAddition,
+//          numberOfRooms,
+//          outdoorSpaceValue,
+//          kitchen,
+//          bathroom,
+//          periodSignedContract,
+//        }
+
+        const postParameters = {
           postcode,
           houseNumber,
           houseLetter,

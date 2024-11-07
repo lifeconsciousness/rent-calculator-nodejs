@@ -25,7 +25,7 @@ app.post('/api/search', async (req, res) => {
     houseAddition,
     numberOfRooms,
     outdoorSpaceValue,
-    sharedPeople,
+//    sharedPeople,
     kitchen,
     bathroom,
     periodSignedContract
@@ -173,7 +173,7 @@ app.post('/api/search', async (req, res) => {
         wozValue,
         numberOfRooms,
         outdoorSpaceValue,
-        sharedPeople,
+//        sharedPeople,
         kitchen,
         bathroom,
         city,
