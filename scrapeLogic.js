@@ -7,7 +7,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
   try {
     const wozValuePromise = async () => {
       const page = await browser.newPage();
-    page.setDefaultNavigationTimeout(9000)
+//    page.setDefaultNavigationTimeout(9000)
 
       await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'load' });
       await page.waitForSelector('#kaart-bekijken-btn');
