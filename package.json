@@ -19,6 +19,6 @@
     "googleapis": "^118.0.0",
     "node-cron": "^3.0.2",
     "nodemon": "^2.0.22",
-    "puppeteer": "^19.11.1"
+    "puppeteer": "^23.7.1"
   }
 }
