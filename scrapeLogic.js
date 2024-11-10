@@ -1,60 +1,21 @@
 const puppeteer = require('puppeteer')
 require('dotenv').config()
-// const { Builder, By, Key, until } = require('selenium-webdriver')
-// const chrome = require('selenium-webdriver/chrome')
 
 async function scrapeWozAndMonument(address, adresseerbaarId) {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--disable-setuid-sandbox', '--no-sandbox'],
-    executablePath:
-      process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
-  })
-  // const browser = await puppeteer.launch({
-  //   args: ['--disable-setuid-sandbox', '--no-sandbox', '--single-process', '--no-zygote'],
-  //   executablePath:
-  //     process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
-  // })
+  const browser = await puppeteer.launch();
 
-  const wozValuePromise = async (address) => {
-    // WOZ scraping logic
+  const wozValuePromise1 = async (address) => {
 
     const page = await browser.newPage()
-    page.setDefaultNavigationTimeout(9000)
-    // page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
 
-    // await page.goto('https://www.wozwaardeloket.nl/')
-    await page.goto('https://www.wozwaardeloket.nl/', {
-      waitUntil: 'load',
-      timeout: 9000,
-    })
-    //maybe unnecessary delay before doing some actions on website
-    await delay(Math.random() * 30 + 1)
+    await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'load' })
 
-    // clicking the button 'ga verder'
-    // await page.waitForSelector('#kaart-bekijken-btn')
+    await page.waitForSelector('#kaart-bekijken-btn');
+    await page.click('#kaart-bekijken-btn');
 
-    // const myData = await page.$eval('#kaart-bekijken-btn', (el) => el.innerText)
-    // console.log(myData)
-    // await page.waitForFunction(() => {
-    //   const button = document.querySelector('#kaart-bekijken-btn')
-    //   return button && button.isConnected
-    // })
-
-    // await page.click('#kaart-bekijken-btn')
-
-    // page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
-
-    const kaartBekijkenButton = await page.$('#kaart-bekijken-btn')
-    if (kaartBekijkenButton) {
-      await kaartBekijkenButton.click()
-    }
-
-    await delay(Math.random() * 30 + 1)
-    //typing the address and choosing the first address suggestion
+    await page.waitForSelector('#ggcSearchInput');
     await page.type('#ggcSearchInput', address)
 
-    //if there's no ggcsuggestion list woz value is empty
     let wozValue
 
     try {
@@ -80,7 +41,6 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 
       if (listExists) {
         await page.click('#ggcSuggestionList-0')
-        // page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
         await page.waitForSelector('.waarden-row')
         wozValue = await page.$eval('.waarden-row', (element) => element.innerText)
       } else {
@@ -92,40 +52,72 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 
     console.log("Got woz found: " + wozValue);
 
-
     return wozValue
   }
 
-  ////////////////////puppeteer
+  const wozValuePromise = async (addressVar) => {
+        const page = await browser.newPage();
+//        page.setDefaultNavigationTimeout(10000)
+        console.log(addressVar)
+
+
+    console.log("1")
+
+        await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'load' });
+//        await page.goto('https://www.wozwaardeloket.nl/');
+
+    console.log("2")
+
+
+//        await page.waitForSelector('#kaart-bekijken-btn');
+//        await page.click('#kaart-bekijken-btn');
+//
+        const kaartBekijkenButton = await page.$('#kaart-bekijken-btn')
+            if (kaartBekijkenButton) {
+              await kaartBekijkenButton.click()
+            }
+
+    console.log("3")
+
+
+        await page.waitForSelector('#ggcSearchInput');
+        await page.type('#ggcSearchInput', addressVar);
+
+        await page.waitForSelector('#ggcSuggestionList-0');
+//        await page.waitForSelector('#ggcSuggestionList');
+        await page.click('#ggcSuggestionList-0');
+
+    console.log("4")
+
+        await page.waitForSelector('.waarden-row')
+//        await page.waitForSelector('.wozwaarde-waarde')
+
+        const wozValue = await page.$eval('.waarden-row', el => el.innerText);
+        await page.close();
+        let result
+
+        if(wozValue){
+          result = wozValue
+        } else{
+        result = 'Not found'
+        }
+
+        return wozValue;
+      };
+
 
   const monumentValuePromise = async (address) => {
     return ''
-    // Monument scraping logic
 
     const page = await browser.newPage()
-//    page.setDefaultNavigationTimeout(300000)
-    page.setDefaultNavigationTimeout(3000)
 
-
-    await page.goto('https://monumentenregister.cultureelerfgoed.nl', {
-      waitUntil: 'load',
-      timeout: 10000,
-    })
-    page.waitForNavigation({ timeout: 3000, waitUntil: 'domcontentloaded' })
-
-    await delay(Math.random() * 30 + 1)
+    await page.goto('https://monumentenregister.cultureelerfgoed.nl', { waitUntil: 'load'})
 
     await page.waitForSelector('#edit-tekst--2')
     await page.type('#edit-tekst--2', address)
-    await delay(Math.random() * 30 + 1)
-
-    page.waitForNavigation({ timeout: 3000, waitUntil: 'domcontentloaded' })
 
     await page.waitForSelector('#edit-submit-register-of-monuments--2')
     await page.click('#edit-submit-register-of-monuments--2')
-    await delay(Math.random() * 30 + 1)
-
-    page.waitForNavigation({ timeout: 3000, waitUntil: 'domcontentloaded' })
 
     await page.waitForSelector('#content')
     const monumentValue = await page.$eval('#content', (el) => el.innerText)
@@ -133,24 +125,16 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
   }
 
   const energyIndexPromise = async (adresseerbaarId) => {
-    // Energy index scraping logic
+    return 'Not found'
 
     const page = await browser.newPage()
-    page.setDefaultNavigationTimeout(8000)
 
-    await page.goto('https://www.ep-online.nl/Energylabel/Search', {
-      waitUntil: 'load',
-      timeout: 0,
-    })
-    await delay(Math.random() * 18 + 1)
-    // page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
+    await page.goto('https://www.ep-online.nl/Energylabel/Search', { waitUntil: 'load'})
 
     await page.waitForSelector('#SearchValue')
-    await delay(Math.random() * 18 + 1)
     await page.type('#SearchValue', adresseerbaarId)
 
     await page.waitForSelector('#searchButton')
-    await delay(Math.random() * 18 + 1)
     await page.click('#searchButton')
 
     let energyIndex
@@ -173,9 +157,8 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
         return result
       }
 
-      // page.waitForNavigation({ timeout: 150000, waitUntil: 'domcontentloaded' })
 
-      const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 14000)
+      const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 2000)
 
       if (elementExists) {
         const container = await page.$eval('.se-result-item-nta', (element) => element.innerText)
@@ -200,11 +183,6 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
   let monument
   let energyIndex
 
-  // .catch((error) => {
-  //   console.error("Failed to fetch WOZ value:", error);
-  //   return null;
-  // })
-
   await Promise.all([wozValuePromise(address), monumentValuePromise(address), energyIndexPromise(adresseerbaarId)])
     .then(async ([wozValue, monumentValue, energyIndexValue]) => {
       woz = wozValue
@@ -216,15 +194,10 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     })
 
     // commented this just recently
-  browser.close()
+    browser.close()
 
   return [woz, monument, energyIndex]
 }
 
-function delay(time) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, time)
-  })
-}
 
 module.exports = scrapeWozAndMonument

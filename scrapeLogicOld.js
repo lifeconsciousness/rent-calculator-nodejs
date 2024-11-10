@@ -4,9 +4,12 @@ require('dotenv').config();
 async function scrapeWozAndMonument(address, adresseerbaarId) {
   const browser = await puppeteer.launch();
 
+  let wozRes, energyIndexRes, monumentValueRes
+
   try {
     const wozValuePromise = async () => {
       const page = await browser.newPage();
+//    page.setDefaultNavigationTimeout(9000)
 
       await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'load' });
       await page.waitForSelector('#kaart-bekijken-btn');
@@ -72,15 +75,20 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 
         const [woz, energyIndex, monument] = await Promise.all([wozValuePromise(), energyIndexPromise(), monumentValuePromise()]);
         await browser.close();
-//        const monument = 'No';  // Default value for monument
-        return { woz, energyIndex, monument};
+
+        wozRes = woz
+        energyIndexRes = energyIndex
+        monumentValueRes = monument
+
+//        return { woz, energyIndex, monument};
+
       } catch (error) {
         console.error('Error scraping data:', error);
         await browser.close();
-        throw error;
       }
-    }
 
-const delay = (time) => new Promise(resolve => setTimeout(resolve, time));
+      return { wozRes, energyIndexRes, monumentValueRes};
+
+    }
 
 module.exports = scrapeWozAndMonument;
