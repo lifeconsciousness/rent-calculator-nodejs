@@ -88,8 +88,9 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
        return energyIndex
      }
 
+     // should return "Yes"/"No if the building is rijksmonument or not"
    const monumentValuePromise = async (address) => {
-       return '';
+       return 'No';
 
         // FOLLOWING CODE NEEDS TO BE FIXED
            const page = await browser.newPage();
