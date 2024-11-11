@@ -71,8 +71,7 @@ const processQueue = async () => {
     ]
 
     let area, buildYear, energyLabelTemp, energyLabel, city, addressId, streetNameFromApi, houseNumberFromApi, houseLetterFromApi, houseAdditionFromApi, postcodeFromApi, woz, monument, wozValue, isMonument, energyIndex
-    let errMessage =
-      'Error. Check if your address is correct. <br/> If you still get the same error, try reloading the page/closing and opening your browser.'
+
 
     await Promise.all(requests)
       .then(async (responses) => {
@@ -142,7 +141,10 @@ const processQueue = async () => {
       })
       .catch((error) => {
         console.error("Error in processing request:", error)
-        res.status(500).json({ errMessage })
+
+        let errMessage =
+              'Error. Check if your address is typed in correctly. <br/> If you still get the same error, try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>.'
+        res.json({ errMessage })
       })
   } finally {
     processing = false // Release the lock after processing
