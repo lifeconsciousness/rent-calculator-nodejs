@@ -15,6 +15,28 @@ app.use(express.json())
 let requestQueue = [] // Queue to store incoming requests
 let processing = false // Flag to track if a request is being processed
 
+app.get('/sw.js', (req, res) => {
+  res.setHeader('Content-Type', 'application/javascript'); // Set the MIME type explicitly
+  res.send(`
+    self.addEventListener('install', (event) => {
+      console.log('Service Worker installing...');
+      event.waitUntil(self.skipWaiting());
+    });
+
+    self.addEventListener('activate', (event) => {
+      console.log('Service Worker activated');
+      event.waitUntil(self.clients.claim());
+    });
+
+    self.addEventListener('fetch', (event) => {
+      console.log('Service Worker fetching:', event.request.url);
+      event.respondWith(fetch(event.request));
+    });
+
+    // Additional caching, background sync, or push notification code can go here
+  `);
+});
+
 const processQueue = async () => {
   if (processing || requestQueue.length === 0) return // If already processing or queue is empty, return
 
