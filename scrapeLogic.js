@@ -10,6 +10,8 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 //    page.setDefaultNavigationTimeout(9000)
 
       await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'load' });
+      // await page.goto('https://www.wozwaardeloket.nl/');
+
       await page.waitForSelector('#kaart-bekijken-btn');
       await page.click('#kaart-bekijken-btn');
 

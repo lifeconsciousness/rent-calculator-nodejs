@@ -5,6 +5,17 @@ import { startResultAnimation } from './js/resultAnimation.js'
 import { createRecord } from './js/resultsHistory'
 import { render } from './js/resultsHistory'
 
+// register the service worker
+if ('serviceWorker' in navigator && 'SyncManager' in window) {
+  navigator.serviceWorker.register('./sw.js')
+    .then((registration) => {
+      console.log('Service Worker registered with scope:', registration.scope);
+    }).catch((error) => {
+      console.error('Service Worker registration failed:', error);
+    });
+}
+
+
 //modal window
 const isFirstTimeModalWindow = localStorage.getItem('isFirstTimeModalWindow') || 'first'
 
@@ -153,7 +164,6 @@ document.getElementById('clear-form-button').addEventListener('click', () => {
 
 form.addEventListener('submit', (event) => {
   event.preventDefault()
-  // document.querySelector('.rentbuster-logo').scrollIntoView()
   document.querySelector('.dummy-element').scrollIntoView()
 
   if (isRequesting) {
@@ -187,112 +197,131 @@ form.addEventListener('submit', (event) => {
     const bathroom = document.querySelector('#bathroom').value
     const periodSignedContract = document.querySelector('#periodSignedContract').value
 
-        const postParameters = {
-          postcode,
-          houseNumber,
-          houseLetter,
-          houseAddition,
-          numberOfRooms,
-          outdoorSpaceValue,
-          kitchen,
-          bathroom,
-          periodSignedContract,
-        }
+    const postParameters = {
+      postcode,
+      houseNumber,
+      houseLetter,
+      houseAddition,
+      numberOfRooms,
+      outdoorSpaceValue,
+      kitchen,
+      bathroom,
+      periodSignedContract,
+    }
 
-    axios
-      .post('/api/search', postParameters)
-      .then((response) => {
-        const data = response.data
-        console.log("Data received in frontend: " + data)
+    makeRequest(postParameters)
 
-        loader.style.display = 'none'
-        isRequesting = false
 
-        if (data.errMessage) {
-          //showing the error
-          console.log("Error message received from backend: " + data.errMessage)
-          errorDisplay.innerHTML = data.errMessage
-          backButton.classList.add('button-visible-error')
-        } else {
-          //unhiding elements that show the result
-          displayContainer.style.position = 'relative'
-          displayContainer.style.visibility = 'visible'
-          blur.style.visibility = 'visible'
-          loaderAndErrorContainer.style.visibility = 'hidden'
-          loaderAndErrorContainer.style.position = 'absolute'
+  }
 
-          document.querySelector('.previous-requests-container').style.marginTop = '2em'
-
-          //displaying the result of calculations
-          const resultElement = document.querySelector('#result')
-          const resultText = document.querySelector('.contact-info')
-
-          const result = Math.ceil(parseFloat(data.result))
-          let resultValue
-          if (Number.isNaN(result)) {
-            resultValue = `unknown`
-          } else {
-            resultValue = `±${result} eur`
-          }
-          resultElement.innerText = resultValue
-
-          //circle the result
-          startResultAnimation()
-
-          //displaying different messages depending on the result number
-          if (Number.isNaN(result)) {
-            resultText.innerHTML =
-              'Try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>. Also you can try searching the same address again'
-          }
-          if (result > 808) {
-            // resultText.innerHTML =
-            //   'Landlord has a right to set this price, therefore it cannot be reduced. For more details contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
-            resultText.innerHTML =
-              '<p style="text-align:justify;">As the rent price is above the liberalization limit of 808 euro (2023) or 879 euro (July 2024) or 1150 euro (for contracts signed after July 1 2024), whatever price your landlord makes you pay now is considered to be (legally) reasonable. There is not much you can do about this as any Huurcommissie case will likely be unsuccessful. If you are very close to the limit for the year you moved in (+/- 100 euro) the calculator may be inaccurate enough that I need to take a closer look to be sure (email me <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>) If the calculated price is above 1150 euro, your home is 100sqm+ with an energy label better than A.</p> Try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>'
-          }
-
-          //displaying the address
-          const streetName = data.streetNameFromApi !== undefined ? data.streetNameFromApi : ''
-          const houseNumber = data.houseNumberFromApi !== undefined ? data.houseNumberFromApi : ''
-          const houseLetter = data.houseLetterFromApi !== undefined ? data.houseLetterFromApi : ''
-          const houseAddition = data.houseAdditionFromApi !== undefined ? data.houseAdditionFromApi : ''
-          const housePostcode = data.postcodeFromApi !== undefined ? data.postcodeFromApi : ''
-          const address = `${streetName} ${houseNumber} ${houseLetter} ${houseAddition} ${housePostcode}, ${data.city}`
-          document.querySelector('#address').innerText = `Address: ${address}`
-
-          //displaying all other data about the house
-          const resultInRecord = `Result: ${resultValue}`
-          const area = `Total area: ${data.area} sq.m`
-          const year = `Build year: ${data.buildYear}`
-          let woz
-          if (data.wozValue === 'Not found') {
-            woz = `WOZ value of property: ${data.wozValue}`
-            resultText.innerHTML =
-              'Try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>. WOZ value was not found. If not successful, contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
-          } else {
-            woz = `WOZ value of property: ${data.wozValue} eur`
-          }
-          const el = `Energy label: ${data.energyLabel}`
-          const ei = `Energy index: ${data.energyIndex}`
-          const monument = `Property is rijksmonument: ${data.isMonument}`
-
-          //displaying info about the property
-          document.querySelector('#area').innerText = area
-          document.querySelector('#buildYear').innerText = year
-          document.querySelector('#woz').innerText = woz
-          document.querySelector('#energyLabel').innerText = el
-          document.querySelector('#energyIndex').innerText = ei
-          document.querySelector('#monument').innerText = monument
-
-          //record in previous requests section
-          createRecord({ resultInRecord, address, area, year, woz, el, ei, monument })
-        }
-      })
-      .catch((error) => {
+  async function makeRequest(postParameters){
+    try {
+      const response = await axios.post('/api/search', postParameters);
+      handleSuccess(response.data); 
+    } catch (error) {
+      console.error("Request failed:", error);
+  
+      // If offline, queue the request and register background sync
+      if ('serviceWorker' in navigator && 'SyncManager' in window) {
+        const registration = await navigator.serviceWorker.ready;
+        await saveRequestToQueue('/api/search', 'POST', postParameters); // Queue the request
+        await registration.sync.register('syncSearchRequest'); // Register for sync
+        console.log("Background sync registered for failed request.");
+      } else {
+        console.log("Background Sync not supported, try to resubmit when online.");
         console.error(error)
         loader.style.display = 'none'
         result.innerHTML = 'Error. Check if your address is correct.'
-        result.innerHTML += ``
-      })
+        result.innerHTML += ``  
+      }
+    }
+  }
+
+  function handleSuccess (data){
+      console.log("Data received in frontend: " + data)
+
+      loader.style.display = 'none'
+      isRequesting = false
+
+      if (data.errMessage) {
+        //showing the error
+        console.log("Error message received from backend: " + data.errMessage)
+        errorDisplay.innerHTML = data.errMessage
+        backButton.classList.add('button-visible-error')
+      } else {
+        //unhiding elements that show the result
+        displayContainer.style.position = 'relative'
+        displayContainer.style.visibility = 'visible'
+        blur.style.visibility = 'visible'
+        loaderAndErrorContainer.style.visibility = 'hidden'
+        loaderAndErrorContainer.style.position = 'absolute'
+
+        document.querySelector('.previous-requests-container').style.marginTop = '2em'
+
+        //displaying the result of calculations
+        const resultElement = document.querySelector('#result')
+        const resultText = document.querySelector('.contact-info')
+
+        const result = Math.ceil(parseFloat(data.result))
+        let resultValue
+        if (Number.isNaN(result)) {
+          resultValue = `unknown`
+        } else {
+          resultValue = `±${result} eur`
+        }
+        resultElement.innerText = resultValue
+
+        //circle the result
+        startResultAnimation()
+
+        //displaying different messages depending on the result number
+        if (Number.isNaN(result)) {
+          resultText.innerHTML =
+            'Try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>. Also you can try searching the same address again'
+        }
+        if (result > 808) {
+          // resultText.innerHTML =
+          //   'Landlord has a right to set this price, therefore it cannot be reduced. For more details contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
+          resultText.innerHTML =
+            '<p style="text-align:justify;">As the rent price is above the liberalization limit of 808 euro (2023) or 879 euro (July 2024) or 1150 euro (for contracts signed after July 1 2024), whatever price your landlord makes you pay now is considered to be (legally) reasonable. There is not much you can do about this as any Huurcommissie case will likely be unsuccessful. If you are very close to the limit for the year you moved in (+/- 100 euro) the calculator may be inaccurate enough that I need to take a closer look to be sure (email me <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>) If the calculated price is above 1150 euro, your home is 100sqm+ with an energy label better than A.</p> Try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>'
+        }
+
+        //displaying the address
+        const streetName = data.streetNameFromApi !== undefined ? data.streetNameFromApi : ''
+        const houseNumber = data.houseNumberFromApi !== undefined ? data.houseNumberFromApi : ''
+        const houseLetter = data.houseLetterFromApi !== undefined ? data.houseLetterFromApi : ''
+        const houseAddition = data.houseAdditionFromApi !== undefined ? data.houseAdditionFromApi : ''
+        const housePostcode = data.postcodeFromApi !== undefined ? data.postcodeFromApi : ''
+        const address = `${streetName} ${houseNumber} ${houseLetter} ${houseAddition} ${housePostcode}, ${data.city}`
+        document.querySelector('#address').innerText = `Address: ${address}`
+
+        //displaying all other data about the house
+        const resultInRecord = `Result: ${resultValue}`
+        const area = `Total area: ${data.area} sq.m`
+        const year = `Build year: ${data.buildYear}`
+        let woz
+        if (data.wozValue === 'Not found') {
+          woz = `WOZ value of property: ${data.wozValue}`
+          resultText.innerHTML =
+            'Try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>. WOZ value was not found. If not successful, contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
+        } else {
+          woz = `WOZ value of property: ${data.wozValue} eur`
+        }
+        const el = `Energy label: ${data.energyLabel}`
+        const ei = `Energy index: ${data.energyIndex}`
+        const monument = `Property is rijksmonument: ${data.isMonument}`
+
+        //displaying info about the property
+        document.querySelector('#area').innerText = area
+        document.querySelector('#buildYear').innerText = year
+        document.querySelector('#woz').innerText = woz
+        document.querySelector('#energyLabel').innerText = el
+        document.querySelector('#energyIndex').innerText = ei
+        document.querySelector('#monument').innerText = monument
+
+        //record in previous requests section
+        createRecord({ resultInRecord, address, area, year, woz, el, ei, monument })
+      }
+    
   }
 })
