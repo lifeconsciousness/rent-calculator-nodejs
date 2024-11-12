@@ -141,6 +141,7 @@ html {
   position: absolute;
   z-index: -3;
   backdrop-filter: blur(1vmax);
+  -webkit-backdrop-filter: blur(15px);
   backdrop-filter: blur(15px);
   left: 0;
   top: 0;

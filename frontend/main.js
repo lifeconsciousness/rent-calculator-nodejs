@@ -187,31 +187,6 @@ form.addEventListener('submit', (event) => {
     const bathroom = document.querySelector('#bathroom').value
     const periodSignedContract = document.querySelector('#periodSignedContract').value
 
-//    const postParameters = isSharing
-//      ? {
-//          postcode,
-//          houseNumber,
-//          houseLetter,
-//          houseAddition,
-//          numberOfRooms,
-//          outdoorSpaceValue,
-//          sharedPeople,
-//          kitchen,
-//          bathroom,
-//          periodSignedContract,
-//        }
-//      : {
-//          postcode,
-//          houseNumber,
-//          houseLetter,
-//          houseAddition,
-//          numberOfRooms,
-//          outdoorSpaceValue,
-//          kitchen,
-//          bathroom,
-//          periodSignedContract,
-//        }
-
         const postParameters = {
           postcode,
           houseNumber,
