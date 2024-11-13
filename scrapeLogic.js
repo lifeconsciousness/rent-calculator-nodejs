@@ -2,12 +2,20 @@ const puppeteer = require('puppeteer');
 require('dotenv').config();
 
 async function scrapeWozAndMonument(address, adresseerbaarId) {
-  const browser = await puppeteer.launch();
+  // const browser = await puppeteer.launch();
+
+  const browser = await puppeteer.launch({
+    headless: true, // Optional, to see the browser in action
+    userDataDir: './user_data', // Directory where session data is stored
+    args: ['--no-sandbox'] // Add any other desired launch arguments
+  });
 
   try {
     const wozValuePromise = async () => {
       const page = await browser.newPage();
 //    page.setDefaultNavigationTimeout(9000)
+
+      // await page.setContent(html)
 
       await page.setRequestInterception(true);
 
@@ -39,7 +47,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     const energyIndexPromise = async (adresseerbaarId) => {
       // return 'Not found'
       const page = await browser.newPage();
-
+      
       await page.setRequestInterception(true);
 
       page.on('request', (request) => {
