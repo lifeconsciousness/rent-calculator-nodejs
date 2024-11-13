@@ -13,21 +13,24 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
   try {
     const wozValuePromise = async () => {
       const page = await browser.newPage();
-//    page.setDefaultNavigationTimeout(9000)
 
-      // await page.setContent(html)
-
+      await page.setViewport({ width: 800, height: 600, deviceScaleFactor: 1 });
       await page.setRequestInterception(true);
 
+      await page.evaluateOnNewDocument(() => {
+        HTMLCanvasElement.prototype.getContext = () => null;  // Disable canvas rendering
+      });
+
       page.on('request', (request) => {
-          if (['image', 'stylesheet', 'font'].indexOf(request.resourceType()) !== -1) {
+          if (['image', 'stylesheet', 'font', 'media'].indexOf(request.resourceType()) !== -1) {
               request.abort();
           } else {
               request.continue();
           }
-      });
+      });      
 
-      await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'load' });
+      await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'domcontentloaded' });
+      // await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'load' });
       // await page.goto('https://www.wozwaardeloket.nl/');
 
       await page.waitForSelector('#kaart-bekijken-btn');
@@ -47,6 +50,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
     const energyIndexPromise = async (adresseerbaarId) => {
       // return 'Not found'
       const page = await browser.newPage();
+      await page.setViewport({ width: 800, height: 600, deviceScaleFactor: 1 });
       
       await page.setRequestInterception(true);
 
