@@ -3,6 +3,7 @@ const axios = require('axios')
 const dotenv = require('dotenv')
 const scrapeLogic = require('./scrapeLogic.js')
 const calculateRentPrice = require('./backend/functions/calculateRentPrice.js')
+const trackFunctionCalls = require('./backend/functions/statistics.js')
 const path = require('path')
 const cron = require('node-cron')
 const cors = require('cors')
@@ -118,7 +119,7 @@ const processQueue = async () => {
         houseAdditionFromApi = data[0]._embedded.adressen[0]?.huisnummertoevoeging
         postcodeFromApi = data[0]._embedded.adressen[0]?.postcode
 
-        return await scrapeLogic(addressString, addressId)
+        return await scrapeLogic(addressString, addressId, streetNameFromApi, houseNumberFromApi, houseAdditionFromApi, houseAdditionFromApi)
       })
       .then((result) => {
         woz = result.woz
@@ -176,6 +177,8 @@ const processQueue = async () => {
 app.post('/api/search', (req, res) => {
   requestQueue.push({ req, res }) // Add request to queue
   processQueue() // Start processing queue if not already processing
+
+  trackFunctionCalls()
 })
 
 function pingServer() {

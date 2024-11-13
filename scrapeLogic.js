@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 require('dotenv').config();
 
-async function scrapeWozAndMonument(address, adresseerbaarId) {
+async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi, houseNumberFromApi, houseAdditionFromApi, houseAdditionFromApi) {
   // const browser = await puppeteer.launch();
 
   const browser = await puppeteer.launch({
@@ -37,6 +37,10 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
       await page.click('#kaart-bekijken-btn');
 
       await page.type('#ggcSearchInput', address);
+
+      // LOOP THROUGH THE LIST AND MATCH THE RESULT USING .CONTAINS
+
+
       await page.waitForSelector('#ggcSuggestionList-0');
       await page.click('#ggcSuggestionList-0');
 
