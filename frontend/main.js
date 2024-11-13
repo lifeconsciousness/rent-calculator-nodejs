@@ -293,7 +293,7 @@ function handleSuccess(data) {
     document.querySelector('#energyIndex').innerText = `Energy index: ${data.energyIndex}`;
     document.querySelector('#monument').innerText = `Property is rijksmonument: ${data.isMonument}`;
 
-    createRecord({ resultInRecord: `Result: ${resultValue}`, address: `${data.streetNameFromApi || ''} ${data.houseNumberFromApi || ''}`, area: `Total area: ${data.area} sq.m`, year: `Build year: ${data.buildYear}`, woz: data.wozValue, el: data.energyLabel, ei: data.energyIndex, monument: data.isMonument });
+    createRecord({ resultInRecord: `Result: ${resultValue}`, address: `${data.streetNameFromApi || ''} ${data.houseNumberFromApi || ''} ${data.houseLetterFromApi || ''} ${data.houseAdditionFromApi || ''} ${data.postcodeFromApi || ''}, ${data.city}`, area: `Total area: ${data.area} sq.m`, year: `Build year: ${data.buildYear}`, woz: `WOZ value: ${data.wozValue}`, el: `Energy label: ${data.energyLabel}`, ei: `Energy index: ${data.energyIndex}`, monument: `Is monument: ${data.isMonument}` });
   }
 }
 

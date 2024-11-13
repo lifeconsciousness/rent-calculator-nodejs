@@ -9,6 +9,16 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
       const page = await browser.newPage();
 //    page.setDefaultNavigationTimeout(9000)
 
+      await page.setRequestInterception(true);
+
+      page.on('request', (request) => {
+          if (['image', 'stylesheet', 'font'].indexOf(request.resourceType()) !== -1) {
+              request.abort();
+          } else {
+              request.continue();
+          }
+      });
+
       await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'load' });
       // await page.goto('https://www.wozwaardeloket.nl/');
 
@@ -19,76 +29,55 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
       await page.waitForSelector('#ggcSuggestionList-0');
       await page.click('#ggcSuggestionList-0');
 
-//        await page.waitForTimeout(5000);
-//         await delay(10000);
-   await page.waitForSelector('.waarden-row')
+      await page.waitForSelector('.waarden-row')
       const wozValue = await page.$eval('.waarden-row', el => el.innerText);
       await page.close();
-      let result
 
-      if(wozValue){
-        result = wozValue
-      } else{
-      result = 'Not found'
-      }
-
-      return wozValue;
+      return wozValue || 'Not found';
     };
 
-   const energyIndexPromise = async (adresseerbaarId) => {
-       return 'Not found'
+    const energyIndexPromise = async (adresseerbaarId) => {
+      // return 'Not found'
+      const page = await browser.newPage();
 
-       const page = await browser.newPage()
+      await page.setRequestInterception(true);
 
-       await page.goto('https://www.ep-online.nl/Energylabel/Search', { waitUntil: 'load'})
+      page.on('request', (request) => {
+          if (['image', 'stylesheet', 'font'].indexOf(request.resourceType()) !== -1) {
+              request.abort();
+          } else {
+              request.continue();
+          }
+      });
+    
+        await page.goto('https://www.ep-online.nl/Energylabel/Search', { waitUntil: 'load' });
+    
+        // Type into search field and click the search button
+        await page.waitForSelector('#SearchValue');
+        await page.type('#SearchValue', adresseerbaarId);
+    
+        await page.waitForSelector('#searchButton');
+        await page.click('#searchButton');
+    
+        // Wait for the result selector with a 2-second timeout
+        const elementExists = await page.waitForSelector('.se-result-item-nta', { timeout: 2000 }).catch(() => null);
+    
+        let energyIndex;
+        if (elementExists) {
+          // Extract and parse the energy index text
+          const container = await page.$eval('.se-result-item-nta', el => el.innerText);
+          energyIndex = /\bEI\b/.test(container) ? container.split('EI')[1].trim() : 'Not found';
+        } else {
+          energyIndex = 'Not found';
+        }
+    
+        console.log("Got energy index:", energyIndex);
+        await page.close();
+        return energyIndex;
+      
+    };
+    
 
-       await page.waitForSelector('#SearchValue')
-       await page.type('#SearchValue', adresseerbaarId)
-
-       await page.waitForSelector('#searchButton')
-       await page.click('#searchButton')
-
-       let energyIndex
-
-       try {
-         let timeout
-
-         const waitForSelectorWithTimeout = async (selector, timeoutMs) => {
-           let resolveFunc
-           const timeoutPromise = new Promise((resolve) => {
-             resolveFunc = resolve
-             timeout = setTimeout(() => resolve(null), timeoutMs)
-           })
-
-           const selectorPromise = page.waitForSelector(selector)
-
-           const result = await Promise.race([selectorPromise, timeoutPromise])
-           clearTimeout(timeout)
-           resolveFunc(null) // Resolving the timeout promise to prevent unhandled promise rejection
-           return result
-         }
-
-
-         const elementExists = await waitForSelectorWithTimeout('.se-result-item-nta', 2000)
-
-         if (elementExists) {
-           const container = await page.$eval('.se-result-item-nta', (element) => element.innerText)
-           if (/\bEI\b/.test(container)) {
-             energyIndex = container.split('EI')[1].split('EI')[0].replace(/\s+/g, '')
-           } else {
-             energyIndex = 'Not found'
-           }
-         } else {
-           energyIndex = 'Not found'
-         }
-       } catch (error) {
-         console.error(error)
-       }
-
-       console.log("got energy index: " + energyIndex)
-
-       return energyIndex
-     }
 
      // should return "Yes"/"No if the building is rijksmonument or not"
    const monumentValuePromise = async (address) => {
@@ -119,7 +108,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
    };
 
 
-        const [woz, energyIndex, monument] = await Promise.all([wozValuePromise(), energyIndexPromise(), monumentValuePromise()]);
+        const [woz, energyIndex, monument] = await Promise.all([wozValuePromise(), energyIndexPromise(adresseerbaarId), monumentValuePromise()]);
         await browser.close();
 //        const monument = 'No';  // Default value for monument
         return { woz, energyIndex, monument};
