@@ -63,7 +63,10 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
           }
       });
     
-      await page.goto('https://www.ep-online.nl/Energylabel/Search', { waitUntil: 'domcontentloaded' });
+      // await page.goto('https://www.ep-online.nl/Energylabel/Search', { waitUntil: 'domcontentloaded' });
+      await page.goto('https://www.ep-online.nl/Energylabel/Search', { waitUntil: 'load' });
+
+      
   
       // Type into search field and click the search button
       await page.waitForSelector('#SearchValue');
@@ -79,7 +82,15 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
       if (elementExists) {
         // Extract and parse the energy index text
         const container = await page.$eval('.se-result-item-nta', el => el.innerText);
-        energyIndex = /\bEI\b/.test(container) ? container.split('EI')[1].trim() : 'Not found';
+
+        const match = container.match(/\bEI\s*(\d+[\.,]?\d*)/); // Match "EI" followed by a number (with optional decimals)
+
+        if (match) {
+          energyIndex = match[1].replace(/\s+/g, '');  // Extract the number after "EI" and remove spaces
+        } else {
+          energyIndex = 'Not found';
+        }
+
       } else {
         energyIndex = 'Not found';
       }

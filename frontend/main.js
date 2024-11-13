@@ -274,15 +274,6 @@ function handleSuccess(data) {
     let resultValue = Number.isNaN(result) ? 'unknown' : `±${result} eur`;
     resultElement.innerText = resultValue;
 
-
-    if (data.wozValue === 'Not found') {
-      woz = `WOZ value of property: ${data.wozValue}`
-      resultText.innerHTML =
-        'Try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>. WOZ value was not found. If not successful, contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
-    } else {
-      woz = data.wozValue
-    }
-
     startResultAnimation();
 
     // Display custom messages based on result
