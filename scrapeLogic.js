@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 require('dotenv').config();
 
-async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi, houseNumberFromApi, houseAdditionFromApi, houseAdditionFromApi) {
+async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi, houseNumberFromApi, houseAdditionFromApi, houseAdditionFromApi, postcodeFromApi) {
   // const browser = await puppeteer.launch();
 
   const browser = await puppeteer.launch({
@@ -36,19 +36,63 @@ async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi,
       await page.waitForSelector('#kaart-bekijken-btn');
       await page.click('#kaart-bekijken-btn');
 
-      await page.type('#ggcSearchInput', address);
+      // const input = `${streetNameFromApi} ${houseNumberFromApi}, ${postcodeFromApi}`
+      const input = `${postcodeFromApi} ${houseNumberFromApi}`
+
+
+      houseAdditionFromApi = houseAdditionFromApi || ''
+      const fullAddress = `${streetNameFromApi} ${houseNumberFromApi}${houseAdditionFromApi}, ${postcodeFromApi}`
+      console.log("INput:" + input)
+      // await page.type('#ggcSearchInput', address);
+      await page.type('#ggcSearchInput', fullAddress);
 
       // LOOP THROUGH THE LIST AND MATCH THE RESULT USING .CONTAINS
 
+      await page.waitForSelector('#ggcSuggestionList');
 
-      await page.waitForSelector('#ggcSuggestionList-0');
-      await page.click('#ggcSuggestionList-0');
+
+      // await page.waitForSelector('#resultaat-suggest-show-all');
+      const showAllButtonSelector = '#resultaat-suggest-show-all';
+
+      try {
+        await page.waitForSelector(showAllButtonSelector, { timeout: 1000 }); 
+
+        console.log('"Show All" button found, proceeding...');
+        await page.click(showAllButtonSelector);
+      } catch (error) {
+          // console.log('"Show All" button not found, continuing without error.');
+      }
+
+      // Find all buttons inside #ggcSuggestionList and click the one that matches `fullAddress`
+      const buttonFound = await page.evaluate((fullAddress) => {
+          const container = document.querySelector('#ggcSuggestionList');
+          if (!container) return false;
+  
+          const buttons = container.querySelectorAll('button');  // Get all buttons in the container
+  
+          for (let button of buttons) {
+              if (button.innerText.includes(fullAddress)) {
+                  button.click();  // Click the button if it contains the target text
+                  return true;  
+              }
+          }
+          return false;  // Return false if no matching button was found
+      }, fullAddress);
+  
+      if (buttonFound) {
+          console.log(`Button with text "${fullAddress}" was clicked.`);
+      } else {
+        // if wasn't able to match, select first element in the list
+        await page.waitForSelector('#ggcSuggestionList-0');
+        await page.click('#ggcSuggestionList-0');
+      }
+
 
       await page.waitForSelector('.waarden-row')
       const wozValue = await page.$eval('.waarden-row', el => el.innerText);
       await page.close();
 
-      return wozValue || 'Not found';
+      return wozValue.split('\t')[1].replace(/\./g, '').replace(' euro', '') || 'Not found';
     };
 
     const energyIndexPromise = async (adresseerbaarId) => {

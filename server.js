@@ -119,12 +119,11 @@ const processQueue = async () => {
         houseAdditionFromApi = data[0]._embedded.adressen[0]?.huisnummertoevoeging
         postcodeFromApi = data[0]._embedded.adressen[0]?.postcode
 
-        return await scrapeLogic(addressString, addressId, streetNameFromApi, houseNumberFromApi, houseAdditionFromApi, houseAdditionFromApi)
+        return await scrapeLogic(addressString, addressId, streetNameFromApi, houseNumberFromApi, houseAdditionFromApi, houseAdditionFromApi, postcodeFromApi)
       })
       .then((result) => {
-        woz = result.woz
+        wozValue = result.woz
         monument = result.monument
-        wozValue = woz ? woz.split('\t')[1].replace(/\./g, '').replace(' euro', '') : 'Not found'
         isMonument = monument
         energyIndex = result.energyIndex
 
