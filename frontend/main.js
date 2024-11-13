@@ -274,13 +274,22 @@ function handleSuccess(data) {
     let resultValue = Number.isNaN(result) ? 'unknown' : `±${result} eur`;
     resultElement.innerText = resultValue;
 
+
+    if (data.wozValue === 'Not found') {
+      woz = `WOZ value of property: ${data.wozValue}`
+      resultText.innerHTML =
+        'Try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>. WOZ value was not found. If not successful, contact <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>'
+    } else {
+      woz = data.wozValue
+    }
+
     startResultAnimation();
 
     // Display custom messages based on result
     if (Number.isNaN(result)) {
-      resultText.innerHTML = 'Try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>.';
+      'Try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>. Also you can try searching the same address again'
     } else if (result > 808) {
-      resultText.innerHTML = '<p>As the rent price is above the liberalization limit, your landlord has the right to set this price...</p>';
+      resultText.innerHTML = '<p style="text-align:justify;">As the rent price is above the liberalization limit of 808 euro (2023) or 879 euro (July 2024) or 1150 euro (for contracts signed after July 1 2024), whatever price your landlord makes you pay now is considered to be (legally) reasonable. There is not much you can do about this as any Huurcommissie case will likely be unsuccessful. If you are very close to the limit for the year you moved in (+/- 100 euro) the calculator may be inaccurate enough that I need to take a closer look to be sure (email me <a href="mailto:info@rentbuster.nl">info@rentbuster.nl</a>) If the calculated price is above 1150 euro, your home is 100sqm+ with an energy label better than A.</p> Try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>'
     }
 
     // Display address and other property details
@@ -293,7 +302,7 @@ function handleSuccess(data) {
     document.querySelector('#energyIndex').innerText = `Energy index: ${data.energyIndex}`;
     document.querySelector('#monument').innerText = `Property is rijksmonument: ${data.isMonument}`;
 
-    createRecord({ resultInRecord: `Result: ${resultValue}`, address: `${data.streetNameFromApi || ''} ${data.houseNumberFromApi || ''} ${data.houseLetterFromApi || ''} ${data.houseAdditionFromApi || ''} ${data.postcodeFromApi || ''}, ${data.city}`, area: `Total area: ${data.area} sq.m`, year: `Build year: ${data.buildYear}`, woz: `WOZ value: ${data.wozValue}`, el: `Energy label: ${data.energyLabel}`, ei: `Energy index: ${data.energyIndex}`, monument: `Is monument: ${data.isMonument}` });
+    createRecord({ resultInRecord: `Result: ${resultValue}`, address: `${data.streetNameFromApi || ''} ${data.houseNumberFromApi || ''} ${data.houseLetterFromApi || ''} ${data.houseAdditionFromApi || ''} ${data.postcodeFromApi || ''}, ${data.city}`, area: `Total area: ${data.area} sq.m`, year: `Build year: ${data.buildYear}`, woz: `WOZ value: ${data.wozValue} eur`, el: `Energy label: ${data.energyLabel}`, ei: `Energy index: ${data.energyIndex}`, monument: `Is monument: ${data.isMonument}` });
   }
 }
 

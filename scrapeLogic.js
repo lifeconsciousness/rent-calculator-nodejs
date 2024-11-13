@@ -7,7 +7,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
   const browser = await puppeteer.launch({
     headless: true, // Optional, to see the browser in action
     userDataDir: './user_data', // Directory where session data is stored
-    args: ['--no-sandbox'] // Add any other desired launch arguments
+    args: ['--no-sandbox', '--disable-setuid-sandbox'] // Add any other desired launch arguments
   });
 
   try {
@@ -49,6 +49,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
 
     const energyIndexPromise = async (adresseerbaarId) => {
       // return 'Not found'
+
       const page = await browser.newPage();
       await page.setViewport({ width: 800, height: 600, deviceScaleFactor: 1 });
       
@@ -62,31 +63,30 @@ async function scrapeWozAndMonument(address, adresseerbaarId) {
           }
       });
     
-        await page.goto('https://www.ep-online.nl/Energylabel/Search', { waitUntil: 'load' });
-    
-        // Type into search field and click the search button
-        await page.waitForSelector('#SearchValue');
-        await page.type('#SearchValue', adresseerbaarId);
-    
-        await page.waitForSelector('#searchButton');
-        await page.click('#searchButton');
-    
-        // Wait for the result selector with a 2-second timeout
-        const elementExists = await page.waitForSelector('.se-result-item-nta', { timeout: 2000 }).catch(() => null);
-    
-        let energyIndex;
-        if (elementExists) {
-          // Extract and parse the energy index text
-          const container = await page.$eval('.se-result-item-nta', el => el.innerText);
-          energyIndex = /\bEI\b/.test(container) ? container.split('EI')[1].trim() : 'Not found';
-        } else {
-          energyIndex = 'Not found';
-        }
-    
-        console.log("Got energy index:", energyIndex);
-        await page.close();
-        return energyIndex;
-      
+      await page.goto('https://www.ep-online.nl/Energylabel/Search', { waitUntil: 'domcontentloaded' });
+  
+      // Type into search field and click the search button
+      await page.waitForSelector('#SearchValue');
+      await page.type('#SearchValue', adresseerbaarId);
+  
+      await page.waitForSelector('#searchButton');
+      await page.click('#searchButton');
+  
+      // Wait for the result selector with a 2-second timeout
+      const elementExists = await page.waitForSelector('.se-result-item-nta', { timeout: 2000 }).catch(() => null);
+  
+      let energyIndex;
+      if (elementExists) {
+        // Extract and parse the energy index text
+        const container = await page.$eval('.se-result-item-nta', el => el.innerText);
+        energyIndex = /\bEI\b/.test(container) ? container.split('EI')[1].trim() : 'Not found';
+      } else {
+        energyIndex = 'Not found';
+      }
+  
+      console.log("Got energy index:", energyIndex);
+      await page.close();
+      return energyIndex;
     };
     
 

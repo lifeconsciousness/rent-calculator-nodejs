@@ -126,7 +126,6 @@ const processQueue = async () => {
         wozValue = woz ? woz.split('\t')[1].replace(/\./g, '').replace(' euro', '') : 'Not found'
         isMonument = monument
         energyIndex = result.energyIndex
-//        energyIndex = ''
 
 
         return calculateRentPrice(
