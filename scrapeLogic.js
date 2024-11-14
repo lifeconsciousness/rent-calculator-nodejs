@@ -1,11 +1,12 @@
+const { isNumber } = require('puppeteer');
 const puppeteer = require('puppeteer');
 require('dotenv').config();
 
-async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi, houseNumberFromApi, houseAdditionFromApi, houseAdditionFromApi, postcodeFromApi) {
+async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi, houseNumberFromApi, houseLetterFromApi, houseAdditionFromApi, postcodeFromApi) {
   // const browser = await puppeteer.launch();
 
   const browser = await puppeteer.launch({
-    headless: true, // Optional, to see the browser in action
+    headless: false, // Optional, to see the browser in action
     userDataDir: './user_data', // Directory where session data is stored
     args: ['--no-sandbox', '--disable-setuid-sandbox'] // Add any other desired launch arguments
   });
@@ -15,19 +16,19 @@ async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi,
       const page = await browser.newPage();
 
       await page.setViewport({ width: 800, height: 600, deviceScaleFactor: 1 });
-      await page.setRequestInterception(true);
+      // await page.setRequestInterception(true);
 
-      await page.evaluateOnNewDocument(() => {
-        HTMLCanvasElement.prototype.getContext = () => null;  // Disable canvas rendering
-      });
+      // await page.evaluateOnNewDocument(() => {
+      //   HTMLCanvasElement.prototype.getContext = () => null;  // Disable canvas rendering
+      // });
 
-      page.on('request', (request) => {
-          if (['image', 'stylesheet', 'font', 'media'].indexOf(request.resourceType()) !== -1) {
-              request.abort();
-          } else {
-              request.continue();
-          }
-      });      
+      // page.on('request', (request) => {
+      //     if (['image', 'stylesheet', 'font', 'media'].indexOf(request.resourceType()) !== -1) {
+      //         request.abort();
+      //     } else {
+      //         request.continue();
+      //     }
+      // });      
 
       await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'domcontentloaded' });
       // await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'load' });
@@ -40,10 +41,28 @@ async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi,
       const input = `${postcodeFromApi} ${houseNumberFromApi}`
 
 
+      // houseAdditionFromApi = ' ' + houseAdditionFromApi || ''
       houseAdditionFromApi = houseAdditionFromApi || ''
-      const fullAddress = `${streetNameFromApi} ${houseNumberFromApi}${houseAdditionFromApi}, ${postcodeFromApi}`
-      console.log("INput:" + input)
-      // await page.type('#ggcSearchInput', address);
+      if (houseAdditionFromApi) ' ' + houseAdditionFromApi
+
+      houseLetterFromApi = houseLetterFromApi || ''
+
+      let fullAddress;
+      let fullAddressAnother;
+
+      if(isNumber(houseAdditionFromApi)){
+        fullAddress = `${streetNameFromApi} ${houseNumberFromApi}${houseLetterFromApi}-${houseAdditionFromApi}, ${postcodeFromApi}`
+        fullAddressAnother = `${streetNameFromApi} ${houseNumberFromApi}${houseLetterFromApi}${houseAdditionFromApi}, ${postcodeFromApi}`
+      } else {
+        fullAddress = `${streetNameFromApi} ${houseNumberFromApi}${houseLetterFromApi}${houseAdditionFromApi}, ${postcodeFromApi}`
+        fullAddressAnother = `${streetNameFromApi} ${houseNumberFromApi}${houseLetterFromApi}-${houseAdditionFromApi}, ${postcodeFromApi}`
+      }
+
+      console.log("FULL address: " + fullAddress)
+
+      // console.log("INput:" + input)
+      console.log("Full address from API: " + fullAddress)
+
       await page.type('#ggcSearchInput', fullAddress);
 
       // LOOP THROUGH THE LIST AND MATCH THE RESULT USING .CONTAINS
@@ -63,15 +82,28 @@ async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi,
           // console.log('"Show All" button not found, continuing without error.');
       }
 
+
+      // click on "see all" button if it's present
+      try {
+        await page.waitForSelector(showAllButtonSelector, { timeout: 1000 }); 
+
+        console.log('"Show All" button found, proceeding...');
+        await page.click(showAllButtonSelector);
+      } catch (error) {
+          // console.log('"Show All" button not found, continuing without error.');
+      }
+
       // Find all buttons inside #ggcSuggestionList and click the one that matches `fullAddress`
-      const buttonFound = await page.evaluate((fullAddress) => {
+      const buttonFound1 = await page.evaluate((fullAddress, fullAddressAnother) => {
           const container = document.querySelector('#ggcSuggestionList');
           if (!container) return false;
   
           const buttons = container.querySelectorAll('button');  // Get all buttons in the container
   
           for (let button of buttons) {
-              if (button.innerText.includes(fullAddress)) {
+              if (button.innerText.includes(fullAddress) || button.innerText.includes(fullAddressAnother)) {
+              // if (button.innerText.includes(fullAddress)) {
+
                   button.click();  // Click the button if it contains the target text
                   return true;  
               }
@@ -79,7 +111,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi,
           return false;  // Return false if no matching button was found
       }, fullAddress);
   
-      if (buttonFound) {
+      if (buttonFound1) {
           console.log(`Button with text "${fullAddress}" was clicked.`);
       } else {
         // if wasn't able to match, select first element in the list
@@ -88,12 +120,23 @@ async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi,
       }
 
 
+
+
+
+
+
+
       await page.waitForSelector('.waarden-row')
       const wozValue = await page.$eval('.waarden-row', el => el.innerText);
       await page.close();
 
       return wozValue.split('\t')[1].replace(/\./g, '').replace(' euro', '') || 'Not found';
     };
+
+
+    function isNumber(value) {
+      return /^\d+$/.test(value); 
+    }
 
     const energyIndexPromise = async (adresseerbaarId) => {
       // return 'Not found'
@@ -190,6 +233,6 @@ async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi,
       }
     }
 
-const delay = (time) => new Promise(resolve => setTimeout(resolve, time));
+
 
 module.exports = scrapeWozAndMonument;

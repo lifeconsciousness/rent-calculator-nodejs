@@ -57,6 +57,8 @@ const processQueue = async () => {
       periodSignedContract
     } = req.body
 
+    console.log("User entered address: " + postcode + " " + houseNumber + " " + houseLetter, houseAddition)
+
     let addressString = `${postcode} ${houseNumber}`
     if (houseLetter) addressString += ` ${houseLetter}`
     if (houseAddition) addressString += ` ${houseAddition}`
@@ -119,7 +121,7 @@ const processQueue = async () => {
         houseAdditionFromApi = data[0]._embedded.adressen[0]?.huisnummertoevoeging
         postcodeFromApi = data[0]._embedded.adressen[0]?.postcode
 
-        return await scrapeLogic(addressString, addressId, streetNameFromApi, houseNumberFromApi, houseAdditionFromApi, houseAdditionFromApi, postcodeFromApi)
+        return await scrapeLogic(addressString, addressId, streetNameFromApi, houseNumberFromApi, houseLetterFromApi, houseAdditionFromApi, postcodeFromApi)
       })
       .then((result) => {
         wozValue = result.woz
