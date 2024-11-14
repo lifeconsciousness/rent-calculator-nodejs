@@ -16,19 +16,19 @@ async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi,
       const page = await browser.newPage();
 
       await page.setViewport({ width: 800, height: 600, deviceScaleFactor: 1 });
-      // await page.setRequestInterception(true);
+      await page.setRequestInterception(true);
 
-      // await page.evaluateOnNewDocument(() => {
-      //   HTMLCanvasElement.prototype.getContext = () => null;  // Disable canvas rendering
-      // });
+      await page.evaluateOnNewDocument(() => {
+        HTMLCanvasElement.prototype.getContext = () => null;  // Disable canvas rendering
+      });
 
-      // page.on('request', (request) => {
-      //     if (['image', 'stylesheet', 'font', 'media'].indexOf(request.resourceType()) !== -1) {
-      //         request.abort();
-      //     } else {
-      //         request.continue();
-      //     }
-      // });      
+      page.on('request', (request) => {
+          if (['image', 'stylesheet', 'font', 'media'].indexOf(request.resourceType()) !== -1) {
+              request.abort();
+          } else {
+              request.continue();
+          }
+      });      
 
       await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'domcontentloaded' });
       // await page.goto('https://www.wozwaardeloket.nl/', { waitUntil: 'load' });

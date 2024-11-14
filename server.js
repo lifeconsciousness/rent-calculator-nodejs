@@ -166,7 +166,7 @@ const processQueue = async () => {
         console.error("Error in processing request:", error)
 
         let errMessage =
-              'Error. Check if your address is typed in correctly. <br/> If you still get the same error, try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>.'
+              'Error. Check if your address is typed in correctly. Try setting addition as house letter, or vice versa. If you still get the same error, try using our <a href="https://docs.google.com/spreadsheets/d/1F4OwREupVtWmzfWkL0Xk77ZkTwVRz1WCL6C-aAUHov0/edit?gid=1374918462#gid=1374918462" target="_blank">Calculator Spreadsheet</a>.'
         res.json({ errMessage })
       })
   } finally {
