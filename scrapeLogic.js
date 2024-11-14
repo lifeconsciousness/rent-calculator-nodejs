@@ -6,7 +6,7 @@ async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi,
   // const browser = await puppeteer.launch();
 
   const browser = await puppeteer.launch({
-    headless: false, // Optional, to see the browser in action
+    headless: true, // Optional, to see the browser in action
     userDataDir: './user_data', // Directory where session data is stored
     args: ['--no-sandbox', '--disable-setuid-sandbox'] // Add any other desired launch arguments
   });
