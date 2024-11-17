@@ -119,14 +119,8 @@ async function scrapeWozAndMonument(address, adresseerbaarId, streetNameFromApi,
         await page.click('#ggcSuggestionList-0');
       }
 
-
-
-
-
-
-
-
-      await page.waitForSelector('.waarden-row')
+      // await page.waitForSelector('.waarden-row')
+      await page.waitForSelector('.waarden-row', { visible: false });
       const wozValue = await page.$eval('.waarden-row', el => el.innerText);
       await page.close();
 
