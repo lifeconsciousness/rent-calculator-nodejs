@@ -30,6 +30,17 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// Run the function on page load and whenever the window is resized
+function updateLoadingMessage() {
+  const isMobile = window.matchMedia("(max-width: 768px)").matches; // Adjust breakpoint as needed
+  const messageElement = document.getElementById("loading-message");
+
+  if (isMobile) {
+    messageElement.innerHTML = "Please <span style='text-decoration: underline;'>don't lock</span> your phone and wait. Fetching data usually takes 30-60 seconds. Sometimes several minutes.  <br />";
+  } else {
+    messageElement.innerHTML = "Please wait. Fetching data usually takes 30-60 seconds. Sometimes several minutes. <br />";
+  }
+}
 
 //modal window
 const isFirstTimeModalWindow = localStorage.getItem('isFirstTimeModalWindow') || 'first'
@@ -187,7 +198,10 @@ form.addEventListener('submit', (event) => {
 
   isRequesting = true;
 
+
+
   // Show loader and hide other elements
+  updateLoadingMessage()
   loaderAndErrorContainer.style.visibility = 'visible';
   loaderAndErrorContainer.style.position = 'relative';
   loader.style.display = 'block';
